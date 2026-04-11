@@ -25,8 +25,8 @@ type Review = {
 
 const REVIEWS: Review[] = [
   {
-    username: '박민지',
-    handle: '@minji_park',
+    username: '박○○',
+    handle: '@****_park',
     initial: '박',
     avatarGradient: 'linear-gradient(135deg, #F97066 0%, #D4533F 100%)',
     content:
@@ -36,8 +36,8 @@ const REVIEWS: Review[] = [
     retweets: 23,
   },
   {
-    username: '김지원',
-    handle: '@jiwon_kim_',
+    username: '김○○',
+    handle: '@****_kim',
     initial: '김',
     avatarGradient: 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)',
     content:
@@ -47,8 +47,8 @@ const REVIEWS: Review[] = [
     retweets: 14,
   },
   {
-    username: '이서준',
-    handle: '@seojun_lee',
+    username: '이○○',
+    handle: '@****_lee',
     initial: '이',
     avatarGradient: 'linear-gradient(135deg, #F97066 0%, #818cf8 100%)',
     content:
@@ -58,8 +58,8 @@ const REVIEWS: Review[] = [
     retweets: 41,
   },
   {
-    username: '최은별',
-    handle: '@eunbyul_c',
+    username: '최○○',
+    handle: '@****_choi',
     initial: '최',
     avatarGradient: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
     content:
@@ -69,8 +69,8 @@ const REVIEWS: Review[] = [
     retweets: 9,
   },
   {
-    username: '정하준',
-    handle: '@hajoon_jung',
+    username: '정○○',
+    handle: '@****_jung',
     initial: '정',
     avatarGradient: 'linear-gradient(135deg, #fbbf24 0%, #F97066 100%)',
     content:
@@ -80,8 +80,8 @@ const REVIEWS: Review[] = [
     retweets: 28,
   },
   {
-    username: '한유진',
-    handle: '@yujin_han_',
+    username: '한○○',
+    handle: '@****_han',
     initial: '한',
     avatarGradient: 'linear-gradient(135deg, #818cf8 0%, #D4533F 100%)',
     content:
