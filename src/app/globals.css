@@ -1,0 +1,108 @@
+/* @import rules must precede all other rules (except @charset / @layer).
+   Load Pretendard BEFORE Tailwind so the cascade stays valid. */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+@import "tailwindcss";
+
+/* =============================================================
+   weeple 디자인 토큰 (dark 기본)
+   Matches the React Native app: coral accent + Pretendard (UI) +
+   Geist Mono (numbers/amounts only).
+   ============================================================= */
+:root {
+  /* Backgrounds */
+  --bg:            #0a0a0a;
+  --bg-card:       #171717;
+  --bg-card-2:     #1f1f1f;
+  --bg-input:      #262626;
+
+  /* Foregrounds */
+  --fg:            #fafafa;
+  --fg-secondary:  #a3a3a3;
+  --fg-muted:      #737373;
+
+  /* Borders */
+  --border:        #262626;
+  --border-light:  #1f1f1f;
+
+  /* Accent — coral */
+  --coral:             #F97066;
+  --coral-strong:      #D4533F;
+  --coral-bg:          rgba(249, 112, 102, 0.12);
+  --coral-bg-strong:   rgba(249, 112, 102, 0.2);
+
+  /* Semantic */
+  --success:       #34d399;
+  --warning:       #fbbf24;
+  --error:         #ef4444;
+  --violet:        #818cf8;
+
+  /* 섹션 전환용 — 라이트/다크 리듬 */
+  --cream:         #EDE7DE;
+  --off-black:     #1A1A1A;
+  --bg-violet:     #0d0b14;
+  --bg-dark:       #050505;
+}
+
+@theme inline {
+  /* Colors — expose design tokens as Tailwind utilities
+     (bg-coral, text-fg-muted, border-border-light, etc.) */
+  --color-bg:            var(--bg);
+  --color-bg-card:       var(--bg-card);
+  --color-bg-card-2:     var(--bg-card-2);
+  --color-bg-input:      var(--bg-input);
+  --color-fg:            var(--fg);
+  --color-fg-secondary:  var(--fg-secondary);
+  --color-fg-muted:      var(--fg-muted);
+  --color-border-app:    var(--border);
+  --color-border-light:  var(--border-light);
+  --color-coral:         var(--coral);
+  --color-coral-strong:  var(--coral-strong);
+  --color-coral-bg:      var(--coral-bg);
+  --color-coral-bg-strong: var(--coral-bg-strong);
+  --color-success:       var(--success);
+  --color-warning:       var(--warning);
+  --color-error:         var(--error);
+  --color-violet:        var(--violet);
+
+  /* Font families */
+  --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: var(--font-geist-mono), 'SF Mono', Consolas, monospace;
+
+  /* Radii matching the RN app */
+  --radius-sm:   6px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --radius-2xl:  28px;
+  --radius-full: 9999px;
+}
+
+html {
+  color-scheme: dark;
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss03", "ss04";
+}
+
+/* Numeric text — use .font-mono class or explicit `font-family: var(--font-mono)` */
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

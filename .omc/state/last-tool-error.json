@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"TRANSCRIPT=\\\"/c/Users/slime/.claude/projects/C--Users-slime/d8f0ed55-08ec-43f7-8743-b45fc3d8744e.jsonl\\\"\\necho \\\"{\\\\\\\"transcript_path\\\\\\\":\\\\\\\"$TRANSCRIPT\\\\\\\",\\\\\\\"session_id\\\\\\\":\\\\\\\"d8f0ed5...",
+  "error": "Exit code 2\n/c/Users/slime/.claude/scripts/save-to-obsidian.sh: line 15: /c/Users/slime/AppData/Local/Microsoft/WinGet/Links/jq.exe: Permission denied\n/c/Users/slime/.claude/scripts/save-to-obsidian.sh: line 16: /c/Users/slime/AppData/Local/Microsoft/WinGet/Links/jq.exe: Permission denied\n/c/Users/slime/.claude/scripts/save-to-obsidian.sh: line 17: /c/Users/slime/AppData/Local/Microsoft/WinGet/Links/jq.exe: Permission denied\n/c/Users/slime/.claude/scripts/save-to-obsidian.sh: line 18: /c/Users/s...",
+  "timestamp": "2026-04-11T06:29:31.179Z",
+  "retry_count": 1
+}

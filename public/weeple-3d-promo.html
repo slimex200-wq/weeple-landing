@@ -1,0 +1,2559 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>weeple — 3D Interactive</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+  @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --bg-card: #171717;
+    --bg-card-2: #1f1f1f;
+    --bg-input: #262626;
+    --fg: #fafafa;
+    --fg-secondary: #a3a3a3;
+    --fg-muted: #737373;
+    --border: #262626;
+    --border-light: #1f1f1f;
+    --coral: #F97066;
+    --coral-bg: rgba(249, 112, 102, 0.12);
+    --coral-bg-strong: rgba(249, 112, 102, 0.2);
+    --success: #34d399;
+    --warning: #fbbf24;
+    --error: #ef4444;
+    --mono: 'Geist Mono', 'SF Mono', Consolas, monospace;
+    --sans: 'Pretendard', -apple-system, sans-serif;
+  }
+  html, body {
+    background: #0a0a0a;
+    color: var(--fg);
+    font-family: var(--sans);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ==== Background layers ==== */
+  .bg-grad {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(249, 112, 102, 0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 80% 100%, rgba(129, 140, 248, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 100% 100% at 50% 50%, #131313 0%, #050505 100%);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image:
+      radial-gradient(1.4px 1.4px at 12% 8%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(1px 1px at 24% 35%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1.3px 1.3px at 38% 18%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 52% 62%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1.5px 1.5px at 68% 22%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(1px 1px at 78% 78%, rgba(255,255,255,0.5), transparent),
+      radial-gradient(1.2px 1.2px at 88% 14%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1px 1px at 96% 46%, rgba(255,255,255,0.8), transparent),
+      radial-gradient(1.3px 1.3px at 6% 72%, rgba(249, 112, 102, 0.8), transparent),
+      radial-gradient(1px 1px at 44% 90%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1.2px 1.2px at 62% 48%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1px 1px at 82% 58%, rgba(249, 112, 102, 0.6), transparent);
+    background-size: 800px 800px;
+    opacity: 0.85;
+  }
+
+  /* ==== 3D scene container ==== */
+  #scene {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+  }
+  #scene > div {
+    /* CSS3DRenderer creates its own canvas-like div */
+    position: absolute;
+  }
+
+  /* ==== Top overlay ==== */
+  .top-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    padding: 44px 56px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+  }
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .brand-logo {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #fafafa 0%, var(--coral) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .brand-sub {
+    font-size: 12px;
+    color: var(--fg-muted);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    padding: 8px 14px;
+    border-radius: 9999px;
+    background: rgba(23, 23, 23, 0.9);
+    color: var(--fg-secondary);
+    border: 1px solid var(--border);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--success);
+    display: inline-block;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ==== Hero (left-aligned, floating) ==== */
+  .hero-float {
+    /* Hidden — 외부 Hero iframe 에 임베드 시 phone 을 가리므로 숨김.
+       standalone 에서도 top-overlay brand-logo + bottom chip 이 충분한
+       맥락을 제공. 외부 Hero 가 이미 주 타이틀을 가지고 있음. */
+    display: none !important;
+  }
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translate(-24px, -50%); }
+    to   { opacity: 1; transform: translate(0, -50%); }
+  }
+  .hero-float .eyebrow {
+    font-size: 12px;
+    color: var(--coral);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero-float h1 {
+    font-size: 56px;
+    font-weight: 800;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin-bottom: 18px;
+  }
+  .hero-float h1 .accent {
+    background: linear-gradient(135deg, #F97066 0%, #FF8B6A 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-float p {
+    font-size: 15px;
+    color: var(--fg-secondary);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  /* ==== Bottom hints ==== */
+  .bottom-overlay {
+    position: fixed;
+    bottom: 36px;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding: 0 24px;
+    pointer-events: none;
+    animation: fadeInUp 1s cubic-bezier(.2,.8,.2,1) 0.6s both;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hint-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 9999px;
+    background: rgba(17, 17, 17, 0.92);
+    border: 1px solid var(--border);
+    color: var(--fg-secondary);
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .hint-chip svg { color: var(--coral); }
+  .hint-chip.is-primary {
+    background: var(--coral);
+    color: #fff;
+    border-color: transparent;
+    font-size: 13px;
+    box-shadow: 0 8px 24px rgba(249, 112, 102, 0.35);
+    font-weight: 600;
+  }
+  .hint-chip.is-primary svg { color: #fff; }
+  .hint-chip kbd {
+    font-family: var(--mono);
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 10px;
+    color: var(--fg);
+  }
+
+  /* ==== Top-left focus indicator — 세로 카드 형태 (왼쪽 상단 고정) ==== */
+  .focus-panel {
+    position: fixed;
+    top: 108px;
+    left: 24px;
+    z-index: 15;
+    background: rgba(17, 17, 17, 0.92);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 20px;
+    min-width: 240px;
+    max-width: 280px;
+    pointer-events: none;
+    animation: fadeInLeft 1s cubic-bezier(.2,.8,.2,1) 0.4s both;
+    backdrop-filter: blur(10px);
+  }
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-12px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+  .focus-panel .label {
+    font-size: 10px;
+    color: var(--fg-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+  .focus-panel .name {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    transition: opacity 0.4s ease;
+  }
+  .focus-panel .desc {
+    font-size: 11px;
+    color: var(--fg-secondary);
+    line-height: 1.5;
+    transition: opacity 0.4s ease;
+    display: block;
+  }
+  .focus-panel .dots {
+    display: flex;
+    gap: 5px;
+    margin-top: 12px;
+  }
+  .focus-panel .dot {
+    width: 18px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--border);
+    transition: background 0.3s ease;
+  }
+  .focus-panel .dot.active { background: var(--coral); }
+
+  /* ==== Phone frame (same as static mockup, minus anims/transforms) ==== */
+  /* Outer wrapper — no visuals, just 3D context. */
+  .phone {
+    width: 330px;
+    height: 700px;
+    position: relative;
+    cursor: pointer;
+    will-change: transform;
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+  }
+
+  /* ===== Front face (actual app screen) ===== */
+  .front-face {
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    border-radius: 44px;
+    border: 3px solid #2a2a2a;
+    overflow: hidden;
+    box-shadow:
+      0 50px 100px -20px rgba(0, 0, 0, 0.9),
+      0 30px 60px -30px rgba(249, 112, 102, 0.25),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+    transition: border-color 0.25s ease;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .front-face::before {
+    /* Notch */
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 26px;
+    background: #000;
+    border-radius: 0 0 18px 18px;
+    z-index: 100;
+  }
+  .phone:hover .front-face {
+    border-color: var(--coral);
+  }
+
+  /* ==== Focused phone visual emphasis ==== */
+  .phone .front-face {
+    transition:
+      border-color 0.45s ease,
+      box-shadow 0.5s ease,
+      opacity 0.5s ease,
+      filter 0.5s ease,
+      transform 0.5s cubic-bezier(.2,.8,.2,1);
+    transform-origin: center center;
+  }
+  .phone .front-face.is-focused {
+    border-color: var(--coral);
+    box-shadow:
+      0 50px 100px -20px rgba(0, 0, 0, 0.9),
+      0 30px 60px -30px rgba(249, 112, 102, 0.5),
+      0 0 80px rgba(249, 112, 102, 0.4),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+    transform: scale(1.04);
+    opacity: 1;
+    filter: none;
+  }
+  .phone:not(.is-focused) .front-face {
+    opacity: 0.62;
+    filter: saturate(0.7);
+  }
+  .phone::before {
+    transition: opacity 0.5s ease;
+  }
+  .phone:not(.is-focused)::before {
+    opacity: 0.62;
+  }
+
+  /* ==== Focus CTA overlay (pulse "play demo" pill) ==== */
+  .focus-cta {
+    position: absolute;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    z-index: 160;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 9999px;
+    background: rgba(249, 112, 102, 0.92);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 10px 28px rgba(249, 112, 102, 0.45), 0 0 0 1px rgba(249,112,102,0.2);
+    cursor: pointer;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    font-family: var(--sans);
+  }
+  .phone.is-focused .focus-cta {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .phone.demo-running .focus-cta {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+  .focus-cta:hover {
+    transform: translateX(-50%) translateY(-2px);
+    background: rgba(249, 112, 102, 1);
+  }
+  .focus-cta:active {
+    transform: translateX(-50%) translateY(0);
+  }
+  .focus-cta .pulse-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    border: 2px solid rgba(249, 112, 102, 0.9);
+    pointer-events: none;
+    animation: pulseRing 2s cubic-bezier(.2,.8,.2,1) infinite;
+  }
+  @keyframes pulseRing {
+    0%   { transform: scale(1); opacity: 0.7; }
+    80%  { transform: scale(1.5); opacity: 0; }
+    100% { transform: scale(1.5); opacity: 0; }
+  }
+  .focus-cta svg { flex-shrink: 0; }
+
+  /* ==== Phone hover tooltip ==== */
+  .phone[data-name]::after {
+    content: attr(data-name) " 데모 보기";
+    position: absolute;
+    top: -36px;
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: var(--coral);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 170;
+    box-shadow: 0 8px 20px rgba(249, 112, 102, 0.4);
+    font-family: var(--sans);
+  }
+  .phone:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ===== Back face (iPhone-style physical back) ===== */
+  .back-face {
+    position: absolute;
+    inset: 0;
+    border-radius: 44px;
+    border: 3px solid #2a2a2a;
+    background:
+      radial-gradient(ellipse 140% 70% at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 50%),
+      linear-gradient(160deg, #1c1c1e 0%, #0e0e0f 55%, #050505 100%);
+    box-shadow:
+      0 50px 100px -20px rgba(0, 0, 0, 0.9),
+      inset 0 1px 0 rgba(255,255,255,0.05),
+      inset 0 -1px 0 rgba(0,0,0,0.8);
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  /* Camera bump — rounded square */
+  .back-cam {
+    position: absolute;
+    top: 34px; left: 34px;
+    width: 96px; height: 96px;
+    border-radius: 24px;
+    background:
+      radial-gradient(circle at 50% 50%, #1a1a1b 0%, #0a0a0a 100%);
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow:
+      inset 0 2px 8px rgba(0,0,0,0.8),
+      inset 0 -1px 0 rgba(255,255,255,0.03);
+  }
+  .back-cam .lens {
+    position: absolute;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 35% 30%, #3a3a3a 0%, #0a0a0a 60%);
+    border: 2px solid #151515;
+    box-shadow:
+      0 0 0 3px rgba(0,0,0,0.6),
+      inset 0 0 0 3px rgba(255,255,255,0.02);
+  }
+  .back-cam .lens::after {
+    /* tiny specular highlight */
+    content: '';
+    position: absolute;
+    top: 3px; left: 5px;
+    width: 6px; height: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+  }
+  .back-cam .lens.l1 { top: 10px; left: 10px; }
+  .back-cam .lens.l2 { top: 10px; right: 10px; }
+  .back-cam .lens.l3 { bottom: 10px; left: 10px; }
+  .back-cam .flash {
+    position: absolute;
+    bottom: 14px; right: 14px;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, #f5f5f5 0%, #888 60%, #222 100%);
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.6);
+    opacity: 0.6;
+  }
+  /* Center logo */
+  .back-logo {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 44px;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #F97066 0%, #D4533F 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-stroke: 0.5px rgba(255,255,255,0.04);
+    margin-bottom: 6px;
+  }
+  .back-logo-sub {
+    font-size: 10px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  /* MagSafe-ish ring hint */
+  .back-ring {
+    position: absolute;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    border: 1px dashed rgba(255,255,255,0.035);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  /* Fine noise overlay for realism */
+  .back-face::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 3px 3px;
+    opacity: 0.5;
+    pointer-events: none;
+    border-radius: 44px;
+  }
+
+  /* ===== Demo play button + effects ===== */
+  .demo-play {
+    position: absolute;
+    top: 50px; right: 22px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--coral);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 150;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(249, 112, 102, 0.45);
+    animation: pulseCoral 2.4s ease-in-out infinite;
+    transition: transform 0.2s ease;
+  }
+  .demo-play:hover { transform: scale(1.08); }
+  .demo-play:active { transform: scale(0.94); }
+  .phone.demo-running .demo-play { opacity: 0.4; pointer-events: none; animation: none; }
+  @keyframes pulseCoral {
+    0%, 100% { box-shadow: 0 4px 14px rgba(249, 112, 102, 0.45); }
+    50%      { box-shadow: 0 4px 22px rgba(249, 112, 102, 0.85); }
+  }
+
+  .demo-toast {
+    position: absolute;
+    top: 52px; left: 50%;
+    transform: translateX(-50%) translateY(-12px);
+    background: rgba(20, 20, 20, 0.95);
+    border: 1px solid var(--coral);
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--fg);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 0 1px rgba(249, 112, 102, 0.15);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 180;
+    white-space: nowrap;
+    pointer-events: none;
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .demo-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .demo-toast .toast-dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--coral);
+    margin-right: 8px;
+    vertical-align: 1px;
+  }
+
+  .typing-cursor::after {
+    content: '|';
+    color: var(--coral);
+    margin-left: 1px;
+    animation: blink 0.9s steps(2) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .slide-in {
+    animation: slideIn 0.45s cubic-bezier(.2,.8,.2,1) both;
+  }
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .highlight-row {
+    animation: highlightFlash 1.2s ease;
+  }
+  @keyframes highlightFlash {
+    0%, 100% { background: transparent; }
+    30%, 60% { background: var(--coral-bg); }
+  }
+
+  .loading-btn {
+    position: relative;
+    pointer-events: none !important;
+  }
+  .loading-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 14px; height: 14px;
+    margin: -7px 0 0 -7px;
+    border: 2px solid rgba(249, 112, 102, 0.3);
+    border-top-color: var(--coral);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ==== First-visit intro hint ==== */
+  .intro-hint {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 50;
+    padding: 18px 26px;
+    border-radius: 9999px;
+    background: rgba(23, 23, 23, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(249, 112, 102, 0.4);
+    color: var(--fg);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 60px rgba(249,112,102,0.25);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(.2,.8,.2,1);
+  }
+  .intro-hint.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  .intro-hint.hide {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(-10px);
+  }
+  .intro-hint svg { color: var(--coral); }
+  @media (prefers-reduced-motion: reduce) {
+    .intro-hint { display: none !important; }
+  }
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 26px;
+    background: #000;
+    border-radius: 0 0 18px 18px;
+    z-index: 100;
+  }
+
+  /* ==== Hidden phone source ==== */
+  #phones-source {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    visibility: hidden;
+  }
+
+  /* ==== Inner screen styles (identical to promo.html) ==== */
+  .screen {
+    padding: 44px 20px 0;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+  .screen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    padding-top: 8px;
+  }
+  .screen-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .screen-actions { display: flex; gap: 8px; }
+  .icon-btn {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    background: transparent;
+  }
+  .month-nav {
+    display: flex; align-items: center; justify-content: center;
+    gap: 20px; margin-bottom: 14px;
+  }
+  .month-arrow { color: var(--coral); font-size: 18px; font-weight: 600; font-family: var(--mono); }
+  .month-text { font-family: var(--mono); font-weight: 600; font-size: 15px; }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 16px 16px 14px;
+    margin-bottom: 12px;
+  }
+  .card-label {
+    font-size: 11px; color: var(--fg-secondary);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 8px; font-weight: 500;
+  }
+  .hero-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+    padding: 22px 20px 20px;
+    margin-bottom: 14px;
+  }
+  .hero-label { font-size: 12px; color: var(--fg-secondary); margin-bottom: 6px; }
+  .hero-amount {
+    font-family: var(--mono); font-weight: 700; font-size: 36px;
+    color: var(--coral); letter-spacing: -0.02em; margin-bottom: 14px;
+  }
+  .budget-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .budget-left { font-size: 13px; color: var(--success); font-weight: 500; }
+  .budget-pct { font-family: var(--mono); font-size: 12px; color: var(--fg-muted); }
+  .progress { height: 6px; background: var(--bg-input); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--coral); border-radius: 3px; }
+
+  .quick-input {
+    background: var(--bg-card);
+    border: 1px solid #444;
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 12px;
+  }
+  .quick-input input {
+    background: transparent; border: none; outline: none;
+    color: var(--fg); font-family: var(--sans); font-size: 14px; width: 100%;
+  }
+  .quick-input input::placeholder { color: var(--fg-muted); }
+
+  .top5-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .top5-row:last-child { border-bottom: none; }
+  .top5-rank { font-family: var(--mono); font-size: 12px; color: var(--fg-muted); width: 14px; }
+  .top5-info { flex: 1; min-width: 0; }
+  .top5-desc { font-size: 13px; font-weight: 500; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .top5-meta { font-size: 11px; color: var(--fg-muted); }
+  .top5-amount { font-family: var(--mono); font-size: 13px; color: var(--fg-secondary); }
+  .top5-amount.large { color: var(--coral); font-weight: 600; }
+
+  .nudge {
+    background: var(--coral-bg);
+    border: 1px solid var(--coral-bg-strong);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .nudge-text { font-size: 13px; font-weight: 600; color: var(--coral); margin-bottom: 4px; }
+  .nudge-detail { font-size: 12px; color: var(--fg-secondary); }
+
+  .tab-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 68px;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border);
+    display: flex;
+    padding: 6px 0 16px;
+  }
+  .tab {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 3px;
+    color: var(--fg-muted);
+    font-size: 11px; font-weight: 500;
+  }
+  .tab.active { color: var(--coral); }
+
+  /* calendar / filters / tx rows */
+  .calendar {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
+    margin-bottom: 16px; padding: 12px;
+    background: var(--bg-card); border-radius: 14px;
+    border: 1px solid var(--border-light);
+  }
+  .cal-day {
+    aspect-ratio: 1; border-radius: 4px;
+    background: var(--bg-card-2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-family: var(--mono); color: var(--fg-muted);
+  }
+  .cal-day.heat-1 { background: rgba(249, 112, 102, 0.15); color: var(--fg-secondary); }
+  .cal-day.heat-2 { background: rgba(249, 112, 102, 0.35); color: var(--fg); }
+  .cal-day.heat-3 { background: rgba(249, 112, 102, 0.6); color: white; }
+  .cal-day.today { outline: 2px solid var(--coral); }
+  .filter-row {
+    display: flex; gap: 16px; padding: 0 4px;
+    margin-bottom: 14px; border-bottom: 1px solid var(--border-light);
+  }
+  .filter-tab { padding: 8px 0; font-size: 13px; color: var(--fg-muted); }
+  .filter-tab.active { color: var(--fg); font-weight: 600; border-bottom: 2px solid var(--coral); }
+  .cat-chips { display: flex; gap: 6px; overflow: hidden; margin-bottom: 14px; }
+  .chip {
+    padding: 6px 12px; border: 1px solid var(--border); border-radius: 9999px;
+    font-size: 11px; color: var(--fg-muted); white-space: nowrap; flex-shrink: 0;
+  }
+  .chip.active { border-color: var(--coral); background: var(--coral-bg); color: var(--coral); }
+  .date-header {
+    background: var(--bg-card); border-radius: 8px; padding: 6px 12px;
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--fg-muted); margin: 10px 0 4px;
+  }
+  .date-header .total { font-family: var(--mono); color: var(--coral); font-weight: 600; }
+  .tx-row {
+    padding: 10px 4px; display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .tx-info { flex: 1; min-width: 0; }
+  .tx-desc { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+  .tx-meta { font-size: 10px; color: var(--fg-muted); display: flex; align-items: center; gap: 4px; }
+  .cat-dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
+  .tx-amount { font-family: var(--mono); font-size: 13px; color: var(--fg-secondary); }
+  .tx-amount.large { color: var(--coral); font-weight: 600; }
+  .tx-amount.income { color: var(--success); }
+
+  /* couple */
+  .couple-profile {
+    display: flex; gap: 10px; align-items: center;
+    margin-bottom: 16px; padding: 12px;
+    background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border-light);
+  }
+  .avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--bg-input);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-weight: 600; font-size: 14px; color: var(--fg-secondary);
+  }
+  .avatar.a { background: var(--coral-bg); color: var(--coral); border: 1px solid var(--coral-bg-strong); }
+  .couple-names { flex: 1; }
+  .couple-names .main { font-size: 14px; font-weight: 600; }
+  .couple-names .sub { font-size: 11px; color: var(--fg-muted); margin-top: 2px; }
+  .couple-heart { color: var(--coral); }
+  .savings-card {
+    background: linear-gradient(135deg, var(--bg-card) 0%, #1e1e1e 100%);
+    border: 1px solid var(--border-light);
+    border-radius: 18px;
+    padding: 20px 18px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  .savings-label { font-size: 11px; color: var(--fg-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .savings-amount { font-family: var(--mono); font-weight: 700; font-size: 32px; color: var(--success); letter-spacing: -0.02em; }
+  .savings-rate { font-size: 12px; color: var(--fg-muted); margin-top: 6px; font-family: var(--mono); }
+  .allowance-row { display: flex; gap: 10px; margin-bottom: 12px; }
+  .allowance-card { flex: 1; background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; padding: 12px; }
+  .allowance-who { font-size: 10px; color: var(--fg-muted); margin-bottom: 4px; }
+  .allowance-amount { font-family: var(--mono); font-weight: 600; font-size: 15px; }
+  .allowance-pct { font-size: 10px; color: var(--fg-muted); margin-top: 4px; font-family: var(--mono); }
+
+  /* budget */
+  .budget-big {
+    background: var(--bg-card); border: 1px solid var(--border-light);
+    border-radius: 16px; padding: 18px 18px 16px; margin-bottom: 12px;
+  }
+  .budget-big .label { font-size: 11px; color: var(--fg-secondary); margin-bottom: 6px; }
+  .budget-big .value { font-family: var(--mono); font-weight: 700; font-size: 26px; color: var(--fg); letter-spacing: -0.02em; }
+  .cat-budget-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border-light); }
+  .cat-budget-name { font-size: 12px; flex: 1; }
+  .cat-budget-bar { width: 80px; height: 4px; background: var(--bg-input); border-radius: 2px; overflow: hidden; margin-right: 10px; }
+  .cat-budget-bar-fill { height: 100%; background: var(--coral); border-radius: 2px; }
+  .cat-budget-amt { font-family: var(--mono); font-size: 11px; color: var(--fg-secondary); min-width: 56px; text-align: right; }
+
+  /* ai */
+  .ai-preview {
+    background: var(--bg-card); border: 1px solid var(--border-light);
+    border-radius: 16px; padding: 20px 18px; margin-bottom: 14px;
+  }
+  .ai-preview-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .ai-preview-desc { font-size: 12px; color: var(--fg-secondary); line-height: 1.5; }
+  .ai-btn {
+    background: transparent; border: 1px solid var(--coral); border-radius: 14px;
+    padding: 14px; width: 100%; color: var(--coral);
+    font-family: var(--sans); font-weight: 600; font-size: 14px; margin-bottom: 14px;
+  }
+  .ai-insight {
+    background: var(--bg-card); border-left: 3px solid var(--coral);
+    border-radius: 10px; padding: 14px; margin-bottom: 10px;
+  }
+  .ai-insight-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .ai-insight-title { font-size: 12px; font-weight: 600; color: var(--coral); }
+  .ai-insight-tag { font-family: var(--mono); font-size: 10px; color: var(--fg-muted); }
+  .ai-insight-body { font-size: 12px; line-height: 1.6; color: var(--fg-secondary); }
+
+  /* report */
+  .report-hero { text-align: center; padding: 24px 0 20px; }
+  .report-hero-label { font-size: 12px; color: var(--fg-muted); margin-bottom: 6px; }
+  .report-hero-amount {
+    font-family: var(--mono); font-weight: 800; font-size: 38px;
+    color: var(--success); letter-spacing: -0.02em;
+  }
+  .report-hero-sub { font-size: 12px; color: var(--fg-secondary); margin-top: 6px; font-family: var(--mono); }
+  .report-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .report-cell { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 12px; padding: 14px; text-align: center; }
+  .report-cell .who { font-size: 11px; color: var(--fg-muted); margin-bottom: 6px; }
+  .report-cell .amt { font-family: var(--mono); font-weight: 600; font-size: 16px; }
+  .report-cell.me .amt { color: var(--error); }
+  .report-cell.partner .amt { color: var(--fg); }
+  .donut-placeholder {
+    width: 140px; height: 140px; border-radius: 50%;
+    margin: 10px auto 8px;
+    background: conic-gradient(
+      var(--coral) 0% 32%,
+      var(--warning) 32% 50%,
+      var(--success) 50% 65%,
+      #818cf8 65% 80%,
+      var(--fg-muted) 80% 100%
+    );
+    position: relative;
+  }
+  .donut-placeholder::after {
+    content: ''; position: absolute; inset: 28px;
+    background: var(--bg); border-radius: 50%;
+  }
+
+  @media (max-width: 900px) {
+    .hero-float { left: 24px; max-width: 260px; }
+    .hero-float h1 { font-size: 40px; }
+    .focus-panel { right: 24px; min-width: 200px; padding: 16px; }
+    .top-overlay { padding: 28px 24px 0; }
+  }
+  @media (max-width: 768px) {
+    .top-overlay { padding: 20px 20px 0; flex-wrap: wrap; gap: 12px; }
+    .brand-logo { font-size: 22px; }
+    .brand-sub { font-size: 11px; }
+    .hero-float { display: none; }
+    .focus-panel {
+      top: 76px;
+      right: 16px;
+      left: 16px;
+      transform: none;
+      min-width: 0;
+      padding: 14px 16px;
+      animation: fadeInUp 1s cubic-bezier(.2,.8,.2,1) 0.4s both;
+    }
+    .focus-panel .name { font-size: 18px; }
+    .focus-panel .desc { font-size: 11px; }
+    .focus-panel .dots { margin-top: 10px; }
+    .bottom-overlay {
+      padding: 0 16px;
+      bottom: 24px;
+      gap: 8px;
+    }
+    .hint-chip {
+      padding: 8px 14px;
+      font-size: 11px;
+    }
+    .focus-cta { bottom: 16px; font-size: 11px; padding: 8px 14px; }
+  }
+  @media (max-width: 640px) {
+    .top-overlay .live-badge { display: none; }
+  }
+
+  /* ==== Accessibility: focus-visible ==== */
+  *:focus-visible {
+    outline: 2px solid var(--coral);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* ==== Accessibility: reduced motion ==== */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float,
+    .top-overlay,
+    .bottom-overlay,
+    .focus-panel {
+      animation: none !important;
+    }
+    .live-dot,
+    .demo-play,
+    .focus-cta .pulse-ring {
+      animation: none !important;
+    }
+    .phone .front-face,
+    .phone:not(.is-focused) .front-face {
+      transition: none !important;
+    }
+  }
+
+  /* ==== Notify screen (card payment alerts) ==== */
+  .notify-summary {
+    margin: 16px 20px 14px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-radius: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+  }
+  .notify-summary-main {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  .notify-summary-num {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--coral);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .notify-summary-label {
+    font-size: 10px;
+    color: var(--fg-muted);
+    margin-top: 3px;
+    letter-spacing: 0.02em;
+  }
+  .notify-summary-divider {
+    width: 1px;
+    height: 34px;
+    background: var(--border-light);
+    flex-shrink: 0;
+  }
+  .notify-summary-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+  }
+  .notify-summary-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .notify-stat-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .notify-stat-dot-ok { background: var(--success); }
+  .notify-stat-dot-skip { background: var(--fg-muted); }
+  .notify-stat-text {
+    font-size: 11px;
+    color: var(--fg-secondary);
+  }
+
+  .notify-stack {
+    position: relative;
+    margin: 6px 20px 14px;
+    height: 230px;
+  }
+  .notify-card {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    background: var(--bg-card-2);
+    border: 1px solid var(--border-light);
+    box-shadow: 0 12px 28px -14px rgba(0, 0, 0, 0.7);
+    transition:
+      transform 450ms cubic-bezier(.2,.8,.2,1),
+      opacity 380ms cubic-bezier(.2,.8,.2,1),
+      box-shadow 380ms ease;
+    overflow: hidden;
+    touch-action: manipulation;
+    will-change: transform, opacity;
+  }
+  .notify-card-inner {
+    position: relative;
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+  }
+
+  /* Stack layering: 1 on top -> 4 on bottom */
+  .notify-card-1 {
+    z-index: 4;
+    transform: translateY(0) scale(1);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(249,112,102,0.15);
+  }
+  .notify-card-2 {
+    z-index: 3;
+    transform: translateY(8px) scale(0.96);
+    opacity: 0.92;
+  }
+  .notify-card-3 {
+    z-index: 2;
+    transform: translateY(16px) scale(0.92);
+    opacity: 0.78;
+  }
+  .notify-card-4 {
+    z-index: 1;
+    transform: translateY(24px) scale(0.88);
+    opacity: 0.6;
+  }
+
+  /* Drag-out states */
+  .notify-card.swipe-right {
+    transform: translateX(340px) rotate(18deg) scale(1);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .notify-card.swipe-left {
+    transform: translateX(-340px) rotate(-18deg) scale(1);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Card interior */
+  .notify-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+  }
+  .notify-card-logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .notify-card-merchant {
+    flex: 1;
+    min-width: 0;
+  }
+  .notify-card-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+  }
+  .notify-card-meta {
+    font-size: 10px;
+    color: var(--fg-muted);
+    margin-top: 2px;
+  }
+  .notify-card-amount {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--coral);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .notify-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: auto;
+  }
+  .notify-card-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 9999px;
+    background: var(--bg-input);
+    border: 1px solid var(--border-light);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--fg-secondary);
+  }
+  .notify-chip-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+  }
+  .notify-card-hint {
+    font-size: 9.5px;
+    color: var(--fg-muted);
+    letter-spacing: 0.01em;
+  }
+
+  /* Drag direction overlays (active during demo) */
+  .notify-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms ease;
+  }
+  .notify-overlay-record {
+    background: rgba(52, 211, 153, 0.18);
+    border: 3px solid var(--success);
+    color: var(--success);
+    border-radius: 14px;
+  }
+  .notify-overlay-skip {
+    background: rgba(115, 115, 115, 0.2);
+    border: 3px solid var(--fg-muted);
+    color: var(--fg-muted);
+    border-radius: 14px;
+  }
+  .notify-card.show-record .notify-overlay-record { opacity: 1; }
+  .notify-card.show-skip .notify-overlay-skip { opacity: 1; }
+
+  .notify-footer {
+    padding: 4px 20px 14px;
+    font-size: 10.5px;
+    color: var(--fg-muted);
+    text-align: center;
+    letter-spacing: 0.01em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .notify-card { transition-duration: 0.01ms !important; }
+    .notify-overlay { transition: none; }
+  }
+
+  /* ==== Brand watermark — 거대 반투명 배경 ==== */
+  .watermark {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    pointer-events: none;
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: clamp(16rem, 32vw, 40rem);
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(249, 112, 102, 0.12);
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  @media (max-width: 768px) {
+    .watermark {
+      font-size: clamp(8rem, 24vw, 16rem);
+      -webkit-text-stroke-width: 1px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .watermark { opacity: 0.5; }
+  }
+
+  /* ==== Hero-float inline icon + chips ==== */
+  .inline-drag-hint {
+    display: inline-block;
+    font-size: 0.75em;
+    color: var(--coral);
+    vertical-align: middle;
+    margin: 0 4px;
+    transform: rotate(-10deg);
+  }
+  .hero-float p {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+    padding: 0;
+  }
+  .inline-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    background: rgba(23, 23, 23, 0.75);
+    border: 1px solid var(--border);
+    color: var(--fg-secondary);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    backdrop-filter: blur(8px);
+  }
+
+</style>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+
+  <!-- ===== Background layers ===== -->
+  <div class="bg-grad"></div>
+  <div class="watermark" aria-hidden="true">weeple</div>
+  <div class="stars"></div>
+
+  <!-- ===== 3D scene container ===== -->
+  <div id="scene"></div>
+
+  <!-- ===== Top overlay ===== -->
+  <div class="top-overlay">
+    <div class="brand">
+      <div class="brand-logo">weeple</div>
+      <div class="brand-sub">직접 만져보는 앱 체험</div>
+    </div>
+    <div class="live-badge" role="status" aria-live="polite">
+      <span class="live-dot"></span>
+      <span>7개 화면 · 드래그해서 탐험</span>
+    </div>
+  </div>
+
+  <!-- ===== Hero (floating, left) ===== -->
+  <div class="hero-float" aria-hidden="true">
+    <div class="eyebrow">스마트 커플 가계부</div>
+    <h1>손끝으로 <span class="inline-drag-hint">⤻</span> 돌려보고<br><span class="accent">▶ 눌러 재생하세요</span></h1>
+    <p>
+      <span class="inline-chip">7개 화면</span>
+      <span class="inline-chip">실제 앱 인터랙션</span>
+    </p>
+  </div>
+
+  <!-- ===== Focus panel (right) ===== -->
+  <div class="focus-panel" role="region" aria-label="현재 포커스 화면 정보">
+    <div class="label">현재 화면</div>
+    <div class="name" id="focus-name">대시보드</div>
+    <div class="desc" id="focus-desc">월 지출 요약 · 예산 프로그레스 · 감성 넛지 · TOP 3</div>
+    <div class="dots" id="focus-dots"></div>
+  </div>
+
+  <!-- ===== Bottom hints ===== -->
+  <div class="bottom-overlay">
+    <div class="hint-chip is-primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      <span>▶ 버튼으로 데모 재생</span>
+    </div>
+    <div class="hint-chip">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      <span>드래그: 회전</span>
+    </div>
+    <div class="hint-chip">
+      <kbd>Space</kbd>
+      <span>자동회전 켜기/끄기</span>
+    </div>
+    <div class="hint-chip">
+      <kbd>←</kbd><kbd>→</kbd>
+      <span>이전/다음 폰</span>
+    </div>
+  </div>
+
+  <!-- ===== First-visit intro hint ===== -->
+  <div class="intro-hint" id="intro-hint" aria-hidden="true">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8V5a2 2 0 0 0-2-2h-3M3 8V5a2 2 0 0 1 2-2h3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3"/><path d="M7 12h10M12 7v10"/></svg>
+    <span>드래그해서 돌려보세요</span>
+  </div>
+
+  <!-- ===== Phone source templates (cloned into 3D scene) ===== -->
+  <div id="phones-source">
+
+    <!-- Phone 1: Dashboard -->
+    <div class="phone" data-id="dashboard" data-name="대시보드" data-desc="월 지출 요약 · 예산 프로그레스 · 감성 넛지 · TOP 3">
+      <div class="screen">
+        <div class="screen-header">
+          <div class="screen-title">대시보드</div>
+          <div class="screen-actions">
+            <div class="icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F97066" stroke-width="1.5"><rect x="2" y="6" width="20" height="14" rx="3"/><circle cx="12" cy="13" r="4"/><rect x="8" y="3" width="8" height="3" rx="1"/></svg></div>
+            <div class="icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fafafa" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          </div>
+        </div>
+        <div class="month-nav">
+          <span class="month-arrow">&lt;</span>
+          <span class="month-text">2026 · 04</span>
+          <span class="month-arrow" style="color:#525252">&gt;</span>
+        </div>
+        <div class="quick-input">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#737373" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input placeholder="어제 스타벅스 4500원" readonly/>
+        </div>
+        <div class="hero-card">
+          <div class="hero-label">이번 달 총 지출</div>
+          <div class="hero-amount">₩1,247,300</div>
+          <div class="budget-row">
+            <span class="budget-left">남은 예산 <span style="font-family:var(--mono)">₩752,700</span></span>
+            <span class="budget-pct">62%</span>
+          </div>
+          <div class="progress" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" aria-label="예산 사용률 62퍼센트"><div class="progress-fill" style="width:62%"></div></div>
+        </div>
+        <div class="nudge">
+          <div class="nudge-text">이번 달 주말 소비가 평일의 <span style="font-family:var(--mono)">1.8</span>배</div>
+          <div class="nudge-detail">주말 평균 <span style="font-family:var(--mono)">₩68,000</span> vs 평일 <span style="font-family:var(--mono)">₩37,000</span></div>
+        </div>
+        <div class="card">
+          <div class="card-label">큰 지출 TOP 3</div>
+          <div class="top5-row"><span class="top5-rank">1</span><div class="top5-info"><div class="top5-desc">이마트 장보기</div><div class="top5-meta"><span style="font-family:var(--mono)">04-06</span> · 식비</div></div><span class="top5-amount large">₩182,400</span></div>
+          <div class="top5-row"><span class="top5-rank">2</span><div class="top5-info"><div class="top5-desc">CGV 더 퍼스트 슬램덩크</div><div class="top5-meta"><span style="font-family:var(--mono)">04-04</span> · 여가</div></div><span class="top5-amount">₩38,000</span></div>
+          <div class="top5-row"><span class="top5-rank">3</span><div class="top5-info"><div class="top5-desc">카카오택시</div><div class="top5-meta"><span style="font-family:var(--mono)">04-05</span> · 교통</div></div><span class="top5-amount">₩23,700</span></div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg><span>홈</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span>내역</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>커플</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span>예산</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg><span>설정</span></div>
+      </div>
+    </div>
+
+    <!-- Phone 2: Transactions -->
+    <div class="phone" data-id="transactions" data-name="소비내역" data-desc="캘린더 히트맵 · 필터 · 카테고리 · OCR 스캔">
+      <div class="screen">
+        <div class="screen-header">
+          <div class="screen-title">소비내역</div>
+          <div class="screen-actions">
+            <div class="icon-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F97066" stroke-width="1.5"><rect x="2" y="6" width="20" height="14" rx="3"/><circle cx="12" cy="13" r="4"/><rect x="8" y="3" width="8" height="3" rx="1"/></svg></div>
+          </div>
+        </div>
+        <div class="month-nav">
+          <span class="month-arrow">&lt;</span>
+          <span class="month-text">2026 · 04</span>
+          <span class="month-arrow" style="color:#525252">&gt;</span>
+        </div>
+        <div class="calendar">
+          <div class="cal-day"></div><div class="cal-day"></div>
+          <div class="cal-day">1</div><div class="cal-day heat-1">2</div><div class="cal-day heat-2">3</div><div class="cal-day heat-3">4</div><div class="cal-day heat-2">5</div>
+          <div class="cal-day heat-1">6</div><div class="cal-day heat-3">7</div><div class="cal-day heat-1">8</div><div class="cal-day">9</div><div class="cal-day heat-2">10</div><div class="cal-day heat-1">11</div><div class="cal-day heat-2 today">12</div>
+          <div class="cal-day">13</div>
+          <div class="cal-day"></div><div class="cal-day"></div><div class="cal-day"></div><div class="cal-day"></div><div class="cal-day"></div><div class="cal-day"></div>
+        </div>
+        <div class="filter-row">
+          <div class="filter-tab active">전체</div>
+          <div class="filter-tab">지출</div>
+          <div class="filter-tab">수입</div>
+        </div>
+        <div class="cat-chips">
+          <div class="chip active">전체</div>
+          <div class="chip">식비</div>
+          <div class="chip">카페</div>
+          <div class="chip">교통</div>
+          <div class="chip">쇼핑</div>
+        </div>
+        <div class="date-header"><span><span style="font-family:var(--mono)">04</span>월 <span style="font-family:var(--mono)">10</span>일 (금)</span><span class="total">₩68,400</span></div>
+        <div class="tx-row"><div class="tx-info"><div class="tx-desc">배달의민족</div><div class="tx-meta"><span class="cat-dot" style="background:#F97066"></span>식비</div></div><div class="tx-amount large">₩32,500</div></div>
+        <div class="tx-row"><div class="tx-info"><div class="tx-desc">스타벅스 강남점</div><div class="tx-meta"><span class="cat-dot" style="background:#d4a373"></span>카페</div></div><div class="tx-amount">₩6,500</div></div>
+        <div class="tx-row"><div class="tx-info"><div class="tx-desc">GS25 편의점</div><div class="tx-meta"><span class="cat-dot" style="background:#F97066"></span>식비</div></div><div class="tx-amount">₩14,700</div></div>
+        <div class="date-header"><span><span style="font-family:var(--mono)">04</span>월 <span style="font-family:var(--mono)">09</span>일 (목)</span><span class="total">₩3,242,100</span></div>
+        <div class="tx-row"><div class="tx-info"><div class="tx-desc">월급</div><div class="tx-meta"><span class="cat-dot" style="background:#34d399"></span>수입</div></div><div class="tx-amount income">+₩3,200,000</div></div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg><span>홈</span></div>
+        <div class="tab active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span>내역</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>커플</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span>예산</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg><span>설정</span></div>
+      </div>
+    </div>
+
+    <!-- Phone 3: Couple -->
+    <div class="phone" data-id="couple" data-name="커플" data-desc="파트너와 실시간 공유 예산 · 용돈 · 공동 목표">
+      <div class="screen">
+        <div class="screen-header"><div class="screen-title">우리의 가계부</div></div>
+        <div class="couple-profile">
+          <div class="avatar a">J</div>
+          <div class="couple-names">
+            <div class="main">정현 <span class="couple-heart">♥</span> 수빈</div>
+            <div class="sub"><span style="font-family:var(--mono)">D+432</span> · <span style="font-family:var(--mono)">2024.12.25</span> 만남</div>
+          </div>
+          <div class="avatar">S</div>
+        </div>
+        <div class="savings-card">
+          <div class="savings-label">이번 달 저축</div>
+          <div class="savings-amount">₩1,856,700</div>
+          <div class="savings-rate">저축률 <span style="font-family:var(--mono)">37%</span> · 지난달 대비 <span style="font-family:var(--mono)">+₩120k</span></div>
+        </div>
+        <div class="allowance-row">
+          <div class="allowance-card"><div class="allowance-who">내 용돈</div><div class="allowance-amount">₩386,000</div><div class="allowance-pct">500k 중 77%</div></div>
+          <div class="allowance-card"><div class="allowance-who">파트너 용돈</div><div class="allowance-amount">₩214,300</div><div class="allowance-pct">500k 중 43%</div></div>
+        </div>
+        <div class="card">
+          <div class="card-label">공동 목표</div>
+          <div class="budget-row"><span class="budget-left" style="color:var(--fg); font-size:13px;">제주 여행</span><span class="budget-pct" style="color:var(--coral)">68%</span></div>
+          <div class="progress" style="margin-bottom:12px"><div class="progress-fill" style="width:68%"></div></div>
+          <div class="budget-row"><span class="budget-left" style="color:var(--fg); font-size:13px;">결혼 자금</span><span class="budget-pct" style="color:var(--coral)">14%</span></div>
+          <div class="progress"><div class="progress-fill" style="width:14%"></div></div>
+        </div>
+        <div class="nudge">
+          <div class="nudge-text">파트너가 방금 거래 추가</div>
+          <div class="nudge-detail">수빈 · 스타벅스 <span style="font-family:var(--mono)">₩6,500</span> · <span style="font-family:var(--mono)">2</span>분 전</div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg><span>홈</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span>내역</span></div>
+        <div class="tab active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>커플</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span>예산</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg><span>설정</span></div>
+      </div>
+    </div>
+
+    <!-- Phone 4: Budget -->
+    <div class="phone" data-id="budget" data-name="예산" data-desc="월 예산 · 카테고리별 분배 · 반복 지출 자동화">
+      <div class="screen">
+        <div class="screen-header"><div class="screen-title">예산 설정</div></div>
+        <div class="budget-big">
+          <div class="label">이번 달 예산</div>
+          <div class="value">₩2,000,000</div>
+          <div class="budget-row" style="margin-top:10px; margin-bottom:6px;">
+            <span class="budget-left" style="font-size:12px;">사용 <span style="font-family:var(--mono)">₩1,247,300</span></span>
+            <span class="budget-pct">62%</span>
+          </div>
+          <div class="progress" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" aria-label="예산 사용률 62퍼센트"><div class="progress-fill" style="width:62%"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-label">카테고리별 예산</div>
+          <div class="cat-budget-row"><span class="cat-dot" style="background:#F97066; width:8px; height:8px;"></span><span class="cat-budget-name">식비</span><div class="cat-budget-bar"><div class="cat-budget-bar-fill" style="width:82%"></div></div><span class="cat-budget-amt">410 / 500k</span></div>
+          <div class="cat-budget-row"><span class="cat-dot" style="background:#d4a373; width:8px; height:8px;"></span><span class="cat-budget-name">카페</span><div class="cat-budget-bar"><div class="cat-budget-bar-fill" style="width:54%"></div></div><span class="cat-budget-amt">108 / 200k</span></div>
+          <div class="cat-budget-row"><span class="cat-dot" style="background:#818cf8; width:8px; height:8px;"></span><span class="cat-budget-name">교통</span><div class="cat-budget-bar"><div class="cat-budget-bar-fill" style="width:28%"></div></div><span class="cat-budget-amt">56 / 200k</span></div>
+          <div class="cat-budget-row"><span class="cat-dot" style="background:#34d399; width:8px; height:8px;"></span><span class="cat-budget-name">쇼핑</span><div class="cat-budget-bar"><div class="cat-budget-bar-fill" style="width:95%; background:var(--error)"></div></div><span class="cat-budget-amt">285 / 300k</span></div>
+          <div class="cat-budget-row"><span class="cat-dot" style="background:#fbbf24; width:8px; height:8px;"></span><span class="cat-budget-name">여가</span><div class="cat-budget-bar"><div class="cat-budget-bar-fill" style="width:38%"></div></div><span class="cat-budget-amt">76 / 200k</span></div>
+        </div>
+        <div class="card">
+          <div class="card-label">반복 지출</div>
+          <div class="top5-row"><div class="top5-info"><div class="top5-desc">넷플릭스</div><div class="top5-meta">매월 <span style="font-family:var(--mono)">25</span>일</div></div><span class="top5-amount">₩17,000</span></div>
+          <div class="top5-row"><div class="top5-info"><div class="top5-desc">쿠팡 와우</div><div class="top5-meta">매월 <span style="font-family:var(--mono)">15</span>일</div></div><span class="top5-amount">₩7,890</span></div>
+          <div class="top5-row"><div class="top5-info"><div class="top5-desc">ChatGPT Plus</div><div class="top5-meta">매월 <span style="font-family:var(--mono)">3</span>일</div></div><span class="top5-amount">₩29,000</span></div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg><span>홈</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span>내역</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>커플</span></div>
+        <div class="tab active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span>예산</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg><span>설정</span></div>
+      </div>
+    </div>
+
+    <!-- Phone 5: AI Analysis — 실제 aiService.ts 의 PROVIDER_ROLES 반영 -->
+    <div class="phone" data-id="ai" data-name="AI 분석" data-desc="Claude 절약 코치 · GPT 패턴 분석 · Gemini 금전운 🔮">
+      <div class="screen">
+        <div class="screen-header">
+          <div class="screen-title">AI 분석</div>
+          <div class="screen-actions">
+            <div class="icon-btn" style="background:var(--coral-bg); border-color:var(--coral-bg-strong)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F97066" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          </div>
+        </div>
+        <div class="ai-preview">
+          <div class="ai-preview-title">이번 달 소비 리포트</div>
+          <div class="ai-preview-desc">3개 AI 역할: 절약 코치 · 패턴 분석 · 금전운 🔮. 매월 <span style="font-family:var(--mono)">1</span>회 무료.</div>
+        </div>
+        <button class="ai-btn">분석 시작</button>
+        <div class="ai-insight">
+          <div class="ai-insight-head"><span class="ai-insight-title">절약 코치</span><span class="ai-insight-tag">Claude</span></div>
+          <div class="ai-insight-body">식비 비중이 지난달보다 <span style="font-family:var(--mono)">12%</span> 증가. 배달 앱 사용이 늘었어요. 주 <span style="font-family:var(--mono)">2</span>회 직접 요리하면 월 <span style="font-family:var(--mono)">₩80k</span> 절약 가능.</div>
+        </div>
+        <div class="ai-insight">
+          <div class="ai-insight-head"><span class="ai-insight-title">패턴 분석</span><span class="ai-insight-tag">GPT</span></div>
+          <div class="ai-insight-body">"주말 집중형" 소비 패턴. 주말 평균이 평일의 <span style="font-family:var(--mono)">2.3×</span>, 금요일 저녁부터 급증. 카페·배달 카테고리에 집중돼요.</div>
+        </div>
+        <div class="ai-insight">
+          <div class="ai-insight-head"><span class="ai-insight-title">금전운 🔮</span><span class="ai-insight-tag">Gemini</span></div>
+          <div class="ai-insight-body">이번 달 금전운 <span style="font-family:var(--mono)">73</span>점. 월 중반 "서쪽" 재물운 약세 → 외식 절제 권장. <span style="font-family:var(--mono)">15</span>일 이후 공동 정산이 유리.</div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg><span>홈</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span>내역</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>커플</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span>예산</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg><span>설정</span></div>
+      </div>
+    </div>
+
+    <!-- Phone 6: Couple Report -->
+    <div class="phone" data-id="report" data-name="커플 리포트" data-desc="월간 저축 · 나/파트너 비교 · 카테고리 도넛">
+      <div class="screen">
+        <div class="screen-header"><div class="screen-title">커플 리포트</div></div>
+        <div class="report-hero">
+          <div class="report-hero-label">이번 달 함께 저축</div>
+          <div class="report-hero-amount">₩1,856,700</div>
+          <div class="report-hero-sub">지난달 대비 <span style="font-family:var(--mono)">+₩120,000</span></div>
+        </div>
+        <div class="report-compare">
+          <div class="report-cell me"><div class="who">나 (정현)</div><div class="amt">₩712,400</div></div>
+          <div class="report-cell partner"><div class="who">수빈</div><div class="amt">₩534,900</div></div>
+        </div>
+        <div class="card">
+          <div class="card-label">카테고리 비중</div>
+          <div class="donut-placeholder"></div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px 14px; justify-content:center; margin-top:10px;">
+            <span style="font-size:10px; color:var(--fg-secondary); display:flex; align-items:center; gap:5px;"><span style="width:8px;height:8px;background:var(--coral);border-radius:2px;"></span>식비 <span style="font-family:var(--mono)">32%</span></span>
+            <span style="font-size:10px; color:var(--fg-secondary); display:flex; align-items:center; gap:5px;"><span style="width:8px;height:8px;background:var(--fg-muted);border-radius:2px;"></span>기타 <span style="font-family:var(--mono)">20%</span></span>
+            <span style="font-size:10px; color:var(--fg-secondary); display:flex; align-items:center; gap:5px;"><span style="width:8px;height:8px;background:var(--warning);border-radius:2px;"></span>카페 <span style="font-family:var(--mono)">18%</span></span>
+            <span style="font-size:10px; color:var(--fg-secondary); display:flex; align-items:center; gap:5px;"><span style="width:8px;height:8px;background:var(--success);border-radius:2px;"></span>교통 <span style="font-family:var(--mono)">15%</span></span>
+            <span style="font-size:10px; color:var(--fg-secondary); display:flex; align-items:center; gap:5px;"><span style="width:8px;height:8px;background:#818cf8;border-radius:2px;"></span>쇼핑 <span style="font-family:var(--mono)">15%</span></span>
+          </div>
+        </div>
+        <div class="nudge">
+          <div class="nudge-text"><span style="font-family:var(--mono)">3</span>개월 연속 목표 달성</div>
+          <div class="nudge-detail">올해 누적 저축 <span style="font-family:var(--mono)">₩5,432,100</span></div>
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg><span>홈</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span>내역</span></div>
+        <div class="tab active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>커플</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span>예산</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg><span>설정</span></div>
+      </div>
+    </div>
+
+    <!-- Phone 7: Notify — card payment alerts, swipe to record/skip -->
+    <div class="phone" data-id="notify" data-name="카드 알림" data-desc="카드사 알림 자동 파싱 → 오른쪽 스와이프 기록 · 왼쪽 무시">
+      <div class="screen">
+        <div class="screen-header"><div class="screen-title">카드 알림</div></div>
+
+        <div class="notify-summary" role="status" aria-live="polite" aria-label="카드 알림 처리 현황">
+          <div class="notify-summary-main">
+            <span class="notify-summary-num"><span style="font-family:var(--mono)">4</span></span>
+            <span class="notify-summary-label">오늘 알림</span>
+          </div>
+          <div class="notify-summary-divider" aria-hidden="true"></div>
+          <div class="notify-summary-stats">
+            <div class="notify-summary-stat">
+              <span class="notify-stat-dot notify-stat-dot-ok" aria-hidden="true"></span>
+              <span class="notify-stat-text"><span style="font-family:var(--mono)" class="notify-recorded">3</span>건 기록됨</span>
+            </div>
+            <div class="notify-summary-stat">
+              <span class="notify-stat-dot notify-stat-dot-skip" aria-hidden="true"></span>
+              <span class="notify-stat-text"><span style="font-family:var(--mono)" class="notify-skipped">1</span>건 무시</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="notify-stack">
+          <!-- Card 1: Starbucks (top, active) -->
+          <div class="notify-card notify-card-1" data-card-idx="0">
+            <div class="notify-card-inner">
+              <div class="notify-card-header">
+                <div class="notify-card-logo" style="background: linear-gradient(135deg, #00704A 0%, #005e3f 100%)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>
+                </div>
+                <div class="notify-card-merchant">
+                  <div class="notify-card-name">스타벅스 코리아</div>
+                  <div class="notify-card-meta"><span style="font-family:var(--mono)">2</span>분 전 · 강남점</div>
+                </div>
+                <div class="notify-card-amount"><span style="font-family:var(--mono)">₩4,500</span></div>
+              </div>
+              <div class="notify-card-footer">
+                <span class="notify-card-chip">
+                  <span class="notify-chip-dot" style="background:#d4a373"></span>
+                  카페
+                </span>
+                <span class="notify-card-hint">오른쪽으로 밀어 기록</span>
+              </div>
+              <div class="notify-overlay notify-overlay-record" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>기록됨</span></div>
+              <div class="notify-overlay notify-overlay-skip" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>무시</span></div>
+            </div>
+          </div>
+
+          <!-- Card 2: Burger King -->
+          <div class="notify-card notify-card-2" data-card-idx="1">
+            <div class="notify-card-inner">
+              <div class="notify-card-header">
+                <div class="notify-card-logo" style="background: linear-gradient(135deg, #F5EBDC 0%, #D62300 100%)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a8 8 0 0 1 16 0"/><path d="M3 15h18v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2z"/><line x1="9" y1="7" x2="9" y2="11"/></svg>
+                </div>
+                <div class="notify-card-merchant">
+                  <div class="notify-card-name">버거킹 양재점</div>
+                  <div class="notify-card-meta"><span style="font-family:var(--mono)">12</span>분 전 · 와퍼세트</div>
+                </div>
+                <div class="notify-card-amount"><span style="font-family:var(--mono)">₩11,500</span></div>
+              </div>
+              <div class="notify-card-footer">
+                <span class="notify-card-chip">
+                  <span class="notify-chip-dot" style="background:#F97066"></span>
+                  식비
+                </span>
+              </div>
+              <div class="notify-overlay notify-overlay-record" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>기록됨</span></div>
+              <div class="notify-overlay notify-overlay-skip" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>무시</span></div>
+            </div>
+          </div>
+
+          <!-- Card 3: Kakao T -->
+          <div class="notify-card notify-card-3" data-card-idx="2">
+            <div class="notify-card-inner">
+              <div class="notify-card-header">
+                <div class="notify-card-logo" style="background: linear-gradient(135deg, #FEE500 0%, #F7D200 100%)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1c1c1e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 17h14l-1-4H6l-1 4z"/><circle cx="8" cy="17" r="2"/><circle cx="16" cy="17" r="2"/><path d="M7 13l2-6h6l2 6"/></svg>
+                </div>
+                <div class="notify-card-merchant">
+                  <div class="notify-card-name">카카오T</div>
+                  <div class="notify-card-meta"><span style="font-family:var(--mono)">32</span>분 전 · 택시</div>
+                </div>
+                <div class="notify-card-amount"><span style="font-family:var(--mono)">₩8,200</span></div>
+              </div>
+              <div class="notify-card-footer">
+                <span class="notify-card-chip">
+                  <span class="notify-chip-dot" style="background:#818cf8"></span>
+                  교통
+                </span>
+              </div>
+              <div class="notify-overlay notify-overlay-record" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>기록됨</span></div>
+              <div class="notify-overlay notify-overlay-skip" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>무시</span></div>
+            </div>
+          </div>
+
+          <!-- Card 4: GS25 -->
+          <div class="notify-card notify-card-4" data-card-idx="3">
+            <div class="notify-card-inner">
+              <div class="notify-card-header">
+                <div class="notify-card-logo" style="background: linear-gradient(135deg, #0066B3 0%, #004785 100%)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9z"/><path d="M3 9l2-5h14l2 5"/><line x1="9" y1="13" x2="9" y2="17"/><line x1="15" y1="13" x2="15" y2="17"/></svg>
+                </div>
+                <div class="notify-card-merchant">
+                  <div class="notify-card-name">GS25 강남역점</div>
+                  <div class="notify-card-meta"><span style="font-family:var(--mono)">1</span>시간 전 · 음료</div>
+                </div>
+                <div class="notify-card-amount"><span style="font-family:var(--mono)">₩3,400</span></div>
+              </div>
+              <div class="notify-card-footer">
+                <span class="notify-card-chip">
+                  <span class="notify-chip-dot" style="background:#34d399"></span>
+                  편의점
+                </span>
+              </div>
+              <div class="notify-overlay notify-overlay-record" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>기록됨</span></div>
+              <div class="notify-overlay notify-overlay-skip" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>무시</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="notify-footer">
+          기록하면 <span style="color:var(--coral);font-weight:600">대시보드 · 예산 · 커플</span>에 즉시 반영
+        </div>
+      </div>
+      <div class="tab-bar">
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 12 12 3l9 9M5 10v10h14V10"/></svg><span>홈</span></div>
+        <div class="tab active"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span>내역</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>커플</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span>예산</span></div>
+        <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="9"/></svg><span>설정</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three'
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+    import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js'
+
+    // ===== Accessibility: reduced motion preference =====
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    // ===== Scene setup =====
+    const scene = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(
+      40,
+      window.innerWidth / window.innerHeight,
+      1,
+      10000
+    )
+    // Start comfortably OUTSIDE the phone circle (radius below = 1000).
+    camera.position.set(0, 260, 2500)
+
+    const renderer = new CSS3DRenderer()
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.domElement.style.position = 'absolute'
+    renderer.domElement.style.top = '0'
+    renderer.domElement.style.left = '0'
+    document.getElementById('scene').appendChild(renderer.domElement)
+
+    // ===== Controls =====
+    const controls = new OrbitControls(camera, renderer.domElement)
+    controls.enableDamping = true
+    controls.dampingFactor = 0.08
+    controls.rotateSpeed = 0.55
+    controls.zoomSpeed = 0.8
+    // minDistance must stay well OUTSIDE the carousel radius so the camera
+    // can never slip inside the ring of phones.
+    controls.minDistance = 1700
+    controls.maxDistance = 4400
+    controls.enablePan = false
+    controls.target.set(0, 0, 0)
+    controls.minPolarAngle = Math.PI * 0.32
+    controls.maxPolarAngle = Math.PI * 0.68
+
+    // ===== Phone carousel =====
+    const carousel = new THREE.Group()
+    scene.add(carousel)
+
+    const sources = document.querySelectorAll('#phones-source .phone')
+    const phones = []
+    const radius = 1000
+    const phoneObjects = []
+
+    sources.forEach((src, i) => {
+      const clone = src.cloneNode(true)
+      clone.style.visibility = 'visible'
+
+      // Accessibility: make each phone keyboard-navigable with a descriptive label.
+      clone.setAttribute('role', 'button')
+      clone.setAttribute('tabindex', '0')
+      clone.setAttribute('aria-label', `${src.dataset.name} 화면`)
+
+      // Wrap existing children into a .front-face. Everything the original
+      // phone already has (screen, tab-bar, etc) becomes the visible app.
+      const front = document.createElement('div')
+      front.className = 'front-face'
+      while (clone.firstChild) front.appendChild(clone.firstChild)
+
+      // Build a physical-looking back face (camera bump + weeple logo).
+      const back = document.createElement('div')
+      back.className = 'back-face'
+      back.innerHTML = `
+        <div class="back-ring"></div>
+        <div class="back-cam">
+          <div class="lens l1"></div>
+          <div class="lens l2"></div>
+          <div class="lens l3"></div>
+          <div class="flash"></div>
+        </div>
+        <div class="back-logo">weeple</div>
+        <div class="back-logo-sub">smart couple budget</div>
+      `
+
+      clone.appendChild(front)
+      clone.appendChild(back)
+
+      // Inject the play-demo button ON THE FRONT FACE.
+      const playBtn = document.createElement('button')
+      playBtn.className = 'demo-play'
+      playBtn.setAttribute('aria-label', `${src.dataset.name} 데모 재생`)
+      playBtn.innerHTML =
+        '<svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>'
+      // OrbitControls listens on pointerdown. Stop the event from bubbling so
+      // the click actually reaches the button instead of starting a camera drag.
+      const stopBubble = (e) => { e.stopPropagation() }
+      playBtn.addEventListener('pointerdown', stopBubble)
+      playBtn.addEventListener('mousedown', stopBubble)
+      playBtn.addEventListener('touchstart', stopBubble, { passive: true })
+      playBtn.addEventListener('click', (e) => {
+        e.stopPropagation()
+        // Pause rotation so the demo plays against a still phone, but do NOT
+        // snap/re-center the camera — the user keeps their current angle.
+        autoRotate = false
+        runDemo(clone, src.dataset.id)
+      })
+      front.appendChild(playBtn)
+
+      // Inject the bottom-center "focus CTA" pulse button — visible only on
+      // the focused phone. Clicking it just triggers the existing play button
+      // so demo logic stays in one place.
+      const focusCta = document.createElement('div')
+      focusCta.className = 'focus-cta'
+      focusCta.setAttribute('aria-hidden', 'true')
+      focusCta.innerHTML =
+        '<span class="pulse-ring"></span>' +
+        '<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>' +
+        '<span>데모 재생</span>'
+      focusCta.addEventListener('pointerdown', stopBubble)
+      focusCta.addEventListener('mousedown', stopBubble)
+      focusCta.addEventListener('touchstart', stopBubble, { passive: true })
+      focusCta.addEventListener('click', (e) => {
+        e.stopPropagation()
+        playBtn.click()
+      })
+      front.appendChild(focusCta)
+
+      const obj = new CSS3DObject(clone)
+      const angle = (i / sources.length) * Math.PI * 2
+
+      // Target (final) position on the circle + subtle y stagger.
+      const basePos = {
+        x: Math.sin(angle) * radius,
+        y: Math.sin(i * 1.3) * 40,
+        z: Math.cos(angle) * radius,
+      }
+
+      // Scatter: random offset in all three axes for the entry assembly.
+      // Keep the final angle fixed so rotation does not need to be animated.
+      const scatterMagnitude = 900
+      const scatter = {
+        x: basePos.x + (Math.random() - 0.5) * scatterMagnitude * 2,
+        y: basePos.y + (Math.random() * 2 - 1) * scatterMagnitude,
+        z: basePos.z + (Math.random() - 0.5) * scatterMagnitude * 2,
+      }
+
+      if (reducedMotion) {
+        obj.position.set(basePos.x, basePos.y, basePos.z)
+      } else {
+        obj.position.set(scatter.x, scatter.y, scatter.z)
+        obj.scale.set(0.2, 0.2, 0.2)
+        clone.style.opacity = '0'
+      }
+
+      // Face outward from the center of the circle
+      obj.rotation.y = angle
+
+      carousel.add(obj)
+      phones.push({
+        element: clone,
+        object: obj,
+        baseAngle: angle,
+        basePos,
+        scatter,
+        assembleDelay: i * 0.12,
+        assembled: reducedMotion,
+        name: src.dataset.name,
+        desc: src.dataset.desc,
+        id: src.dataset.id,
+      })
+      phoneObjects.push(obj)
+    })
+
+    // ===== Focus panel updates =====
+    const focusName = document.getElementById('focus-name')
+    const focusDesc = document.getElementById('focus-desc')
+    const focusDotsContainer = document.getElementById('focus-dots')
+
+    phones.forEach(() => {
+      const dot = document.createElement('div')
+      dot.className = 'dot'
+      focusDotsContainer.appendChild(dot)
+    })
+
+    let currentFocusIndex = -1
+    let lastFocusCheck = 0
+    const _worldPos = new THREE.Vector3()
+    function updateFocus(now) {
+      // Throttle: this walks all phones + mutates DOM, no need to run at 60Hz.
+      if (now - lastFocusCheck < 180) return
+      lastFocusCheck = now
+
+      let best = 0
+      let bestDist = Infinity
+      for (let i = 0; i < phones.length; i++) {
+        phones[i].object.getWorldPosition(_worldPos)
+        const dist = _worldPos.distanceTo(camera.position)
+        if (dist < bestDist) { bestDist = dist; best = i }
+      }
+      if (best !== currentFocusIndex) {
+        currentFocusIndex = best
+        focusName.style.opacity = 0
+        focusDesc.style.opacity = 0
+        setTimeout(() => {
+          focusName.textContent = phones[best].name
+          focusDesc.textContent = phones[best].desc
+          focusName.style.opacity = 1
+          focusDesc.style.opacity = 1
+        }, 140)
+        const dots = focusDotsContainer.querySelectorAll('.dot')
+        dots.forEach((d, i) => d.classList.toggle('active', i === best))
+
+        // Toggle focused state classes on phones + front-face so CSS can
+        // visually emphasise the closest phone and pulse its CTA.
+        phones.forEach((p, i) => {
+          const isFocused = i === best
+          p.element.classList.toggle('is-focused', isFocused)
+          const ff = p.element.querySelector('.front-face')
+          if (ff) ff.classList.toggle('is-focused', isFocused)
+        })
+      }
+    }
+
+    // ===== Snap to a specific phone (keyboard / click) =====
+    let targetCarouselY = 0
+    let snapActive = false
+    function snapToPhone(index) {
+      // Carousel rotation such that phone[index] ends up facing camera
+      // phone[index] is at angle (i/N)*2PI from +z axis.
+      // Camera is at +z, so we want carousel.rotation.y = -angle
+      const angle = phones[index].baseAngle
+      targetCarouselY = -angle
+      snapActive = true
+    }
+
+    // ===== Keyboard navigation =====
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        autoRotate = false
+        snapToPhone((currentFocusIndex + 1) % phones.length)
+      } else if (e.key === 'ArrowLeft') {
+        autoRotate = false
+        snapToPhone((currentFocusIndex - 1 + phones.length) % phones.length)
+      } else if (e.key === ' ') {
+        e.preventDefault()
+        autoRotate = !autoRotate
+      } else if (e.key === 'Enter') {
+        // Play the demo for the currently focused phone.
+        if (currentFocusIndex >= 0 && phones[currentFocusIndex]) {
+          const p = phones[currentFocusIndex].element
+          const btn = p.querySelector('.demo-play')
+          if (btn) {
+            e.preventDefault()
+            btn.click()
+          }
+        }
+      }
+    })
+
+    // ===== User-initiated interaction stops the auto-rotate =====
+    // As soon as the user starts dragging or zooming with OrbitControls,
+    // turn off the automatic carousel spin so they can lock the view.
+    // They can resume auto-rotate by pressing Space or clicking a phone.
+    controls.addEventListener('start', () => {
+      autoRotate = false
+      snapActive = false
+    })
+
+    // ===== Animate loop =====
+    let autoRotate = !reducedMotion
+    const clock = new THREE.Clock()
+
+    // ===== Entry assembly animation (1.4s, staggered) =====
+    const ASSEMBLE_DURATION = 1.4 // seconds, matches brief
+    let assembleStart = reducedMotion ? -Infinity : null
+    let assembleComplete = reducedMotion
+    // Spin the carousel one turn while assembling so the entry feels like
+    // the phones orbit into formation from behind the camera.
+    const assembleRotStart = reducedMotion ? 0 : -Math.PI
+    if (!reducedMotion) carousel.rotation.y = assembleRotStart
+
+    // cubic-bezier(.2,.8,.2,1) approximation via easeOutQuart for a smooth
+    // decelerating feel — visually identical enough for a 1.4s run.
+    const easeOutExpo = (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t))
+
+    function updateAssembly(now) {
+      if (assembleComplete) return
+      if (assembleStart === null) assembleStart = now
+      const elapsed = (now - assembleStart) / 1000 // seconds
+
+      // Carousel rotation eases from -PI to 0 over the full duration.
+      const carouselP = Math.min(elapsed / ASSEMBLE_DURATION, 1)
+      carousel.rotation.y = assembleRotStart + (0 - assembleRotStart) * easeOutExpo(carouselP)
+
+      let stillAnimating = carouselP < 1
+      for (const p of phones) {
+        if (p.assembled) continue
+        const localT = (elapsed - p.assembleDelay) / ASSEMBLE_DURATION
+        if (localT <= 0) {
+          stillAnimating = true
+          continue
+        }
+        const t = Math.min(localT, 1)
+        const e = easeOutExpo(t)
+        p.object.position.set(
+          p.scatter.x + (p.basePos.x - p.scatter.x) * e,
+          p.scatter.y + (p.basePos.y - p.scatter.y) * e,
+          p.scatter.z + (p.basePos.z - p.scatter.z) * e,
+        )
+        const s = 0.2 + (1 - 0.2) * e
+        p.object.scale.set(s, s, s)
+        p.element.style.opacity = String(e)
+        if (t >= 1) {
+          p.assembled = true
+          p.object.scale.set(1, 1, 1)
+          p.element.style.opacity = ''
+        } else {
+          stillAnimating = true
+        }
+      }
+      if (!stillAnimating) assembleComplete = true
+    }
+
+    // Slower rotation on narrow viewports so the animation does not feel
+    // frantic on phones.
+    const rotationSpeed = () => (window.innerWidth < 768 ? 0.12 : 0.18)
+
+    function animate(now) {
+      requestAnimationFrame(animate)
+      const dt = Math.min(clock.getDelta(), 0.05)
+      const t = now || performance.now()
+
+      if (!assembleComplete) {
+        updateAssembly(t)
+      } else if (autoRotate) {
+        carousel.rotation.y += dt * rotationSpeed()
+      } else if (snapActive) {
+        const diff = targetCarouselY - carousel.rotation.y
+        const wrapped = ((diff + Math.PI) % (Math.PI * 2)) - Math.PI
+        carousel.rotation.y += wrapped * 0.08
+        if (Math.abs(wrapped) < 0.01) {
+          carousel.rotation.y = targetCarouselY
+          snapActive = false
+        }
+      }
+
+      controls.update()
+      updateFocus(t)
+      renderer.render(scene, camera)
+    }
+    animate()
+
+    // ===== First-visit intro tooltip =====
+    // Shows a centered glass overlay prompting the user to drag. Hidden once
+    // the user interacts (drag, click, key) or after 3.2 seconds.
+    try {
+      const SEEN_KEY = 'weeple_3d_seen'
+      const introEl = document.getElementById('intro-hint')
+      if (!reducedMotion && introEl && !localStorage.getItem(SEEN_KEY)) {
+        setTimeout(() => introEl.classList.add('show'), 900)
+        const dismissIntro = () => {
+          introEl.classList.remove('show')
+          introEl.classList.add('hide')
+          try { localStorage.setItem(SEEN_KEY, '1') } catch (_) {}
+          window.removeEventListener('keydown', dismissIntro)
+          controls.removeEventListener('start', dismissIntro)
+        }
+        setTimeout(dismissIntro, 3600)
+        window.addEventListener('keydown', dismissIntro, { once: true })
+        controls.addEventListener('start', dismissIntro)
+      }
+    } catch (_) { /* localStorage unavailable — silently skip */ }
+
+    // ===== Resize =====
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight
+      camera.updateProjectionMatrix()
+      renderer.setSize(window.innerWidth, window.innerHeight)
+    })
+
+    // ==========================================================
+    //  DEMO SYSTEM — click the coral ▶ button to replay a short
+    //  scripted interaction on each screen (typing, toast, count
+    //  up, row inserts, etc). Used for promo footage.
+    // ==========================================================
+
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+    const wonFmt = (n) => '₩' + Math.round(n).toLocaleString('en-US')
+
+    async function typeInto(el, text, speed = 75) {
+      el.value = ''
+      el.placeholder = ''
+      el.classList.add('typing-cursor')
+      for (const ch of text) {
+        el.value += ch
+        await sleep(speed + Math.random() * 55)
+      }
+      el.classList.remove('typing-cursor')
+    }
+
+    function countUp(el, from, to, duration = 700, format = wonFmt) {
+      return new Promise((resolve) => {
+        const t0 = performance.now()
+        function step(now) {
+          const p = Math.min((now - t0) / duration, 1)
+          const e = 1 - Math.pow(1 - p, 3)
+          el.textContent = format(from + (to - from) * e)
+          if (p < 1) requestAnimationFrame(step)
+          else resolve()
+        }
+        requestAnimationFrame(step)
+      })
+    }
+
+    function showToast(phoneEl, msg, holdMs = 1600) {
+      let toast = phoneEl.querySelector('.demo-toast')
+      if (!toast) {
+        toast = document.createElement('div')
+        toast.className = 'demo-toast'
+        phoneEl.appendChild(toast)
+      }
+      toast.innerHTML = `<span class="toast-dot"></span>${msg}`
+      requestAnimationFrame(() => toast.classList.add('show'))
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          toast.classList.remove('show')
+          setTimeout(resolve, 280)
+        }, holdMs)
+      })
+    }
+
+    async function runDemo(phoneEl, id) {
+      if (phoneEl.classList.contains('demo-running')) return
+      phoneEl.classList.add('demo-running')
+      autoRotate = false
+      try {
+        if      (id === 'dashboard')    await demoDashboard(phoneEl)
+        else if (id === 'transactions') await demoTransactions(phoneEl)
+        else if (id === 'couple')       await demoCouple(phoneEl)
+        else if (id === 'budget')       await demoBudget(phoneEl)
+        else if (id === 'ai')           await demoAI(phoneEl)
+        else if (id === 'report')       await demoReport(phoneEl)
+        else if (id === 'notify')       await demoNotify(phoneEl)
+      } catch (err) {
+        console.error('[demo]', err)
+      }
+      phoneEl.classList.remove('demo-running')
+    }
+
+    // ---------- Scene 1: Dashboard — quick input → live update ----------
+    async function demoDashboard(el) {
+      const input  = el.querySelector('.quick-input input')
+      const amount = el.querySelector('.hero-amount')
+      const remain = el.querySelector('.budget-left')
+      const pct    = el.querySelector('.budget-pct')
+      const bar    = el.querySelector('.progress-fill')
+      const card   = el.querySelector('.card')
+
+      const originalPlaceholder = input.placeholder
+      await typeInto(input, '배민 32500')
+      await sleep(350)
+      input.value = ''
+      input.placeholder = originalPlaceholder
+
+      showToast(el, '거래 추가됨 · 배달의민족')
+
+      bar.style.transition = 'width 0.7s cubic-bezier(.2,.8,.2,1)'
+      bar.style.width = '63.9%'
+
+      await countUp(amount, 1247300, 1279800, 750)
+      remain.textContent = '남은 예산 ₩720,200'
+      pct.textContent = '64%'
+
+      // insert a new top5 row at the top
+      const newRow = document.createElement('div')
+      newRow.className = 'top5-row slide-in'
+      newRow.innerHTML = `
+        <span class="top5-rank" style="color:var(--coral)">★</span>
+        <div class="top5-info">
+          <div class="top5-desc">배달의민족</div>
+          <div class="top5-meta">방금 · 식비</div>
+        </div>
+        <span class="top5-amount large">₩32,500</span>
+      `
+      const firstRow = card.querySelector('.top5-row')
+      card.insertBefore(newRow, firstRow)
+      const lastRow = card.querySelectorAll('.top5-row')[3] // 4번째(원래 3번째)
+      if (lastRow) lastRow.style.display = 'none'
+
+      await sleep(2200)
+
+      // RESET
+      newRow.remove()
+      if (lastRow) lastRow.style.display = ''
+      amount.textContent = '₩1,247,300'
+      remain.textContent = '남은 예산 ₩752,700'
+      pct.textContent = '62%'
+      bar.style.width = '62%'
+    }
+
+    // ---------- Scene 2: Transactions — OCR scans receipt → 3 rows ----------
+    async function demoTransactions(el) {
+      const ocrBtn = el.querySelector('.screen-actions .icon-btn')
+      const screen = el.querySelector('.screen')
+      const firstHeader = screen.querySelector('.date-header')
+
+      ocrBtn.style.background = 'var(--coral-bg)'
+      ocrBtn.style.borderColor = 'var(--coral)'
+      showToast(el, '영수증 촬영 중…')
+      await sleep(900)
+      showToast(el, 'AI 영수증 분석 중…')
+      await sleep(1100)
+
+      // Insert new date header + 3 items ABOVE the current first header
+      const newHeader = document.createElement('div')
+      newHeader.className = 'date-header slide-in'
+      newHeader.innerHTML = `<span>영수증 · 방금</span><span class="total">₩42,800</span>`
+      screen.insertBefore(newHeader, firstHeader)
+
+      const items = [
+        { desc: '스타벅스 아메리카노', amount: 4500, cat: '카페', color: '#d4a373', large: false },
+        { desc: '스타벅스 크로와상',   amount: 3800, cat: '카페', color: '#d4a373', large: false },
+        { desc: '올리브영 마스크팩',   amount: 34500, cat: '쇼핑', color: '#818cf8', large: true },
+      ]
+      const inserted = [newHeader]
+      for (const item of items) {
+        await sleep(240)
+        const row = document.createElement('div')
+        row.className = 'tx-row slide-in'
+        row.innerHTML = `
+          <div class="tx-info">
+            <div class="tx-desc">${item.desc}</div>
+            <div class="tx-meta"><span class="cat-dot" style="background:${item.color}"></span>${item.cat}</div>
+          </div>
+          <div class="tx-amount ${item.large ? 'large' : ''}">₩${item.amount.toLocaleString()}</div>
+        `
+        screen.insertBefore(row, firstHeader)
+        inserted.push(row)
+      }
+
+      await showToast(el, 'OCR 완료 · 3건 추가됨', 1800)
+      ocrBtn.style.background = ''
+      ocrBtn.style.borderColor = ''
+
+      await sleep(1400)
+      inserted.forEach((x) => x.remove())
+    }
+
+    // ---------- Scene 3: Couple — partner adds tx in real time ----------
+    async function demoCouple(el) {
+      const savings = el.querySelector('.savings-amount')
+      const savingsRate = el.querySelector('.savings-rate')
+      const partnerAmt = el.querySelectorAll('.allowance-amount')[1]
+      const partnerPct = el.querySelectorAll('.allowance-pct')[1]
+      const nudge = el.querySelector('.nudge')
+      const nudgeText = nudge.querySelector('.nudge-text')
+      const nudgeDetail = nudge.querySelector('.nudge-detail')
+
+      showToast(el, '실시간 · 파트너 기록')
+      await sleep(400)
+
+      // Flash the nudge card and update text
+      nudge.style.transition = 'background 0.4s, border-color 0.4s'
+      nudge.style.background = 'var(--coral-bg-strong)'
+      nudge.style.borderColor = 'var(--coral)'
+      const prevNudgeText = nudgeText.textContent
+      const prevNudgeDetail = nudgeDetail.textContent
+      nudgeText.textContent = '수빈이 방금 거래 추가'
+      nudgeDetail.textContent = '버거킹 와퍼세트 ₩11,500 · 방금'
+
+      await sleep(600)
+      await Promise.all([
+        countUp(savings, 1856700, 1845200, 700),
+        countUp(partnerAmt, 214300, 202800, 700),
+      ])
+      partnerPct.textContent = '500k 중 41%'
+      savingsRate.textContent = '저축률 37% · 실시간 반영됨'
+
+      await sleep(1800)
+
+      // RESET
+      nudge.style.background = ''
+      nudge.style.borderColor = ''
+      nudgeText.textContent = prevNudgeText
+      nudgeDetail.textContent = prevNudgeDetail
+      savings.textContent = '₩1,856,700'
+      partnerAmt.textContent = '₩214,300'
+      partnerPct.textContent = '500k 중 43%'
+      savingsRate.textContent = '저축률 37% · 지난달 대비 +₩120k'
+    }
+
+    // ---------- Scene 4: Budget — edit category budget ----------
+    async function demoBudget(el) {
+      const rows = el.querySelectorAll('.cat-budget-row')
+      const foodRow = rows[0]
+      const foodBar = foodRow.querySelector('.cat-budget-bar-fill')
+      const foodAmt = foodRow.querySelector('.cat-budget-amt')
+      const bigProg = el.querySelector('.budget-big .progress-fill')
+
+      foodRow.classList.add('highlight-row')
+      await sleep(400)
+      showToast(el, '식비 예산 수정')
+      await sleep(700)
+
+      foodBar.style.transition = 'width 0.8s cubic-bezier(.2,.8,.2,1), background 0.4s'
+      foodBar.style.width = '68%'
+
+      await countUp(
+        { textContent: '' }, 500, 600, 700, (v) => {
+          foodAmt.textContent = `410 / ${Math.round(v)}k`
+          return foodAmt.textContent
+        }
+      )
+
+      // whole budget ratio shifts a bit
+      bigProg.style.transition = 'width 0.6s ease'
+      bigProg.style.width = '59%'
+
+      await showToast(el, '저장됨 · 카테고리 예산 업데이트', 1400)
+
+      await sleep(900)
+
+      // RESET
+      foodBar.style.width = '82%'
+      foodAmt.textContent = '410 / 500k'
+      bigProg.style.width = '62%'
+      foodRow.classList.remove('highlight-row')
+    }
+
+    // ---------- Scene 5: AI Analysis — run analysis, insights fade in ----------
+    async function demoAI(el) {
+      const btn = el.querySelector('.ai-btn')
+      const insights = el.querySelectorAll('.ai-insight')
+
+      insights.forEach((ins) => {
+        ins.style.transition = 'opacity 0.5s, transform 0.5s'
+        ins.style.opacity = '0'
+        ins.style.transform = 'translateY(14px)'
+      })
+      await sleep(150)
+
+      const btnOriginal = btn.textContent
+      btn.textContent = ''
+      btn.classList.add('loading-btn')
+
+      showToast(el, '3개 AI 분석 요청 중…')
+      await sleep(1600)
+
+      btn.classList.remove('loading-btn')
+      btn.textContent = '분석 완료'
+      await sleep(150)
+
+      for (const ins of insights) {
+        ins.style.opacity = '1'
+        ins.style.transform = 'translateY(0)'
+        await sleep(480)
+      }
+
+      await sleep(1800)
+
+      // RESET (but keep insights visible for a moment longer)
+      btn.textContent = btnOriginal
+      insights.forEach((ins) => {
+        ins.style.transition = ''
+        ins.style.opacity = ''
+        ins.style.transform = ''
+      })
+    }
+
+    // ---------- Scene 6: Couple Report — switch month, numbers shift ----------
+    async function demoReport(el) {
+      const hero = el.querySelector('.report-hero-amount')
+      const heroSub = el.querySelector('.report-hero-sub')
+      const myAmt = el.querySelector('.report-cell.me .amt')
+      const partnerAmt = el.querySelector('.report-cell.partner .amt')
+
+      showToast(el, '3월 리포트로 전환')
+      await sleep(500)
+
+      await Promise.all([
+        countUp(hero, 1856700, 1730200, 800),
+        countUp(myAmt, 712400, 680100, 800),
+        countUp(partnerAmt, 534900, 501900, 800),
+      ])
+      heroSub.textContent = '지난달 대비 −₩126,500'
+
+      await sleep(1600)
+      showToast(el, '4월로 되돌리기')
+      await sleep(400)
+
+      await Promise.all([
+        countUp(hero, 1730200, 1856700, 800),
+        countUp(myAmt, 680100, 712400, 800),
+        countUp(partnerAmt, 501900, 534900, 800),
+      ])
+      heroSub.textContent = '지난달 대비 +₩120,000'
+    }
+
+    // ---------- Scene 7: Notify — card payment alert swipe ----------
+    async function demoNotify(el) {
+      const cards = Array.from(el.querySelectorAll('.notify-card'))
+      const recordedEl = el.querySelector('.notify-recorded')
+      const skippedEl = el.querySelector('.notify-skipped')
+      if (cards.length === 0) return
+
+      const initialRecorded = recordedEl ? recordedEl.textContent : '3'
+      const initialSkipped = skippedEl ? skippedEl.textContent : '1'
+
+      cards.forEach((c) => {
+        c.classList.remove('swipe-right', 'swipe-left', 'show-record', 'show-skip')
+      })
+      if (recordedEl) recordedEl.textContent = '0'
+      if (skippedEl) skippedEl.textContent = '0'
+
+      const actions = [
+        { idx: 0, dir: 'right', merchant: '스타벅스 코리아', amount: '₩4,500' },
+        { idx: 1, dir: 'left',  merchant: '버거킹 양재점',   amount: '₩11,500' },
+        { idx: 2, dir: 'right', merchant: '카카오T',         amount: '₩8,200' },
+        { idx: 3, dir: 'right', merchant: 'GS25 강남역점',   amount: '₩3,400' },
+      ]
+
+      let recordedCount = 0
+      let skippedCount = 0
+
+      for (const act of actions) {
+        const card = cards[act.idx]
+        if (!card) continue
+
+        await sleep(350)
+
+        card.classList.add(act.dir === 'right' ? 'show-record' : 'show-skip')
+        await sleep(320)
+
+        card.classList.add(act.dir === 'right' ? 'swipe-right' : 'swipe-left')
+
+        if (act.dir === 'right') {
+          recordedCount++
+          if (recordedEl) recordedEl.textContent = String(recordedCount)
+          showToast(el, `기록됨 · ${act.merchant} ${act.amount}`, 1100)
+        } else {
+          skippedCount++
+          if (skippedEl) skippedEl.textContent = String(skippedCount)
+          showToast(el, `무시함 · ${act.merchant}`, 1100)
+        }
+
+        await sleep(900)
+      }
+
+      await sleep(900)
+
+      cards.forEach((c) => {
+        c.classList.remove('swipe-right', 'swipe-left', 'show-record', 'show-skip')
+      })
+      if (recordedEl) recordedEl.textContent = initialRecorded
+      if (skippedEl) skippedEl.textContent = initialSkipped
+    }
+
+  </script>
+
+</body>
+</html>
