@@ -61,7 +61,7 @@ export default function Security() {
   return (
     <section
       id="security"
-      className="relative py-32 px-6 border-y border-[#1a1a1a] bg-[#050505]"
+      className="relative py-32 px-6 border-y border-border-light"
       aria-label="보안"
     >
       <div className="max-w-6xl mx-auto">

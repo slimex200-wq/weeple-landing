@@ -79,7 +79,7 @@ export default function Problem() {
   return (
     <section
       id="problem"
-      className="relative py-32 sm:py-40 px-6 overflow-hidden bg-[#050505]"
+      className="relative py-32 sm:py-40 px-6 overflow-hidden"
       aria-label="문제 인식"
     >
       <div className="max-w-6xl mx-auto">

@@ -1,17 +1,19 @@
 'use client'
 
 /**
- * Hero — Opal Tadpole 스타일 멀티 챕터 히어로.
+ * Hero — Liquid Glass v2 멀티 챕터 히어로.
  *
  * 구조:
- *   - Sticky container (h-screen) 가 섹션 안에 고정
- *   - 왼쪽: 4 챕터 텍스트가 순차적으로 아래→위로 올라오며 교체
- *   - 오른쪽: 3D promo iframe 이 항상 보임 (팽창 없음, 정적 사이즈)
- *   - 오른쪽 상단: 작은 플로팅 "다운로드" 카드
- *   - 섹션은 200svh → 각 챕터 50vh 스크롤
+ *   - Sticky viewport (h-screen) 안에 4 챕터가 순차로 교체
+ *   - 왼쪽: 챕터 텍스트 absolute 스택 (아래→위 slide + fade)
+ *   - 오른쪽: 3D promo iframe 상주
+ *   - 섹션 높이 320svh → 각 챕터 ~80svh 스크롤
  *
- * 이전 버전의 "중앙 타이틀 ↔ iframe 팽창" 구조는 겹침 발생으로 폐기.
- * Opal 의 "왼쪽 텍스트 swap + 오른쪽 제품 상주" 패턴만 차용.
+ * v2 톤:
+ *   - Light + Mint wallpaper (body::before 가 담당, 이 섹션은 투명 배경)
+ *   - 타이틀 그라디언트: #1A1A1A → #0EA5A0 (다크 → 틸)
+ *   - 액센트 그라디언트: #0EA5A0 → #5EEAD4 (틸 → 민트)
+ *   - 이모지/파스텔 블롭/3색 액센트 금지 (DESIGN.md v2 anti-slop)
  */
 
 import { useRef, useEffect, useState } from 'react'
@@ -32,28 +34,28 @@ type Chapter = {
 
 const CHAPTERS: Chapter[] = [
   {
-    eyebrow: 'Smart couple budget',
-    title: '둘이 쓰는 돈,',
-    accent: '한눈에 weeple.',
-    body: '개인 소비부터 커플 공동 예산까지. 자연어 빠른 입력, 영수증 OCR, 실시간 공유, AI 분석이 한 앱에.',
+    eyebrow: '커플 가계부',
+    title: '각자 통장은 따로,',
+    accent: '대시보드는 같이.',
+    body: '증여세 부담으로 통장 합치기 어려운 신혼·동거 커플을 위한 가계부. 공동 소비만 실시간 공유하고 개인 영역은 그대로 지켜요.',
   },
   {
-    eyebrow: 'Natural input',
-    title: '3초면 끝.',
-    accent: '진짜로.',
-    body: '"스타벅스 4500원" 한 줄만 치면 카테고리 · 날짜 · 금액까지 자동 분류. 이제 가계부 앱 못 돌아감.',
+    eyebrow: '자연어 입력',
+    title: '말하거나, 찍거나,',
+    accent: '한 줄이면 끝.',
+    body: '음성으로 말해도, 영수증만 찍어도, "스벅 6500" 한 줄만 쳐도 AI가 카테고리·날짜·금액까지 자동 분류. 신뢰도 92–94%.',
   },
   {
-    eyebrow: 'Couple mode',
-    title: '혼자도, 함께도.',
-    accent: '용돈은 따로, 저축은 같이.',
-    body: '실시간 공유, 3가지 커플 타입 (전액 공동 · 부분 공동 · 기여금), 파트너 프라이버시는 지키면서.',
+    eyebrow: '함께 그리고 따로',
+    title: '용돈은 따로,',
+    accent: '목표는 같이.',
+    body: '커플 타입 3가지(전액 공동·부분 공동·기여금)로 재정 스타일 맞춤. 파트너 개인 거래는 공유되지 않아요.',
   },
   {
-    eyebrow: 'AI + Alerts',
-    title: '결제 알림,',
-    accent: '스와이프로 기록.',
-    body: '카드사 푸시를 자동 파싱해서 오른쪽 스와이프는 기록, 왼쪽은 무시. AI 3개 모델이 소비 패턴을 분석.',
+    eyebrow: 'AI 분석',
+    title: '왜 돈이 새는지,',
+    accent: '3줄로.',
+    body: '저축률, 카테고리 패턴, 다음달 예상을 한 번에. 월 1회 무료, 더 필요하면 크레딧 팩(10개 ₩9,900부터).',
   },
 ]
 
@@ -69,7 +71,6 @@ export default function Hero() {
     return () => window.removeEventListener('resize', check)
   }, [])
 
-  // native scroll 기반 progress
   const scrollYProgress = useMotionValue(0)
 
   useEffect(() => {
@@ -96,16 +97,12 @@ export default function Hero() {
     }
   }, [scrollYProgress])
 
-  // 배경 fade (은은한 변화)
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0.75])
-  const starOpacity = useTransform(scrollYProgress, [0, 0.7], [0.5, 0.25])
-
-  // 워터마크는 초반에만
-  const watermarkOpacity = useTransform(scrollYProgress, [0, 0.15], [0.08, 0])
+  // Watermark 은 초반에만 은은하게 (민트 톤 dark stroke)
+  const watermarkOpacity = useTransform(scrollYProgress, [0, 0.15], [0.1, 0])
 
   // iframe 은 챕터 1이 끝나면서 등장하고 계속 유지
   const iframeOpacity = useTransform(scrollYProgress, [0.08, 0.22], [0, 1])
-  const iframeScale = useTransform(scrollYProgress, [0.08, 0.22], [0.9, 1])
+  const iframeScale = useTransform(scrollYProgress, [0.08, 0.22], [0.94, 1])
 
   return (
     <section
@@ -116,42 +113,9 @@ export default function Hero() {
         minHeight: prefersReducedMotion ? '100svh' : '320svh',
       }}
     >
-      {/* Sticky viewport 컨테이너 */}
+      {/* Sticky viewport 컨테이너 — body::before wallpaper 가 비쳐 보임 */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* 배경 gradient */}
-        <motion.div
-          aria-hidden
-          className="absolute inset-0 -z-10"
-          style={{
-            opacity: bgOpacity,
-            background: `
-              radial-gradient(ellipse 70% 60% at 25% 30%, rgba(249, 112, 102, 0.16), transparent 60%),
-              radial-gradient(ellipse 60% 50% at 80% 70%, rgba(129, 140, 248, 0.12), transparent 60%),
-              radial-gradient(ellipse 100% 80% at 50% 100%, rgba(249, 112, 102, 0.06), transparent 70%),
-              #0a0a0a
-            `,
-          }}
-        />
-
-        {/* 별 */}
-        <motion.div
-          aria-hidden
-          className="absolute inset-0 -z-10"
-          style={{
-            opacity: starOpacity,
-            backgroundImage: `
-              radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.8), transparent),
-              radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.6), transparent),
-              radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.5), transparent),
-              radial-gradient(2px 2px at 80% 10%, rgba(255,255,255,0.9), transparent),
-              radial-gradient(1px 1px at 15% 65%, rgba(255,255,255,0.7), transparent),
-              radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.6), transparent)
-            `,
-            backgroundSize: '600px 600px',
-          }}
-        />
-
-        {/* 거대 워터마크 */}
+        {/* 거대 워터마크 — 다크 스트로크 (light bg 대응) */}
         <motion.div
           aria-hidden
           className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
@@ -162,7 +126,7 @@ export default function Hero() {
             style={{
               fontSize: 'clamp(14rem, 30vw, 36rem)',
               color: 'transparent',
-              WebkitTextStroke: '2px rgba(250, 250, 250, 0.35)',
+              WebkitTextStroke: '2px rgba(14, 165, 160, 0.35)',
               lineHeight: 0.9,
             }}
           >
@@ -176,7 +140,7 @@ export default function Hero() {
             <div
               className="font-extrabold text-xl sm:text-2xl tracking-tight"
               style={{
-                background: 'linear-gradient(135deg, #fafafa 0%, #F97066 100%)',
+                background: 'linear-gradient(135deg, #1A1A1A 0%, #0EA5A0 100%)',
                 WebkitBackgroundClip: 'text',
                 backgroundClip: 'text',
                 color: 'transparent',
@@ -185,17 +149,17 @@ export default function Hero() {
               weeple
             </div>
             <span className="hidden sm:inline text-[11px] text-fg-muted tracking-wide">
-              스마트 커플 가계부
+              커플 · 통장 따로, 대시보드는 같이
             </span>
           </div>
 
-          {/* 플로팅 다운로드 카드 (Opal 오른쪽 상단 참고) */}
-          <div className="hidden md:flex items-center gap-4 rounded-xl border border-border-light bg-bg-card/90 backdrop-blur-md px-4 py-2.5">
+          {/* 플로팅 다운로드 카드 — Glass */}
+          <div className="hidden md:flex items-center gap-4 glass px-4 py-2.5 rounded-xl">
             <div className="flex items-center gap-2">
               <div
                 className="w-7 h-7 rounded-md flex items-center justify-center"
                 style={{
-                  background: 'linear-gradient(135deg, #F97066 0%, #D4533F 100%)',
+                  background: 'linear-gradient(135deg, #0EA5A0 0%, #5EEAD4 100%)',
                 }}
                 aria-hidden
               >
@@ -203,14 +167,14 @@ export default function Hero() {
               </div>
               <div>
                 <div className="text-[11px] font-semibold text-fg">weeple iOS · Android</div>
-                <div className="num text-[10px] text-fg-muted">무료 · iOS 17+ / Android 12+</div>
+                <div className="num text-[10px] text-fg-muted">출시 준비 중 · iOS 17+ / Android 12+</div>
               </div>
             </div>
             <a
               href="#pricing"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-coral text-white text-[11px] font-semibold transition-all hover:scale-[1.03] hover:shadow-[0_8px_20px_-6px_rgba(249,112,102,0.5)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-coral text-white text-[11px] font-semibold transition-all hover:scale-[1.03] hover:shadow-[0_8px_20px_-6px_rgba(14,165,160,0.5)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
             >
-              시작하기
+              알림 신청
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>
                 <path d="M5 12h14M13 5l7 7-7 7" />
               </svg>
@@ -220,7 +184,7 @@ export default function Hero() {
 
         {/* SR 전용 제목 */}
         <h1 className="sr-only">
-          둘이 쓰는 돈, 한눈에 weeple. 개인부터 커플 공동 예산까지.
+          weeple — 각자 통장은 따로, 대시보드는 같이. 증여세 부담 없이 커플 재정 관리.
         </h1>
 
         {/* 메인 레이아웃: 좌 텍스트 / 우 iframe */}
@@ -241,7 +205,7 @@ export default function Hero() {
 
           {/* RIGHT — iframe 항상 보임 */}
           <motion.div
-            className="relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)]"
+            className="relative rounded-2xl overflow-hidden border border-border-light shadow-[0_40px_120px_-30px_rgba(30,20,40,0.2)]"
             style={{
               opacity: iframeOpacity,
               scale: iframeScale,
@@ -280,7 +244,6 @@ function ChapterBlock({
   progress: MotionValue<number>
   prefersReducedMotion: boolean
 }) {
-  // 각 챕터는 section progress 안에서 1/total 구간을 차지
   const slot = 1 / total
   const start = index * slot
   const end = start + slot
@@ -298,7 +261,6 @@ function ChapterBlock({
     prefersReducedMotion ? [0, 0, 0, 0] : [60, 0, 0, -60],
   )
 
-  // 첫 챕터는 section 시작 시 0 progress 에서 opacity 1 로 시작해야 함
   const firstChapterOpacity = useTransform(
     progress,
     [0, enterEnd, exitStart, end],
@@ -324,7 +286,7 @@ function ChapterBlock({
       <h2
         className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[0.96] tracking-[-0.04em] mb-2 sm:mb-3"
         style={{
-          background: 'linear-gradient(135deg, #fafafa 0%, #a3a3a3 100%)',
+          background: 'linear-gradient(135deg, #1A1A1A 0%, #3D3D3D 100%)',
           WebkitBackgroundClip: 'text',
           backgroundClip: 'text',
           color: 'transparent',
@@ -336,7 +298,7 @@ function ChapterBlock({
         <h2
           className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[0.96] tracking-[-0.04em] mb-6"
           style={{
-            background: 'linear-gradient(135deg, #F97066 0%, #D4533F 100%)',
+            background: 'linear-gradient(135deg, #0EA5A0 0%, #5EEAD4 100%)',
             WebkitBackgroundClip: 'text',
             backgroundClip: 'text',
             color: 'transparent',

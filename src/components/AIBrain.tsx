@@ -161,7 +161,7 @@ export default function AIBrain() {
     return (
       <section
         id="ai-brain"
-        className="relative py-32 px-6 bg-[#0d0b14]"
+        className="relative py-32 px-6"
         aria-label="3개 AI 분석"
       >
         <div className="max-w-6xl mx-auto">
@@ -191,7 +191,7 @@ export default function AIBrain() {
     <section
       ref={sectionRef}
       id="ai-brain"
-      className="relative h-[300vh] bg-[#0d0b14]"
+      className="relative h-[300vh]"
       aria-label="3개 AI 분석"
     >
       <div className="sticky top-0 h-screen flex flex-col overflow-hidden">

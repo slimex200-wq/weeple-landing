@@ -4,43 +4,54 @@
 @import "tailwindcss";
 
 /* =============================================================
-   weeple 디자인 토큰 (dark 기본)
-   Matches the React Native app: coral accent + Pretendard (UI) +
-   Geist Mono (numbers/amounts only).
+   weeple 디자인 토큰 v2 — Liquid Glass · Light = Mint mood
+   Matches DESIGN.md v2 / src/theme/colors.ts lightTheme of the
+   React Native app. Anti-slop: no pastel blobs, no 3-color accent
+   soup, no emoji. Accent tokens stay named "coral" for backward
+   compat with existing components (values are now teal/mint).
    ============================================================= */
 :root {
-  /* Backgrounds */
-  --bg:            #0a0a0a;
-  --bg-card:       #171717;
-  --bg-card-2:     #1f1f1f;
-  --bg-input:      #262626;
+  /* Backgrounds — Mint-tinted off-white base */
+  --bg:            #EDEFE9;
+  --bg-card:       #FBFCFA;          /* solid white-ish card */
+  --bg-card-2:     rgba(255,255,255,0.6);
+  --bg-input:      #F3F5F1;
 
-  /* Foregrounds */
-  --fg:            #fafafa;
-  --fg-secondary:  #a3a3a3;
-  --fg-muted:      #737373;
+  /* Foregrounds — dark on light */
+  --fg:            #1A1A1A;
+  --fg-secondary:  #6A6A74;
+  --fg-muted:      #A0A0AA;
 
-  /* Borders */
-  --border:        #262626;
-  --border-light:  #1f1f1f;
+  /* Borders — teal-tinted subtle */
+  --border:        rgba(14,165,160,0.12);
+  --border-light:  rgba(0,0,0,0.06);
 
-  /* Accent — coral */
-  --coral:             #F97066;
-  --coral-strong:      #D4533F;
-  --coral-bg:          rgba(249, 112, 102, 0.12);
-  --coral-bg-strong:   rgba(249, 112, 102, 0.2);
+  /* Accent — Liquid Glass teal/mint
+     (token name kept as "coral" for backward compatibility;
+     semantic rename is a future refactor) */
+  --coral:             #0EA5A0;            /* teal 600, main accent */
+  --coral-strong:      #0D9488;            /* teal 700, hovers/press */
+  --coral-end:         #5EEAD4;            /* teal 300, gradient partner */
+  --coral-bg:          rgba(14,165,160,0.12);
+  --coral-bg-strong:   rgba(14,165,160,0.24);
+  --coral-glow:        rgba(14,165,160,0.3);
 
   /* Semantic */
-  --success:       #34d399;
-  --warning:       #fbbf24;
-  --error:         #ef4444;
-  --violet:        #818cf8;
+  --success:       #0EA5A0;
+  --warning:       #D4A017;
+  --error:         #E5484D;
+  --violet:        #818cf8;                /* legacy, avoid */
 
-  /* 섹션 전환용 — 라이트/다크 리듬 */
-  --cream:         #EDE7DE;
+  /* Glass surface — use via .glass utility below */
+  --glass-bg:            rgba(255,255,255,0.18);
+  --glass-border:        rgba(255,255,255,0.5);
+  --glass-shadow:        0 10px 40px rgba(30,20,40,0.08);
+  --glass-blur:          70px;
+  --glass-saturate:      140%;
+
+  /* Section rhythm — kept for existing sections until v2 rewrite */
+  --cream:         #F3F0E8;
   --off-black:     #1A1A1A;
-  --bg-violet:     #0d0b14;
-  --bg-dark:       #050505;
 }
 
 @theme inline {
@@ -57,12 +68,12 @@
   --color-border-light:  var(--border-light);
   --color-coral:         var(--coral);
   --color-coral-strong:  var(--coral-strong);
+  --color-coral-end:     var(--coral-end);
   --color-coral-bg:      var(--coral-bg);
   --color-coral-bg-strong: var(--coral-bg-strong);
   --color-success:       var(--success);
   --color-warning:       var(--warning);
   --color-error:         var(--error);
-  --color-violet:        var(--violet);
 
   /* Font families */
   --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -78,7 +89,7 @@
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
   background: var(--bg);
 }
 
@@ -89,6 +100,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "ss03", "ss04";
+  position: relative;
+}
+
+/* Liquid Glass wallpaper — 3 radial layers fixed behind everything.
+   Matches lightTheme.wallpaperLayers in src/theme/colors.ts. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 45% at 10% 0%,  rgba(120,220,200,0.55), transparent 70%),
+    radial-gradient(ellipse 55% 45% at 100% 30%, rgba(140,180,255,0.50), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(180,230,220,0.52), transparent 70%);
 }
 
 /* Numeric text — use .font-mono class or explicit `font-family: var(--font-mono)` */
@@ -96,6 +122,35 @@ body {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
+}
+
+/* Standard Liquid Glass card — matches DESIGN.md v2 .glass spec.
+   Use on content blocks that should read "floating on wallpaper". */
+.glass {
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  background:      var(--glass-bg);
+  border:          1px solid var(--glass-border);
+  box-shadow:      var(--glass-shadow);
+  border-radius:   16px;
+  overflow:        hidden;
+  position:        relative;
+}
+
+.glass::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 41px;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0.55) 0px,
+    rgba(255,255,255,0.55) 1px,
+    rgba(255,255,255,0) 41px
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Reduced motion */
