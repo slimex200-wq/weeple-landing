@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  // Static export — build to ./out, served by Cloudflare Workers Static Assets.
+  // No server routes/actions in this marketing page, so pure export is fine.
+  output: 'export',
+  trailingSlash: false,
+  images: {
+    // next/image with static export requires unoptimized.
+    // Cloudflare Image Resizing can layer on later if we need optimization.
+    unoptimized: true,
+  },
 }
 
 export default nextConfig
