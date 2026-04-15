@@ -29,15 +29,15 @@ const groups: LinkGroup[] = [
     links: [
       { label: '고객센터', href: '#' },
       { label: '자주 묻는 질문', href: '#' },
-      { label: '문의하기', href: '#' },
+      { label: '문의하기', href: 'mailto:support@weeple.app' },
       { label: '상태 페이지', href: '#' },
     ],
   },
   {
     title: '법적 고지',
     links: [
-      { label: '이용약관', href: '#' },
-      { label: '개인정보처리방침', href: '#' },
+      { label: '이용약관', href: '/terms-of-service.html' },
+      { label: '개인정보처리방침', href: '/privacy-policy.html' },
       { label: '위치정보 약관', href: '#' },
       { label: '사업자 정보', href: '#' },
     ],
