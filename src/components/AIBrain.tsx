@@ -30,7 +30,7 @@ type AI = {
 // weeple 의 실제 구현 기준 역할 (src/services/aiService.ts:PROVIDER_ROLES)
 //   Claude → 절약 코치
 //   GPT    → 패턴 분석
-//   Gemini → 금전운 (🔮 점수 1~100)
+//   Gemini → 금전운 (점수 1~100)
 const AIS: AI[] = [
   {
     name: 'Claude',

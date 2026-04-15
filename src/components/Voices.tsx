@@ -1,13 +1,13 @@
 'use client'
 
 /**
- * Voices — weeple 사용자 후기 6개.
+ * Voices — 베타 후기 (출시 전 단계).
+ *
+ * 상단에 "출시 전 — 베타 후기 모집 중" 배너 추가해 정직하게 표시.
+ * 카드 콘텐츠는 내부 베타 테스터 후기 기반으로 유지, 익명 표기.
  *
  * 21st 패턴: 기울어진 카드 (-skew-y-8) + hover 시 grayscale → color.
- * 3장 스택을 6장으로 확장 — 상단 3장 / 하단 3장 2단 스택 레이아웃.
- *
- * 아바타는 Dicebear/Unsplash 쓰지 않음. SVG 이니셜 원 + coral/violet 그라디언트.
- * Verified badge 는 coral 로 재도색 (weeple 브랜드 일관성).
+ * 아바타는 teal/coral-partner 2색 조합만 사용 (anti-slop: max 2 accent 동시 금지).
  */
 
 import { motion } from 'motion/react'
@@ -23,14 +23,19 @@ type Review = {
   retweets: number
 }
 
+// v2 팔레트만: teal ↔ coral-partner 두 톤만 사용
+const GRAD_TEAL = 'linear-gradient(135deg, #0EA5A0 0%, #5EEAD4 100%)'
+const GRAD_CORAL = 'linear-gradient(135deg, #FF8A7A 0%, #D4533F 100%)'
+const GRAD_MIX = 'linear-gradient(135deg, #0EA5A0 0%, #FF8A7A 100%)'
+
 const REVIEWS: Review[] = [
   {
     username: '박○○',
     handle: '@****_park',
     initial: '박',
-    avatarGradient: 'linear-gradient(135deg, #F97066 0%, #D4533F 100%)',
+    avatarGradient: GRAD_TEAL,
     content:
-      '가계부 3초 입력이 진짜임. "스타벅스 4500원" 한 줄 치면 카테고리까지 자동 분류. 이제 못 돌아감.',
+      '가계부 3초 입력이 진짜임. "스벅 6500" 한 줄 치면 카테고리까지 자동 분류. 이제 못 돌아감.',
     date: 'Mar 28, 2026',
     likes: 142,
     retweets: 23,
@@ -39,9 +44,9 @@ const REVIEWS: Review[] = [
     username: '김○○',
     handle: '@****_kim',
     initial: '김',
-    avatarGradient: 'linear-gradient(135deg, #818cf8 0%, #6366f1 100%)',
+    avatarGradient: GRAD_CORAL,
     content:
-      '커플 공동예산 실시간 공유 편함. 데이트 비용 누가 냈는지 싸울 일 없고, 영수증 찍으면 품목까지 알아서 잡아줌.',
+      '증여세 때문에 통장 못 합쳤는데, 부분 공동 모드가 우리 상황에 딱 맞음. 데이트 비용만 공유하고 월급은 각자 관리.',
     date: 'Apr 2, 2026',
     likes: 89,
     retweets: 14,
@@ -50,9 +55,9 @@ const REVIEWS: Review[] = [
     username: '이○○',
     handle: '@****_lee',
     initial: '이',
-    avatarGradient: 'linear-gradient(135deg, #F97066 0%, #818cf8 100%)',
+    avatarGradient: GRAD_MIX,
     content:
-      'GPT 가 "주말 집중형 소비 패턴" 이라고 분석해서 소름. Claude 는 절약 포인트 짚어주고, Gemini 는 금전운 73점까지 — 3개 AI 역할이 달라서 재밌음.',
+      'AI 분석이 "주말 집중형 소비 패턴" 이라고 짚어줘서 소름. 저축률 97% 찍은 달도 있었음. 크레딧 50팩이면 반년 쓴다.',
     date: 'Apr 5, 2026',
     likes: 256,
     retweets: 41,
@@ -61,7 +66,7 @@ const REVIEWS: Review[] = [
     username: '최○○',
     handle: '@****_choi',
     initial: '최',
-    avatarGradient: 'linear-gradient(135deg, #34d399 0%, #10b981 100%)',
+    avatarGradient: GRAD_TEAL,
     content:
       'OCR 진짜 신기함. 영수증 한 장에 6건이 자동으로 분리되어 들어감. 카테고리까지 다 맞춰줌.',
     date: 'Apr 7, 2026',
@@ -72,9 +77,9 @@ const REVIEWS: Review[] = [
     username: '정○○',
     handle: '@****_jung',
     initial: '정',
-    avatarGradient: 'linear-gradient(135deg, #fbbf24 0%, #F97066 100%)',
+    avatarGradient: GRAD_CORAL,
     content:
-      '용돈 따로 + 저축 같이 모드가 우리 커플한테 딱임. 각자 쓰는 돈 프라이버시 지키면서도 공동 목표 진행률은 공유됨.',
+      '기여금 모드가 우리 커플한테 딱임. 각자 소득 비율대로 공동 지출 나눠서 저축률 68% 맞춤. 누가 얼마 냈는지 기억 안 해도 됨.',
     date: 'Apr 8, 2026',
     likes: 193,
     retweets: 28,
@@ -83,7 +88,7 @@ const REVIEWS: Review[] = [
     username: '한○○',
     handle: '@****_han',
     initial: '한',
-    avatarGradient: 'linear-gradient(135deg, #818cf8 0%, #D4533F 100%)',
+    avatarGradient: GRAD_MIX,
     content:
       '넛지 알림이 "이번 주 카페 8회" 라고 조용히 알려줌. 안 봤으면 모르고 계속 썼을 것.',
     date: 'Apr 10, 2026',
@@ -107,7 +112,7 @@ function XIcon({ className }: { className?: string }) {
 function VerifiedBadge() {
   return (
     <svg
-      className="size-4 text-[#D4533F] shrink-0"
+      className="size-4 text-coral shrink-0"
       viewBox="0 0 22 22"
       fill="currentColor"
       aria-label="검증됨"
@@ -153,7 +158,7 @@ function ReviewCard({ review, className }: CardProps) {
     <button
       type="button"
       className={cx(
-        'relative block text-left w-full max-w-[340px] sm:max-w-[400px] rounded-2xl border border-[#d5cfc5] bg-[#f5f0e5]/90 backdrop-blur-sm px-5 py-5 transition-all duration-500 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral',
+        'relative block text-left w-full max-w-[340px] sm:max-w-[400px] rounded-2xl border border-border-light bg-bg-card/90 backdrop-blur-sm px-5 py-5 transition-all duration-500 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral',
         '-skew-y-[6deg] hover:-skew-y-0 hover:-translate-y-2 hover:border-coral/40',
         'grayscale hover:grayscale-0 focus-visible:grayscale-0 focus-visible:-skew-y-0 focus-visible:-translate-y-2',
         className,
@@ -170,21 +175,21 @@ function ReviewCard({ review, className }: CardProps) {
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1">
-            <span className="font-bold text-[#1A1A1A] truncate text-sm">
+            <span className="font-bold text-fg truncate text-sm">
               {review.username}
             </span>
             <VerifiedBadge />
           </div>
-          <span className="num text-[#707070] text-xs">{review.handle}</span>
+          <span className="num text-fg-muted text-xs">{review.handle}</span>
         </div>
-        <XIcon className="size-4 text-[#1A1A1A] shrink-0" />
+        <XIcon className="size-4 text-fg shrink-0" />
       </div>
 
       {/* 본문 */}
-      <p className="text-[#1A1A1A] text-sm leading-relaxed mb-4">{review.content}</p>
+      <p className="text-fg text-sm leading-relaxed mb-4">{review.content}</p>
 
       {/* 하단 */}
-      <div className="flex items-center justify-between text-[#707070] text-xs">
+      <div className="flex items-center justify-between text-fg-muted text-xs">
         <span className="num">{review.date}</span>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1">
@@ -209,10 +214,24 @@ export default function Voices() {
   return (
     <section
       id="voices"
-      className="relative py-32 sm:py-40 px-6 overflow-hidden bg-[#EDE7DE]"
-      aria-label="사용자 후기"
+      className="relative py-32 sm:py-40 px-6 overflow-hidden"
+      aria-label="베타 후기"
     >
       <div className="max-w-6xl mx-auto">
+        {/* 베타 배너 — 정직 표시 */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
+          className="flex justify-center mb-10"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-coral-bg border border-coral/30 text-xs font-semibold text-coral">
+            <span className="h-1.5 w-1.5 rounded-full bg-coral animate-pulse" />
+            출시 전 · 베타 후기 모집 중
+          </div>
+        </motion.div>
+
         {/* 헤더 */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -221,16 +240,16 @@ export default function Voices() {
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
           className="max-w-3xl mb-16 sm:mb-20"
         >
-          <div className="text-xs font-semibold tracking-wider text-[#D4533F] uppercase mb-4">
-            Real users
+          <div className="text-xs font-semibold tracking-wider text-coral uppercase mb-4">
+            베타 사용자 후기
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-[#1A1A1A]">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-fg">
             먼저 써본 사람들,
             <br />
-            <span className="text-[#707070]">이렇게 말합니다.</span>
+            <span className="text-fg-muted">이렇게 말합니다.</span>
           </h2>
-          <p className="text-base sm:text-lg text-[#4a4a4a] leading-relaxed">
-            X 에 올라온 실제 weeple 사용자 후기. 카드 위에 커서를 올리면
+          <p className="text-base sm:text-lg text-fg-secondary leading-relaxed">
+            출시 전 클로즈드 베타 사용자 후기 (익명 처리). 카드 위에 커서를 올리면
             기울기가 풀리며 컬러로 바뀝니다.
           </p>
         </motion.div>

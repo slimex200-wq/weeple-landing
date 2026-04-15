@@ -1,29 +1,23 @@
 'use client'
 
 /**
- * Pricing — weeple 3단 가격 구조.
+ * Pricing — weeple 크레딧 팩 3단 구조.
+ *
+ * 구독 아님. 크레딧 팩만 판매. 사용기한 없음.
+ * 기본 기능(자연어 입력, OCR, 커플 공유, 목표) 은 전부 무료,
+ * 매월 AI 분석 1회 무료 제공. AI 분석 더 돌리려면 크레딧.
  *
  * 21st 패턴: 3D tilt 카드 + 추천 카드 translateZ 로 앞으로 튀어나옴.
- * 월/연간 토글 — period 변경 시 price motion.span re-mount 애니메이션.
- * 연간 = 월간 × 10 (2개월 무료, 17% 할인).
  */
 
-import { useState } from 'react'
 import { motion } from 'motion/react'
 import TiltCard from '@/components/TiltCard'
 
-type Period = 'monthly' | 'yearly'
-
 type Tier = {
   name: string
-  price: {
-    monthly: string
-    yearly: string
-  }
-  period: {
-    monthly: string
-    yearly: string
-  }
+  credits: string
+  price: string
+  unit: string
   description: string
   features: string[]
   cta: string
@@ -33,55 +27,50 @@ type Tier = {
 
 const TIERS: Tier[] = [
   {
-    name: 'Free',
-    price: { monthly: '₩0', yearly: '₩0' },
-    period: { monthly: '영원히', yearly: '영원히' },
-    description: '기본적인 가계부 기능. 개인 사용자에게 충분합니다.',
+    name: 'Starter',
+    credits: '10 크레딧',
+    price: '₩9,900',
+    unit: '1회당 ₩990',
+    description: 'AI 분석 10회 — 맛보기용. 한두 달 써보고 결정하세요.',
     features: [
-      '자연어 빠른 입력',
-      '월 OCR 스캔 3회',
-      'AI 분석 1회 / 월',
-      '개인 예산 관리',
-      '기본 넛지',
+      'AI 멀티모델 분석 10회',
+      '모든 기본 기능 포함',
+      '사용기한 없음',
+      '언제든 추가 구매',
     ],
-    cta: '앱 다운로드',
+    cta: '10 크레딧 받기',
   },
   {
-    name: 'Premium',
-    price: { monthly: '₩2,900', yearly: '₩29,000' },
-    period: { monthly: '/월', yearly: '/년' },
-    description: '모든 기능을 무제한으로. 혼자 또는 커플 모두.',
+    name: 'Couple',
+    credits: '50 크레딧',
+    price: '₩38,900',
+    unit: '1회당 ₩778',
+    description: '월 4회 × 6개월 기준. 커플이 제일 많이 고르는 팩.',
     features: [
-      'Free 의 모든 기능',
-      'OCR 스캔 무제한',
-      'AI 멀티모델 분석 무제한',
-      '프리미엄 넛지 전체',
-      '실시간 파트너 공유',
-      '결제 알림 자동 인식',
+      'AI 멀티모델 분석 50회',
+      '1회당 ₩778 — 22% 절약',
+      '모든 기본 기능 포함',
+      '사용기한 없음',
     ],
-    cta: '프리미엄 시작',
+    cta: '50 크레딧 받기',
     highlighted: true,
-    badge: '가장 인기',
+    badge: 'BEST VALUE',
   },
   {
-    name: 'Couple Plus',
-    price: { monthly: '₩4,900', yearly: '₩49,000' },
-    period: { monthly: '/월 (2인)', yearly: '/년 (2인)' },
-    description: '두 사람이 함께 쓰는 프리미엄. 1인당 약 ₩2,450.',
+    name: 'Heavy',
+    credits: '100 크레딧',
+    price: '₩68,900',
+    unit: '1회당 ₩689',
+    description: 'AI 분석 100회 — 장기 사용자용. 1회당 최저가.',
     features: [
-      'Premium 의 모든 기능 × 2',
-      '공동 목표 무제한',
-      '커플 리포트 PDF',
-      '기념일 리마인더',
-      '우선 고객지원',
+      'AI 멀티모델 분석 100회',
+      '1회당 ₩689 — 30% 절약',
+      '모든 기본 기능 포함',
+      '사용기한 없음',
     ],
-    cta: '커플로 시작',
+    cta: '100 크레딧 받기',
   },
 ]
-
-function cx(...parts: Array<string | false | undefined>) {
-  return parts.filter(Boolean).join(' ')
-}
 
 function Check() {
   return (
@@ -103,8 +92,6 @@ function Check() {
 }
 
 export default function Pricing() {
-  const [period, setPeriod] = useState<Period>('monthly')
-
   return (
     <section
       id="pricing"
@@ -119,57 +106,34 @@ export default function Pricing() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-center max-w-2xl mx-auto mb-10"
+          className="text-center max-w-2xl mx-auto mb-6"
         >
           <div className="text-xs font-semibold tracking-wider text-coral uppercase mb-4">
-            Pricing
+            크레딧 팩
           </div>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-5">
-            필요한 만큼만,
+            쓴 만큼만,
             <br />
-            <span className="text-fg-muted">단순하게.</span>
+            <span className="text-fg-muted">한 번만 결제.</span>
           </h2>
           <p className="text-base sm:text-lg text-fg-secondary leading-relaxed">
-            언제든 업그레이드, 언제든 해지. 숨은 비용 없음.
+            구독 없음. 사용기한 없음. AI 분석이 필요할 때 크레딧을 씁니다.
           </p>
         </motion.div>
 
-        {/* 빌링 주기 토글 */}
+        {/* 무료 안내 — 토글 자리 대체 */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.2, 0.8, 0.2, 1] }}
-          className="flex items-center justify-center gap-3 mb-16"
+          className="max-w-2xl mx-auto mb-16 text-center"
         >
-          <button
-            type="button"
-            onClick={() => setPeriod('monthly')}
-            aria-pressed={period === 'monthly'}
-            className={cx(
-              'inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-              period === 'monthly'
-                ? 'bg-coral text-white shadow-[0_8px_24px_-8px_rgba(249,112,102,0.5)]'
-                : 'bg-bg-card text-fg-muted border border-border-light hover:text-fg',
-            )}
-          >
-            <span className="h-2 w-2 rounded-full bg-current" />
-            월간
-          </button>
-          <button
-            type="button"
-            onClick={() => setPeriod('yearly')}
-            aria-pressed={period === 'yearly'}
-            className={cx(
-              'inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-              period === 'yearly'
-                ? 'bg-coral text-white shadow-[0_8px_24px_-8px_rgba(249,112,102,0.5)]'
-                : 'bg-bg-card text-fg-muted border border-border-light hover:text-fg',
-            )}
-          >
-            <span className="h-2 w-2 rounded-full bg-current" />
-            연간 <span className="text-xs opacity-80 ml-1">17% 할인</span>
-          </button>
+          <div className="inline-flex flex-wrap justify-center items-center gap-x-2 gap-y-1 px-5 py-3 rounded-2xl bg-coral-bg border border-coral/25 text-sm text-fg-secondary">
+            <span className="font-semibold text-coral">매월 AI 분석 1회 무료</span>
+            <span className="text-fg-muted">›</span>
+            <span>자연어 입력 · 영수증 OCR · 커플 공유 · 목표 전부 무료</span>
+          </div>
         </motion.div>
 
         {/* 카드 */}
@@ -196,40 +160,31 @@ export default function Pricing() {
               <TiltCard
                 className={`relative flex flex-col h-full rounded-3xl p-8 ${
                   tier.highlighted
-                    ? 'bg-gradient-to-b from-coral-bg to-bg-card border border-coral/40 shadow-[0_60px_120px_-30px_rgba(249,112,102,0.5)]'
+                    ? 'bg-gradient-to-b from-coral-bg to-bg-card border border-coral/40 shadow-[0_60px_120px_-30px_rgba(14,165,160,0.45)]'
                     : 'bg-bg-card border border-border-light hover:border-coral/30 transition-colors duration-300'
                 }`}
               >
                 {tier.badge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-coral text-white text-[11px] font-bold tracking-wide uppercase shadow-[0_8px_20px_-4px_rgba(249,112,102,0.6)]">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-coral text-white text-[11px] font-bold tracking-wide uppercase shadow-[0_8px_20px_-4px_rgba(14,165,160,0.5)]">
                     {tier.badge}
                   </div>
                 )}
 
-                {/* 이름 + 가격 */}
+                {/* 이름 + 크레딧 + 가격 */}
                 <div className="mb-6">
                   <h3 className="text-sm font-semibold text-fg-muted uppercase tracking-wider mb-3">
                     {tier.name}
                   </h3>
-                  <div className="flex items-baseline gap-2 mb-3">
-                    <motion.span
-                      key={period}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-                      className="num text-5xl font-extrabold tracking-tight text-fg"
-                    >
-                      {tier.price[period]}
-                    </motion.span>
-                    <motion.span
-                      key={`period-${period}`}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.4, delay: 0.05 }}
-                      className="text-sm text-fg-muted num"
-                    >
-                      {tier.period[period]}
-                    </motion.span>
+                  <div className="num text-sm font-semibold text-fg-secondary mb-2">
+                    {tier.credits}
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="num text-5xl font-extrabold tracking-tight text-fg">
+                      {tier.price}
+                    </span>
+                  </div>
+                  <div className="num text-xs text-fg-muted mb-3">
+                    {tier.unit}
                   </div>
                   <p className="text-sm text-fg-secondary leading-relaxed">
                     {tier.description}
@@ -251,7 +206,7 @@ export default function Pricing() {
                   href="#"
                   className={`inline-flex items-center justify-center h-12 rounded-full text-sm font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
                     tier.highlighted
-                      ? 'bg-coral text-white hover:scale-[1.02] hover:shadow-[0_12px_30px_-6px_rgba(249,112,102,0.6)]'
+                      ? 'bg-coral text-white hover:scale-[1.02] hover:shadow-[0_12px_30px_-6px_rgba(14,165,160,0.55)]'
                       : 'border border-border-app bg-bg hover:border-coral hover:text-coral'
                   }`}
                 >
@@ -262,8 +217,8 @@ export default function Pricing() {
           ))}
         </div>
 
-        <p className="mt-12 text-center text-xs text-fg-muted">
-          모든 가격은 부가세 포함. 앱 스토어 결제 수수료 별도 없음. iOS 와 Android 동일.
+        <p className="mt-12 text-center text-xs text-fg-muted leading-relaxed">
+          부가세 포함. App Store / Google Play 수수료 별도 없음. 크레딧 사용기한 없음.
         </p>
       </div>
     </section>

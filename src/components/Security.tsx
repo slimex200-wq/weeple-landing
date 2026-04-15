@@ -1,10 +1,14 @@
 'use client'
 
 /**
- * Security — E2E 암호화 섹션.
+ * Security — 커플 데이터 분리 + 서버 보안 섹션.
  *
- * 21st 패턴: SVG path + strokeDashoffset 애니메이션 (선이 그려지는 효과).
- * 자물쇠는 단순 path, 흐름도 화살표는 pathLength motion.
+ * weeple 실제 보안 스택:
+ *   - 기기: SecureStore (iOS Keychain / Android Keystore) 로 토큰 저장
+ *   - 전송: Supabase TLS 1.3
+ *   - 서버: Row Level Security + is_shared 플래그로 커플 데이터 구획화
+ *
+ * 21st 패턴: SVG path + pathLength 애니메이션 (선이 그려지는 효과).
  */
 
 import { motion, useReducedMotion } from 'motion/react'
@@ -19,8 +23,8 @@ type Point = {
 const POINTS: Point[] = [
   {
     num: '01',
-    title: '기기 내 암호화',
-    body: 'MMKV 로컬 스토리지는 iOS Keychain, Android Keystore 의 하드웨어 키로 암호화됩니다.',
+    title: '기기 내 토큰 보호',
+    body: '로그인 토큰은 SecureStore (iOS Keychain / Android Keystore) 하드웨어 키 체인에만 저장됩니다. 앱이 삭제되면 함께 사라집니다.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
         <rect x="5" y="11" width="14" height="10" rx="2" />
@@ -31,20 +35,20 @@ const POINTS: Point[] = [
   },
   {
     num: '02',
-    title: '전송 중 암호화',
-    body: 'TLS 1.3 over HTTP/2. 인증서 피닝으로 MITM 공격을 차단합니다.',
+    title: '커플 데이터 구획화',
+    body: '거래마다 is_shared 플래그로 "공동" / "개인" 을 구분합니다. 파트너는 공유된 거래만 볼 수 있고, 개인 거래는 당신 계정에서만 보입니다.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-        <path d="M4 12c4-4 12-4 16 0" strokeLinecap="round" />
-        <path d="M7 15c3-3 7-3 10 0" strokeLinecap="round" />
-        <circle cx="12" cy="18" r="1.2" fill="currentColor" />
+        <circle cx="9" cy="10" r="3" />
+        <circle cx="16" cy="10" r="3" />
+        <path d="M4 20c0-2.8 2.2-5 5-5M12 20c0-2.8 2.2-5 5-5" strokeLinecap="round" />
       </svg>
     ),
   },
   {
     num: '03',
-    title: '서버 내 암호화',
-    body: 'Supabase Row Level Security 로 타인의 거래는 DB 쿼리 자체가 차단됩니다.',
+    title: 'Supabase RLS',
+    body: 'Row Level Security 로 타인 데이터는 DB 쿼리 레벨에서 차단. TLS 1.3 전송 암호화가 기본입니다.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
         <ellipse cx="12" cy="6" rx="7" ry="2.5" />
@@ -74,7 +78,7 @@ export default function Security() {
           className="max-w-3xl mb-16 sm:mb-20"
         >
           <div className="text-xs font-semibold tracking-wider text-coral uppercase mb-4">
-            Security
+            보안
           </div>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
             파트너와도 나누지 못하는
@@ -82,8 +86,8 @@ export default function Security() {
             <span className="text-fg-muted">숫자가 있습니다.</span>
           </h2>
           <p className="text-base sm:text-lg text-fg-secondary leading-relaxed">
-            weeple 은 민감 데이터를 기기와 서버 양쪽에서 암호화합니다.
-            공동 지출은 공유, 개인 기록은 당신만의 것.
+            weeple 은 공동 지출과 개인 기록을 서버 단에서 분리합니다.
+            공유할 것만 공유되고, 나머지는 당신만의 것.
           </p>
         </motion.div>
 
@@ -105,8 +109,8 @@ export default function Security() {
             >
               <defs>
                 <linearGradient id="lock-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#F97066" />
-                  <stop offset="100%" stopColor="#D4533F" />
+                  <stop offset="0%" stopColor="#0EA5A0" />
+                  <stop offset="100%" stopColor="#5EEAD4" />
                 </linearGradient>
               </defs>
 
@@ -134,7 +138,7 @@ export default function Security() {
                 <motion.path
                   d="M 160 180 L 160 150 Q 160 120 200 120 Q 240 120 240 150 L 240 180"
                   fill="none"
-                  stroke="#F97066"
+                  stroke="#0EA5A0"
                   strokeWidth="3.5"
                   strokeLinecap="round"
                   initial={prefersReducedMotion ? undefined : { pathLength: 0 }}
@@ -143,8 +147,8 @@ export default function Security() {
                   transition={{ duration: 1.2, delay: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
                 />
                 {/* 키홀 */}
-                <circle cx="200" cy="220" r="7" fill="#F97066" />
-                <rect x="197" y="224" width="6" height="14" fill="#F97066" />
+                <circle cx="200" cy="220" r="7" fill="#0EA5A0" />
+                <rect x="197" y="224" width="6" height="14" fill="#0EA5A0" />
               </motion.g>
 
               {/* 주변 노드 4개 */}
@@ -165,15 +169,15 @@ export default function Security() {
                     cx={node.x}
                     cy={node.y}
                     r="22"
-                    fill="#171717"
-                    stroke="#262626"
+                    fill="#F7F9F4"
+                    stroke="rgba(14,165,160,0.3)"
                     strokeWidth="1.5"
                   />
                   <text
                     x={node.x}
                     y={node.y + 4}
                     textAnchor="middle"
-                    fill="#a3a3a3"
+                    fill="#4A4F58"
                     fontSize="10"
                     fontWeight="600"
                   >
@@ -193,7 +197,7 @@ export default function Security() {
                   key={i}
                   d={d}
                   fill="none"
-                  stroke="#F97066"
+                  stroke="#0EA5A0"
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeDasharray="4 6"

@@ -29,7 +29,7 @@ export default function Promise() {
           transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
           className="text-xs font-semibold tracking-wider text-coral uppercase mb-12"
         >
-          The promise
+          약속
         </motion.div>
 
         <motion.p
@@ -65,7 +65,7 @@ function InlineKeyboard() {
   return (
     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-bg-card border border-border-light text-sm font-mono text-fg-secondary align-middle">
       <span className="h-1.5 w-1.5 rounded-full bg-coral animate-pulse" />
-      스타벅스 4500원
+      스벅 6500
     </span>
   )
 }
@@ -102,10 +102,10 @@ function InlineReceipt() {
 function InlineCouple() {
   return (
     <span className="inline-flex items-center align-middle">
-      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-coral to-[#D4533F] text-white text-xs font-bold border-2 border-bg">
+      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-[#0EA5A0] to-[#5EEAD4] text-white text-xs font-bold border-2 border-bg">
         박
       </span>
-      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-violet to-indigo-600 text-white text-xs font-bold border-2 border-bg -ml-2">
+      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-[#FF8A7A] to-[#D4533F] text-white text-xs font-bold border-2 border-bg -ml-2">
         수
       </span>
     </span>
