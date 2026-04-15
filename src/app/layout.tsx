@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist_Mono, Instrument_Serif } from 'next/font/google'
 import './globals.css'
 import ScrollProgress from '@/components/ScrollProgress'
+import GlobalSceneClient from '@/components/scene/GlobalSceneClient'
 
 // Geist Mono 만 Google Fonts 로 로드. Pretendard 는 globals.css 의 @import 로.
 const geistMono = Geist_Mono({
@@ -41,6 +42,8 @@ export default function RootLayout({
       className={`${geistMono.variable} ${instrumentSerif.variable} h-full`}
     >
       <body className="min-h-full flex flex-col">
+        {/* Global WebGL layer — fixed, behind everything, pointer-events:none */}
+        <GlobalSceneClient />
         <ScrollProgress />
         {children}
       </body>

@@ -19,24 +19,63 @@ function SectionMark({ children }: { children: React.ReactNode }) {
   )
 }
 
+/**
+ * data-section 래퍼 — GlobalScene 의 IntersectionObserver 가 가중치 산출.
+ * 각 섹션 컴포넌트가 자체적으로 id 를 가지고 있지만(anchor 스크롤용), scene
+ * 트래킹 대상은 래퍼로 통일해서 예측가능한 경계 유지.
+ */
+function SceneSection({
+  id,
+  children,
+}: {
+  id: string
+  children: React.ReactNode
+}) {
+  return (
+    <div data-section={id} className="relative">
+      {children}
+    </div>
+  )
+}
+
 export default function Home() {
   return (
     <>
-      <main className="flex-1">
-        <Hero />
+      <main className="flex-1 relative">
+        <SceneSection id="hero">
+          <Hero />
+        </SceneSection>
         <SectionMark>I. 문제</SectionMark>
-        <Problem />
-        <Promise />
-        <LiveDemo />
+        <SceneSection id="problem">
+          <Problem />
+        </SceneSection>
+        <SceneSection id="promise">
+          <Promise />
+        </SceneSection>
+        <SceneSection id="live-demo">
+          <LiveDemo />
+        </SceneSection>
         <SectionMark>II. 기능</SectionMark>
-        <Couple />
-        <AIBrain />
-        <Security />
+        <SceneSection id="couple">
+          <Couple />
+        </SceneSection>
+        <SceneSection id="ai-brain">
+          <AIBrain />
+        </SceneSection>
+        <SceneSection id="security">
+          <Security />
+        </SceneSection>
         <SectionMark>III. 커플</SectionMark>
-        <Voices />
+        <SceneSection id="voices">
+          <Voices />
+        </SceneSection>
         <SectionMark>IV. 가격</SectionMark>
-        <Pricing />
-        <FinalCTA />
+        <SceneSection id="pricing">
+          <Pricing />
+        </SceneSection>
+        <SceneSection id="final-cta">
+          <FinalCTA />
+        </SceneSection>
       </main>
       <Footer />
     </>

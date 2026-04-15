@@ -114,7 +114,9 @@ html {
 }
 
 body {
-  background: var(--paper);
+  /* 배경은 WebGL GlobalScene 이 담당. body 는 투명으로 두어 셰이더가 보이게 한다.
+     (Canvas 로드 실패/SSR 중에는 html 의 paper 색이 폴백) */
+  background: transparent;
   color: var(--ink);
   font-family: var(--sans);
   font-weight: 400;
@@ -125,6 +127,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   position: relative;
+  z-index: 0;
+}
+
+/* main/footer 콘텐츠는 canvas(z:-1) 위에 강제 배치 */
+main, footer {
+  position: relative;
+  z-index: 1;
 }
 
 /* ─── paper grain (barely there) — replaces mint radial wallpaper ─── */

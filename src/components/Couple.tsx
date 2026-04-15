@@ -15,7 +15,7 @@
  *   - 알림 카드: white + teal border-left
  */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 
 type Mode = {
@@ -57,6 +57,17 @@ const PARTNER = '#8B6F47'
 export default function Couple() {
   const prefersReducedMotion = useReducedMotion()
   const [active, setActive] = useState<Mode>(MODES[1])
+
+  // GlobalScene 의 CoupleSpheres 에게 overlap 값을 통지.
+  // CoupleSpheres 는 window 'weeple:coupleOverlap' 이벤트를 구독한다.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    window.dispatchEvent(
+      new CustomEvent('weeple:coupleOverlap', {
+        detail: { overlap: active.overlap },
+      }),
+    )
+  }, [active.overlap])
 
   const gap = 90 * (1 - active.overlap)
   const leftCx = 120 - gap / 2 - 40
