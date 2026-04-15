@@ -1,108 +1,179 @@
-/* @import rules must precede all other rules (except @charset / @layer).
-   Load Pretendard BEFORE Tailwind so the cascade stays valid. */
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 @import "tailwindcss";
 
 /* =============================================================
-   weeple 디자인 토큰 (dark 기본)
-   Matches the React Native app: coral accent + Pretendard (UI) +
-   Geist Mono (numbers/amounts only).
+   weeple — Oryzo-style landing (redesign/oryzo-style)
+   Dark charcoal + warm orange. Palette LOCKED.
    ============================================================= */
 :root {
-  /* Backgrounds */
-  --bg:            #0a0a0a;
-  --bg-card:       #171717;
-  --bg-card-2:     #1f1f1f;
-  --bg-input:      #262626;
+  --bg-darkest: #0A0806;
+  --bg-dark: #141210;
+  --bg-warm: #2B1E14;
 
-  /* Foregrounds */
-  --fg:            #fafafa;
-  --fg-secondary:  #a3a3a3;
-  --fg-muted:      #737373;
+  --text-primary: #F5EDD8;
+  --text-secondary: rgba(245, 237, 216, 0.5);
+  --text-muted: rgba(245, 237, 216, 0.35);
 
-  /* Borders */
-  --border:        #262626;
-  --border-light:  #1f1f1f;
+  --accent-orange: #D4622A;
+  --accent-orange-light: #E8743A;
 
-  /* Accent — coral */
-  --coral:             #F97066;
-  --coral-strong:      #D4533F;
-  --coral-bg:          rgba(249, 112, 102, 0.12);
-  --coral-bg-strong:   rgba(249, 112, 102, 0.2);
+  --border-soft: rgba(245, 237, 216, 0.08);
+  --border-mid: rgba(245, 237, 216, 0.18);
+  --border-strong: rgba(245, 237, 216, 0.32);
 
-  /* Semantic */
-  --success:       #34d399;
-  --warning:       #fbbf24;
-  --error:         #ef4444;
-  --violet:        #818cf8;
-
-  /* 섹션 전환용 — 라이트/다크 리듬 */
-  --cream:         #EDE7DE;
-  --off-black:     #1A1A1A;
-  --bg-violet:     #0d0b14;
-  --bg-dark:       #050505;
+  --font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter', 'Pretendard Variable', 'Pretendard', system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), 'SF Mono', 'Geist Mono', Consolas, monospace;
 }
 
 @theme inline {
-  /* Colors — expose design tokens as Tailwind utilities
-     (bg-coral, text-fg-muted, border-border-light, etc.) */
-  --color-bg:            var(--bg);
-  --color-bg-card:       var(--bg-card);
-  --color-bg-card-2:     var(--bg-card-2);
-  --color-bg-input:      var(--bg-input);
-  --color-fg:            var(--fg);
-  --color-fg-secondary:  var(--fg-secondary);
-  --color-fg-muted:      var(--fg-muted);
-  --color-border-app:    var(--border);
-  --color-border-light:  var(--border-light);
-  --color-coral:         var(--coral);
-  --color-coral-strong:  var(--coral-strong);
-  --color-coral-bg:      var(--coral-bg);
-  --color-coral-bg-strong: var(--coral-bg-strong);
-  --color-success:       var(--success);
-  --color-warning:       var(--warning);
-  --color-error:         var(--error);
-  --color-violet:        var(--violet);
+  --color-bg-darkest: var(--bg-darkest);
+  --color-bg-dark: var(--bg-dark);
+  --color-bg-warm: var(--bg-warm);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-accent-orange: var(--accent-orange);
+  --color-accent-orange-light: var(--accent-orange-light);
 
-  /* Font families */
-  --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: var(--font-geist-mono), 'SF Mono', Consolas, monospace;
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+}
 
-  /* Radii matching the RN app */
-  --radius-sm:   6px;
-  --radius-md:   12px;
-  --radius-lg:   16px;
-  --radius-xl:   20px;
-  --radius-2xl:  28px;
-  --radius-full: 9999px;
+html,
+body {
+  background: var(--bg-darkest);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: auto;
 }
 
 html {
   color-scheme: dark;
-  background: var(--bg);
 }
 
 body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "ss03", "ss04";
+  min-height: 100%;
+  overflow-x: hidden;
 }
 
-/* Numeric text — use .font-mono class or explicit `font-family: var(--font-mono)` */
-.num {
+/* Reusable typographic primitives */
+.display {
+  font-family: var(--font-display);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 0.92;
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.mono {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
 
-/* Reduced motion */
+.vertical-tab {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 0.25em;
+  font-family: var(--font-display);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+/* Selection */
+::selection {
+  background: var(--accent-orange);
+  color: var(--bg-darkest);
+}
+
+/* Scrollbar — keep subtle so the cinematic feel isn't broken */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(245, 237, 216, 0.08);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 237, 216, 0.18);
+}
+
+/* Reduced motion — downgrade scroll-driven animations to simple fades */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
+
+/* Bouncing arrow */
+@keyframes weepleArrowBounce {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+.arrow-bounce {
+  animation: weepleArrowBounce 1.8s ease-in-out infinite;
+}
+
+/* Dashed underline hover / active */
+.nav-link {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: color 0.25s ease;
+}
+.nav-link:hover,
+.nav-link[data-active='true'] {
+  color: var(--text-primary);
+}
+.nav-link[data-active='true']::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  border-top: 1px dashed var(--accent-orange);
+}
+
+/* Section markers for debug/scroll-anchoring — invisible */
+.section-anchor {
+  scroll-margin-top: 80px;
+}
+
+/* Tailwind utility-style additions */
+.backdrop-glass {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(10, 8, 6, 0.55);
+  border: 1px solid var(--border-soft);
+}
+
