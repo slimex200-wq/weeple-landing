@@ -1,19 +1,20 @@
 'use client'
 
 /**
- * Hero — Liquid Glass v2 멀티 챕터 히어로.
+ * Hero — Editorial Warm v2 멀티 챕터 히어로.
  *
- * 구조:
+ * 구조(unchanged):
  *   - Sticky viewport (h-screen) 안에 4 챕터가 순차로 교체
  *   - 왼쪽: 챕터 텍스트 absolute 스택 (아래→위 slide + fade)
  *   - 오른쪽: 3D promo iframe 상주
  *   - 섹션 높이 320svh → 각 챕터 ~80svh 스크롤
  *
- * v2 톤:
- *   - Light + Mint wallpaper (body::before 가 담당, 이 섹션은 투명 배경)
- *   - 타이틀 그라디언트: #1A1A1A → #0EA5A0 (다크 → 틸)
- *   - 액센트 그라디언트: #0EA5A0 → #5EEAD4 (틸 → 민트)
- *   - 이모지/파스텔 블롭/3색 액센트 금지 (DESIGN.md v2 anti-slop)
+ * Editorial Warm 톤:
+ *   - Paper bg (body::before 가 담당, 섹션은 투명)
+ *   - 타이틀: Instrument Serif, 검정 solid (그라디언트 제거)
+ *   - 액센트: Instrument Serif italic + deep teal
+ *   - Watermark: barely-there ink stroke
+ *   - Download card: white + shadow (glass 제거)
  */
 
 import { useRef, useEffect, useState } from 'react'
@@ -97,8 +98,8 @@ export default function Hero() {
     }
   }, [scrollYProgress])
 
-  // Watermark 은 초반에만 은은하게 (민트 톤 dark stroke)
-  const watermarkOpacity = useTransform(scrollYProgress, [0, 0.15], [0.1, 0])
+  // Watermark 은 초반에만 은은하게 (paper 위의 warm ink stroke)
+  const watermarkOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
 
   // iframe 은 챕터 1이 끝나면서 등장하고 계속 유지
   const iframeOpacity = useTransform(scrollYProgress, [0.08, 0.22], [0, 1])
@@ -113,21 +114,23 @@ export default function Hero() {
         minHeight: prefersReducedMotion ? '100svh' : '320svh',
       }}
     >
-      {/* Sticky viewport 컨테이너 — body::before wallpaper 가 비쳐 보임 */}
+      {/* Sticky viewport — paper bg 비쳐 보임 */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* 거대 워터마크 — 다크 스트로크 (light bg 대응) */}
+        {/* 거대 워터마크 — warm ink stroke, 거의 안 보이게 */}
         <motion.div
           aria-hidden
           className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
           style={{ opacity: watermarkOpacity }}
         >
           <span
-            className="font-extrabold tracking-[-0.05em] whitespace-nowrap select-none"
+            className="whitespace-nowrap select-none italic"
             style={{
+              fontFamily: 'var(--serif)',
               fontSize: 'clamp(14rem, 30vw, 36rem)',
               color: 'transparent',
-              WebkitTextStroke: '2px rgba(14, 165, 160, 0.35)',
+              WebkitTextStroke: '1px rgba(26, 20, 16, 0.06)',
               lineHeight: 0.9,
+              letterSpacing: '-0.04em',
             }}
           >
             weeple
@@ -138,44 +141,83 @@ export default function Hero() {
         <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 sm:px-12 py-6">
           <div className="flex items-center gap-3">
             <div
-              className="font-extrabold text-xl sm:text-2xl tracking-tight"
+              className="tracking-tight text-xl sm:text-2xl"
               style={{
-                background: 'linear-gradient(135deg, #1A1A1A 0%, #0EA5A0 100%)',
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                color: 'transparent',
+                fontFamily: 'var(--serif)',
+                fontStyle: 'italic',
+                color: 'var(--ink)',
+                letterSpacing: '-0.01em',
               }}
             >
               weeple
+              <span style={{ color: 'var(--teal)', fontStyle: 'normal' }}>.</span>
             </div>
-            <span className="hidden sm:inline text-[11px] text-fg-muted tracking-wide">
+            <span
+              className="hidden sm:inline text-[11px] tracking-wide"
+              style={{ color: 'var(--ink-3)' }}
+            >
               커플 · 통장 따로, 대시보드는 같이
             </span>
           </div>
 
-          {/* 플로팅 다운로드 카드 — Glass */}
-          <div className="hidden md:flex items-center gap-4 glass px-4 py-2.5 rounded-xl">
-            <div className="flex items-center gap-2">
+          {/* 플로팅 다운로드 카드 — white + hairline + soft shadow (no glass) */}
+          <div
+            className="hidden md:flex items-center gap-4 px-4 py-2.5 rounded-xl"
+            style={{
+              background: 'var(--white)',
+              border: '1px solid var(--rule)',
+              boxShadow: 'var(--shadow-2)',
+            }}
+          >
+            <div className="flex items-center gap-2.5">
               <div
                 className="w-7 h-7 rounded-md flex items-center justify-center"
                 style={{
-                  background: 'linear-gradient(135deg, #0EA5A0 0%, #5EEAD4 100%)',
+                  background: 'var(--teal)',
+                  color: 'var(--paper)',
                 }}
                 aria-hidden
               >
-                <span className="text-white text-[11px] font-extrabold">w</span>
+                <span
+                  className="text-[12px]"
+                  style={{ fontFamily: 'var(--serif)', fontStyle: 'italic' }}
+                >
+                  w
+                </span>
               </div>
               <div>
-                <div className="text-[11px] font-semibold text-fg">weeple iOS · Android</div>
-                <div className="num text-[10px] text-fg-muted">출시 준비 중 · iOS 17+ / Android 12+</div>
+                <div
+                  className="text-[11px] font-semibold"
+                  style={{ color: 'var(--ink)' }}
+                >
+                  weeple · iOS · Android
+                </div>
+                <div
+                  className="num text-[10px]"
+                  style={{ color: 'var(--ink-3)' }}
+                >
+                  출시 준비 중 · iOS 17+ / Android 12+
+                </div>
               </div>
             </div>
             <a
               href="#pricing"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-coral text-white text-[11px] font-semibold transition-all hover:scale-[1.03] hover:shadow-[0_8px_20px_-6px_rgba(14,165,160,0.5)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              style={{
+                background: 'var(--ink)',
+                color: 'var(--paper)',
+              }}
             >
               알림 신청
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>
+              <svg
+                width="10"
+                height="10"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                aria-hidden
+              >
                 <path d="M5 12h14M13 5l7 7-7 7" />
               </svg>
             </a>
@@ -190,7 +232,7 @@ export default function Hero() {
         {/* 메인 레이아웃: 좌 텍스트 / 우 iframe */}
         <div className="relative h-full grid grid-cols-1 md:grid-cols-[0.85fr_1.5fr] lg:grid-cols-[0.8fr_1.6fr] gap-6 md:gap-10 items-center px-6 sm:px-10 pt-24 pb-10">
           {/* LEFT — 4 챕터 absolute 스택 */}
-          <div className="relative min-h-[320px] md:min-h-[420px]">
+          <div className="relative min-h-[360px] md:min-h-[460px]">
             {CHAPTERS.map((c, i) => (
               <ChapterBlock
                 key={i}
@@ -205,12 +247,15 @@ export default function Hero() {
 
           {/* RIGHT — iframe 항상 보임 */}
           <motion.div
-            className="relative rounded-2xl overflow-hidden border border-border-light shadow-[0_40px_120px_-30px_rgba(30,20,40,0.2)]"
+            className="relative rounded-2xl overflow-hidden"
             style={{
               opacity: iframeOpacity,
               scale: iframeScale,
               height: isMobile ? '50vh' : '78vh',
               minHeight: isMobile ? 320 : 520,
+              border: '1px solid var(--rule)',
+              boxShadow: 'var(--shadow-3)',
+              background: 'var(--white)',
             }}
           >
             <iframe
@@ -280,34 +325,50 @@ function ChapterBlock({
         y: index === 0 ? firstChapterY : y,
       }}
     >
-      <div className="text-xs font-semibold tracking-[0.15em] text-coral uppercase mb-5">
+      {/* Eyebrow with short leading rule — editorial signature */}
+      <div
+        className="inline-flex items-center gap-2.5 text-xs font-semibold tracking-[0.14em] uppercase mb-6"
+        style={{ color: 'var(--teal)' }}
+      >
+        <span
+          aria-hidden
+          className="inline-block w-7 h-px"
+          style={{ background: 'var(--teal)' }}
+        />
         {chapter.eyebrow}
       </div>
+
       <h2
-        className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[0.96] tracking-[-0.04em] mb-2 sm:mb-3"
+        className="leading-[0.96] mb-1 sm:mb-2"
         style={{
-          background: 'linear-gradient(135deg, #1A1A1A 0%, #3D3D3D 100%)',
-          WebkitBackgroundClip: 'text',
-          backgroundClip: 'text',
-          color: 'transparent',
+          fontFamily: 'var(--serif)',
+          fontWeight: 400,
+          fontSize: 'clamp(2.75rem, 7vw, 5.5rem)',
+          letterSpacing: '-0.025em',
+          color: 'var(--ink)',
         }}
       >
         {chapter.title}
       </h2>
       {chapter.accent && (
         <h2
-          className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[0.96] tracking-[-0.04em] mb-6"
+          className="leading-[0.96] mb-7"
           style={{
-            background: 'linear-gradient(135deg, #0EA5A0 0%, #5EEAD4 100%)',
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            color: 'transparent',
+            fontFamily: 'var(--serif)',
+            fontStyle: 'italic',
+            fontWeight: 400,
+            fontSize: 'clamp(2.75rem, 7vw, 5.5rem)',
+            letterSpacing: '-0.025em',
+            color: 'var(--teal)',
           }}
         >
           {chapter.accent}
         </h2>
       )}
-      <p className="max-w-md text-base sm:text-lg text-fg-secondary leading-relaxed">
+      <p
+        className="max-w-md text-base sm:text-lg leading-relaxed"
+        style={{ color: 'var(--ink-2)' }}
+      >
         {chapter.body}
       </p>
     </motion.div>
@@ -325,8 +386,8 @@ function ScrollHint({
   const opacity = useTransform(progress, [0, 0.08], [1, 0])
   return (
     <motion.div
-      style={{ opacity }}
-      className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-fg-muted text-xs pointer-events-none"
+      style={{ opacity, color: 'var(--ink-3)' }}
+      className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-xs pointer-events-none"
     >
       <span className="tracking-wider">스크롤해서 더 보기</span>
       <motion.div
@@ -336,7 +397,11 @@ function ScrollHint({
             ? undefined
             : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }
         }
-        className="w-[1px] h-8 bg-gradient-to-b from-fg-muted to-transparent"
+        className="w-px h-8"
+        style={{
+          background:
+            'linear-gradient(to bottom, var(--ink-3), transparent)',
+        }}
         aria-hidden
       />
     </motion.div>

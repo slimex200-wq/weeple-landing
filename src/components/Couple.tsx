@@ -1,11 +1,18 @@
 'use client'
 
 /**
- * Couple — "혼자도, 함께도" 커플 모드 섹션.
+ * Couple — Editorial Warm v2.
  *
- * 21st 패턴: 두 원이 겹치는 벤 다이어그램 인터랙션 (SVG cx 애니메이션).
- * 3 탭(100% 공동 / 부분 공동 / 기여금) 클릭 시 overlap 변경.
- * 라이브 알림 카드는 pulse.
+ * 패턴 (unchanged):
+ *   - 벤 다이어그램 SVG cx 애니메이션
+ *   - 3 모드 탭 (100% 공동 / 부분 공동 / 기여금)
+ *   - 라이브 알림 카드 pulse
+ *
+ * Editorial Warm:
+ *   - 나 = deep teal (#0F766E)
+ *   - 파트너 = warm brown (#8B6F47) — amber 대신 중립 톤으로 single-accent 규칙 유지
+ *   - 탭: ink filled 활성, 비활성은 paper-warm bg + hairline
+ *   - 알림 카드: white + teal border-left
  */
 
 import { useState } from 'react'
@@ -16,7 +23,7 @@ type Mode = {
   label: string
   sub: string
   detail: string
-  overlap: number // 0..1 (원 간격 제어)
+  overlap: number
 }
 
 const MODES: Mode[] = [
@@ -43,12 +50,15 @@ const MODES: Mode[] = [
   },
 ]
 
+// 커플 섹션 전용 톤 — teal (나) + partner-brown (파트너)
+const TEAL = '#0F766E'
+const PARTNER = '#8B6F47'
+
 export default function Couple() {
   const prefersReducedMotion = useReducedMotion()
   const [active, setActive] = useState<Mode>(MODES[1])
 
-  // overlap 값에 따른 원 cx 계산 (100 = 중심, 거리가 멀수록 덜 겹침)
-  const gap = 90 * (1 - active.overlap) // 0 → 겹침 최대, 90 → 거의 떨어짐
+  const gap = 90 * (1 - active.overlap)
   const leftCx = 120 - gap / 2 - 40
   const rightCx = 120 + gap / 2 + 40
 
@@ -67,21 +77,42 @@ export default function Couple() {
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
           className="max-w-3xl mb-16 sm:mb-20"
         >
-          <div className="text-xs font-semibold tracking-wider text-coral uppercase mb-4">
+          <div
+            className="inline-flex items-center gap-2.5 text-xs font-semibold tracking-[0.14em] uppercase mb-5"
+            style={{ color: 'var(--teal)' }}
+          >
+            <span
+              aria-hidden
+              className="inline-block w-7 h-px"
+              style={{ background: 'var(--teal)' }}
+            />
             Couple mode
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
+          <h2
+            className="leading-[1.02] mb-6"
+            style={{
+              fontFamily: 'var(--serif)',
+              fontWeight: 400,
+              fontSize: 'clamp(2.5rem, 5.5vw, 5rem)',
+              letterSpacing: '-0.025em',
+              color: 'var(--ink)',
+            }}
+          >
             혼자도, 함께도.
             <br />
-            <span className="text-fg-muted">용돈은 따로, 저축은 같이.</span>
+            <span style={{ fontStyle: 'italic', color: 'var(--teal)' }}>
+              용돈은 따로, 저축은 같이.
+            </span>
           </h2>
-          <p className="text-base sm:text-lg text-fg-secondary leading-relaxed max-w-2xl">
+          <p
+            className="text-base sm:text-lg leading-relaxed max-w-2xl"
+            style={{ color: 'var(--ink-2)' }}
+          >
             커플마다 돈 관리 방식이 다르죠. weeple 은 3가지 모드 중 하나를
             선택하고, 언제든 갈아탈 수 있습니다.
           </p>
         </motion.div>
 
-        {/* 2열 — 벤 다이어그램 + 탭 */}
         <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] items-center">
           {/* 벤 다이어그램 SVG */}
           <motion.div
@@ -98,66 +129,59 @@ export default function Couple() {
               aria-label={`${active.label} 모드 — 두 원의 겹침으로 공동 지출 범위 표현`}
             >
               <defs>
-                <radialGradient id="coral-grad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="rgba(14,165,160,0.55)" />
-                  <stop offset="100%" stopColor="rgba(14,165,160,0.08)" />
+                <radialGradient id="teal-grad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="rgba(15,118,110,0.40)" />
+                  <stop offset="100%" stopColor="rgba(15,118,110,0.05)" />
                 </radialGradient>
-                <radialGradient id="violet-grad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="rgba(255,138,122,0.55)" />
-                  <stop offset="100%" stopColor="rgba(255,138,122,0.08)" />
+                <radialGradient id="partner-grad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="rgba(139,111,71,0.40)" />
+                  <stop offset="100%" stopColor="rgba(139,111,71,0.05)" />
                 </radialGradient>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="3" result="b" />
-                  <feMerge>
-                    <feMergeNode in="b" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
               </defs>
 
-              {/* 왼쪽 원 — 나 */}
+              {/* 왼쪽 원 — 나 (teal) */}
               <motion.circle
                 cx={leftCx}
                 cy="120"
                 r="70"
-                fill="url(#coral-grad)"
-                stroke="#0EA5A0"
+                fill="url(#teal-grad)"
+                stroke={TEAL}
                 strokeWidth="1.5"
                 animate={prefersReducedMotion ? undefined : { cx: leftCx }}
                 transition={{ type: 'spring', stiffness: 80, damping: 18 }}
-                filter="url(#glow)"
               />
-              {/* 오른쪽 원 — 파트너 */}
+              {/* 오른쪽 원 — 파트너 (warm brown) */}
               <motion.circle
                 cx={rightCx}
                 cy="120"
                 r="70"
-                fill="url(#violet-grad)"
-                stroke="#FF8A7A"
+                fill="url(#partner-grad)"
+                stroke={PARTNER}
                 strokeWidth="1.5"
                 animate={prefersReducedMotion ? undefined : { cx: rightCx }}
                 transition={{ type: 'spring', stiffness: 80, damping: 18 }}
-                filter="url(#glow)"
               />
-              {/* 라벨 */}
+              {/* 라벨 — serif italic */}
               <motion.text
-                x={leftCx - 30}
+                x={leftCx - 32}
                 y="125"
-                fill="#14161A"
-                fontSize="11"
-                fontWeight="700"
-                animate={prefersReducedMotion ? undefined : { x: leftCx - 30 }}
+                fill="#1A1410"
+                fontSize="13"
+                fontStyle="italic"
+                fontFamily="var(--serif)"
+                animate={prefersReducedMotion ? undefined : { x: leftCx - 32 }}
                 transition={{ type: 'spring', stiffness: 80, damping: 18 }}
               >
                 나
               </motion.text>
               <motion.text
-                x={rightCx + 15}
+                x={rightCx + 12}
                 y="125"
-                fill="#14161A"
-                fontSize="11"
-                fontWeight="700"
-                animate={prefersReducedMotion ? undefined : { x: rightCx + 15 }}
+                fill="#1A1410"
+                fontSize="13"
+                fontStyle="italic"
+                fontFamily="var(--serif)"
+                animate={prefersReducedMotion ? undefined : { x: rightCx + 12 }}
                 transition={{ type: 'spring', stiffness: 80, damping: 18 }}
               >
                 파트너
@@ -165,23 +189,24 @@ export default function Couple() {
               {/* 중앙 공동 영역 라벨 */}
               <text
                 x="120"
-                y="118"
+                y="115"
                 textAnchor="middle"
-                fill="#0EA5A0"
+                fill={TEAL}
                 fontSize="10"
-                fontWeight="700"
-                letterSpacing="1"
+                fontWeight="600"
+                letterSpacing="1.2"
+                fontFamily="var(--sans)"
               >
                 공동 지출
               </text>
               <text
                 x="120"
-                y="135"
+                y="136"
                 textAnchor="middle"
-                fill="#14161A"
-                fontSize="13"
-                fontWeight="800"
-                fontFamily="var(--font-mono)"
+                fill="#1A1410"
+                fontSize="15"
+                fontFamily="var(--mono)"
+                fontWeight="500"
               >
                 ₩{Math.round(active.overlap * 850).toLocaleString()},000
               </text>
@@ -199,11 +224,19 @@ export default function Couple() {
                     type="button"
                     onClick={() => setActive(mode)}
                     aria-pressed={isActive}
-                    className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
+                    className="px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                    style={
                       isActive
-                        ? 'bg-coral text-white shadow-[0_8px_24px_-6px_rgba(249,112,102,0.5)]'
-                        : 'bg-bg-card border border-border-app text-fg-secondary hover:border-coral hover:text-coral'
-                    }`}
+                        ? {
+                            background: 'var(--ink)',
+                            color: 'var(--paper)',
+                          }
+                        : {
+                            background: 'var(--white)',
+                            color: 'var(--ink-2)',
+                            border: '1px solid var(--rule)',
+                          }
+                    }
                   >
                     {mode.label}
                   </button>
@@ -216,27 +249,56 @@ export default function Couple() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-              className="rounded-2xl p-6 sm:p-8 bg-bg-card border border-border-light mb-6"
+              className="rounded-2xl p-6 sm:p-8 mb-6"
+              style={{
+                background: 'var(--white)',
+                border: '1px solid var(--rule)',
+                boxShadow: 'var(--shadow-1)',
+              }}
             >
-              <div className="text-xs font-semibold tracking-wider text-coral uppercase mb-3">
+              <div
+                className="text-xs font-semibold tracking-[0.14em] uppercase mb-3"
+                style={{ color: 'var(--teal)' }}
+              >
                 {active.sub}
               </div>
-              <h3 className="text-2xl font-bold text-fg mb-3">{active.label}</h3>
-              <p className="text-sm sm:text-base text-fg-secondary leading-relaxed">
+              <h3
+                className="mb-3"
+                style={{
+                  fontFamily: 'var(--serif)',
+                  fontWeight: 400,
+                  fontSize: '1.75rem',
+                  letterSpacing: '-0.02em',
+                  color: 'var(--ink)',
+                }}
+              >
+                {active.label}
+              </h3>
+              <p
+                className="text-sm sm:text-base leading-relaxed"
+                style={{ color: 'var(--ink-2)' }}
+              >
                 {active.detail}
               </p>
             </motion.div>
 
-            {/* 라이브 알림 카드 */}
+            {/* 라이브 알림 카드 — white + teal border-left */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative rounded-2xl p-5 bg-gradient-to-br from-coral-bg to-bg-card border border-coral/30 overflow-hidden"
+              className="relative rounded-2xl p-5 overflow-hidden"
+              style={{
+                background: 'var(--white)',
+                border: '1px solid var(--rule)',
+                borderLeft: '3px solid var(--teal)',
+                boxShadow: 'var(--shadow-1)',
+              }}
             >
               <motion.div
-                className="absolute top-3 left-3 h-2 w-2 rounded-full bg-success"
+                className="absolute top-3 left-5 h-2 w-2 rounded-full"
+                style={{ background: 'var(--teal)' }}
                 animate={
                   prefersReducedMotion
                     ? undefined
@@ -250,15 +312,38 @@ export default function Couple() {
                 aria-hidden
               />
               <div className="pl-5">
-                <div className="text-[11px] font-semibold uppercase tracking-wider text-success mb-1.5">
+                <div
+                  className="text-[11px] font-semibold uppercase tracking-[0.12em] mb-1.5"
+                  style={{ color: 'var(--teal)' }}
+                >
                   실시간
                 </div>
-                <div className="text-sm text-fg leading-relaxed">
+                <div
+                  className="text-sm leading-relaxed"
+                  style={{ color: 'var(--ink)' }}
+                >
                   파트너가 방금{' '}
-                  <span className="num font-bold text-coral">₩11,500</span> 을{' '}
-                  <span className="font-semibold">버거킹</span> 에서 사용했어요.
+                  <span
+                    className="num font-semibold"
+                    style={{ color: 'var(--teal)' }}
+                  >
+                    ₩11,500
+                  </span>{' '}
+                  을{' '}
+                  <span
+                    style={{
+                      fontFamily: 'var(--serif)',
+                      fontStyle: 'italic',
+                    }}
+                  >
+                    버거킹
+                  </span>{' '}
+                  에서 사용했어요.
                 </div>
-                <div className="mt-2 text-[11px] text-fg-muted num">
+                <div
+                  className="mt-2 text-[11px] num"
+                  style={{ color: 'var(--ink-3)' }}
+                >
                   공동 예산 · 2초 전
                 </div>
               </div>

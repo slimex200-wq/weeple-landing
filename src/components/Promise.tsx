@@ -1,13 +1,17 @@
 'use client'
 
 /**
- * Promise — "The promise" 섹션.
+ * Promise — Editorial Warm v2.
  *
- * Opal Tadpole 참고 — 본문 문장 안에 인라인 미니 UI 요소(칩/아이콘)를 삽입해
- * 사용자가 sentence 를 읽는 동안 앱 기능 요소가 자연스럽게 스쳐 지나가게 한다.
- * Opal 의 코드/이미지/텍스트 는 그대로 가져오지 않고 weeple 기능 기반으로 재작성.
+ * 패턴 (unchanged):
+ *   - 긴 한 문장 opacity reveal
+ *   - 인라인 미니 UI 칩(키보드/카메라/영수증/커플/AI/잠금)
  *
- * useReducedMotion 시 motion 은 정적 렌더. 인라인 칩은 CSS animate-pulse 만 살짝.
+ * Editorial Warm:
+ *   - 본문: Pretendard
+ *   - 액센트 단어: serif italic + teal
+ *   - 칩: white + hairline + teal 하이라이트
+ *   - 파트너 아바타: paper-warm + serif initial (teal / partner-brown)
  */
 
 import { motion, useReducedMotion } from 'motion/react'
@@ -18,7 +22,7 @@ export default function Promise() {
   return (
     <section
       id="promise"
-      className="relative py-40 sm:py-52 px-6 bg-bg overflow-hidden"
+      className="relative py-40 sm:py-52 px-6 overflow-hidden"
       aria-label="weeple 기능 요약"
     >
       <div className="max-w-5xl mx-auto">
@@ -27,8 +31,14 @@ export default function Promise() {
           whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-xs font-semibold tracking-wider text-coral uppercase mb-12"
+          className="inline-flex items-center gap-2.5 text-xs font-semibold tracking-[0.14em] uppercase mb-12"
+          style={{ color: 'var(--teal)' }}
         >
+          <span
+            aria-hidden
+            className="inline-block w-7 h-px"
+            style={{ background: 'var(--teal)' }}
+          />
           약속
         </motion.div>
 
@@ -37,11 +47,15 @@ export default function Promise() {
           whileInView={reduced ? undefined : { opacity: 1 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 1.2, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light leading-[1.4] tracking-tight text-fg"
-          style={{ letterSpacing: '-0.02em' }}
+          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-[1.4]"
+          style={{
+            color: 'var(--ink)',
+            letterSpacing: '-0.02em',
+            fontFamily: 'var(--sans)',
+            fontWeight: 300,
+          }}
         >
-          <span className="text-coral font-semibold">3초</span> 만에{' '}
-          <InlineKeyboard /> 한 줄을 입력하면,{' '}
+          <Accent>3초</Accent> 만에 <InlineKeyboard /> 한 줄을 입력하면,{' '}
           <br className="hidden md:inline" />
           사진 한 장 <InlineCamera /> 으로 영수증 OCR <InlineReceipt /> 이 끝납니다.{' '}
           <br className="hidden md:inline" />
@@ -52,19 +66,46 @@ export default function Promise() {
           모든 데이터는 <InlineLock /> E2E 암호화됩니다.
           <br />
           <br />
-          <span className="text-fg-muted">모두 한 앱 안에.</span>
+          <span style={{ color: 'var(--ink-3)' }}>모두 한 앱 안에.</span>
         </motion.p>
       </div>
     </section>
   )
 }
 
-// ===== 인라인 미니 UI 요소 — 각자 작은 chip 모양 =====
+// ===== 텍스트 액센트 =====
+function Accent({ children }: { children: React.ReactNode }) {
+  return (
+    <span
+      style={{
+        fontFamily: 'var(--serif)',
+        fontStyle: 'italic',
+        color: 'var(--teal)',
+      }}
+    >
+      {children}
+    </span>
+  )
+}
+
+// ===== 인라인 미니 UI 요소 =====
 
 function InlineKeyboard() {
   return (
-    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-bg-card border border-border-light text-sm font-mono text-fg-secondary align-middle">
-      <span className="h-1.5 w-1.5 rounded-full bg-coral animate-pulse" />
+    <span
+      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-sm align-middle"
+      style={{
+        background: 'var(--white)',
+        border: '1px solid var(--rule)',
+        fontFamily: 'var(--mono)',
+        color: 'var(--ink-2)',
+        boxShadow: 'var(--shadow-1)',
+      }}
+    >
+      <span
+        className="h-1.5 w-1.5 rounded-full animate-pulse"
+        style={{ background: 'var(--teal)' }}
+      />
       스벅 6500
     </span>
   )
@@ -72,14 +113,22 @@ function InlineKeyboard() {
 
 function InlineCamera() {
   return (
-    <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-bg-card border border-coral/40 text-coral align-middle">
+    <span
+      className="inline-flex items-center justify-center w-8 h-8 rounded-lg align-middle"
+      style={{
+        background: 'var(--white)',
+        border: '1px solid var(--rule)',
+        color: 'var(--teal)',
+        boxShadow: 'var(--shadow-1)',
+      }}
+    >
       <svg
         width="16"
         height="16"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden
@@ -93,7 +142,15 @@ function InlineCamera() {
 
 function InlineReceipt() {
   return (
-    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-coral-bg border border-coral-bg-strong text-xs font-mono text-coral align-middle">
+    <span
+      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs align-middle"
+      style={{
+        background: 'var(--teal-soft)',
+        border: '1px solid var(--teal-soft)',
+        fontFamily: 'var(--mono)',
+        color: 'var(--teal)',
+      }}
+    >
       영수증 · 3건 자동
     </span>
   )
@@ -102,10 +159,28 @@ function InlineReceipt() {
 function InlineCouple() {
   return (
     <span className="inline-flex items-center align-middle">
-      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-[#0EA5A0] to-[#5EEAD4] text-white text-xs font-bold border-2 border-bg">
+      <span
+        className="inline-flex items-center justify-center w-7 h-7 rounded-full text-sm"
+        style={{
+          background: 'var(--teal-soft)',
+          color: 'var(--teal)',
+          border: '2px solid var(--paper)',
+          fontFamily: 'var(--serif)',
+          fontStyle: 'italic',
+        }}
+      >
         박
       </span>
-      <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-[#FF8A7A] to-[#D4533F] text-white text-xs font-bold border-2 border-bg -ml-2">
+      <span
+        className="inline-flex items-center justify-center w-7 h-7 rounded-full text-sm -ml-2"
+        style={{
+          background: 'var(--partner-soft)',
+          color: 'var(--partner)',
+          border: '2px solid var(--paper)',
+          fontFamily: 'var(--serif)',
+          fontStyle: 'italic',
+        }}
+      >
         수
       </span>
     </span>
@@ -114,14 +189,22 @@ function InlineCouple() {
 
 function InlineBrain() {
   return (
-    <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-bg-card border border-violet/40 text-violet align-middle">
+    <span
+      className="inline-flex items-center justify-center w-8 h-8 rounded-lg align-middle"
+      style={{
+        background: 'var(--white)',
+        border: '1px solid var(--rule)',
+        color: 'var(--teal)',
+        boxShadow: 'var(--shadow-1)',
+      }}
+    >
       <svg
         width="16"
         height="16"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden
@@ -135,14 +218,22 @@ function InlineBrain() {
 
 function InlineLock() {
   return (
-    <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-bg-card border border-success/40 text-success align-middle">
+    <span
+      className="inline-flex items-center justify-center w-8 h-8 rounded-lg align-middle"
+      style={{
+        background: 'var(--white)',
+        border: '1px solid var(--rule)',
+        color: 'var(--teal)',
+        boxShadow: 'var(--shadow-1)',
+      }}
+    >
       <svg
         width="14"
         height="14"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden

@@ -4,85 +4,102 @@
 @import "tailwindcss";
 
 /* =============================================================
-   weeple 디자인 토큰 v2 — Liquid Glass · Light = Mint mood
-   Matches DESIGN.md v2 / src/theme/colors.ts lightTheme of the
-   React Native app. Anti-slop: no pastel blobs, no 3-color accent
-   soup, no emoji. Accent tokens stay named "coral" for backward
-   compat with existing components (values are now teal/mint).
+   weeple 디자인 토큰 v2 — Editorial Warm (Anti-Fintech)
+   Serif display (Instrument Serif) + Pretendard body +
+   Geist Mono numerals. Warm paper bg. Single deep teal accent.
+   Amber only in pricing. Grain texture on body::before.
+   Legacy token names ("coral", "violet", "bg", "bg-card") are
+   kept for Tailwind class compatibility but re-mapped to the
+   new Editorial Warm palette values.
    ============================================================= */
 :root {
-  /* Backgrounds — Mint-tinted off-white, slightly muted for readability */
-  --bg:            #E2E6DE;                 /* darker than #EDEFE9 for contrast */
-  --bg-card:       #F7F9F4;                 /* slightly warm white card */
-  --bg-card-2:     rgba(255,255,255,0.7);   /* frosted glass surface */
-  --bg-input:      #EDF0E9;
+  /* Surface */
+  --paper:         #F5F1EA;
+  --paper-warm:    #EFE9DD;
+  --white:         #FFFFFF;
 
-  /* Foregrounds — higher contrast on light bg */
-  --fg:            #14161A;
-  --fg-secondary:  #4A4F58;                 /* darker than #6A6A74 */
-  --fg-muted:      #838892;
+  /* Text */
+  --ink:           #1A1410;     /* near-black, warm */
+  --ink-2:         #5A5149;     /* body secondary */
+  --ink-3:         #8F857A;     /* muted */
 
-  /* Borders — teal-tinted subtle */
-  --border:        rgba(14,165,160,0.12);
-  --border-light:  rgba(0,0,0,0.06);
+  /* Hairline */
+  --rule:          rgba(26, 20, 16, 0.10);
+  --rule-soft:     rgba(26, 20, 16, 0.06);
 
-  /* Accent — Liquid Glass teal/mint
-     (token name kept as "coral" for backward compatibility;
-     semantic rename is a future refactor) */
-  --coral:             #0EA5A0;            /* teal 600, main accent */
-  --coral-strong:      #0D9488;            /* teal 700, hovers/press */
-  --coral-end:         #5EEAD4;            /* teal 300, gradient partner */
-  --coral-bg:          rgba(14,165,160,0.12);
-  --coral-bg-strong:   rgba(14,165,160,0.24);
-  --coral-glow:        rgba(14,165,160,0.3);
+  /* Accents — ONE per section */
+  --teal:          #0F766E;     /* deep teal, primary accent */
+  --teal-soft:     rgba(15, 118, 110, 0.08);
+  --amber:         #B45309;     /* only for pricing */
+  --amber-soft:    rgba(180, 83, 9, 0.08);
 
-  /* Semantic */
-  --success:       #0EA5A0;
-  --warning:       #D4A017;
-  --error:         #E5484D;
+  /* Couple section partner tone — warm brown (neutral, not amber) */
+  --partner:       #8B6F47;
+  --partner-soft:  rgba(139, 111, 71, 0.10);
 
-  /* Secondary accent — 커플 파트너 / 대비 포인트용. Dark theme 의 coral 파트너 톤 */
-  --violet:        #FF8A7A;                /* 토큰 이름 호환; 값은 v2 coral/peach */
+  /* Shadows — paper, not glass */
+  --shadow-1:      0 1px 2px rgba(26, 20, 16, 0.04);
+  --shadow-2:      0 1px 2px rgba(26, 20, 16, 0.04), 0 12px 32px rgba(26, 20, 16, 0.06);
+  --shadow-3:      0 1px 2px rgba(26, 20, 16, 0.04), 0 24px 60px rgba(26, 20, 16, 0.10);
 
-  /* Glass surface — use via .glass utility below */
-  --glass-bg:            rgba(255,255,255,0.18);
-  --glass-border:        rgba(255,255,255,0.5);
-  --glass-shadow:        0 10px 40px rgba(30,20,40,0.08);
-  --glass-blur:          70px;
-  --glass-saturate:      140%;
+  /* Type */
+  --serif:         var(--font-instrument-serif), 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --sans:          'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono:          var(--font-geist-mono), 'SF Mono', Consolas, monospace;
 
-  /* Section rhythm — kept for existing sections until v2 rewrite */
-  --cream:         #F3F0E8;
-  --off-black:     #1A1A1A;
+  /* Semantic (kept for legacy compat) */
+  --success:       var(--teal);
+  --warning:       var(--amber);
+  --error:         #B91C1C;
 }
 
 @theme inline {
-  /* Colors — expose design tokens as Tailwind utilities
-     (bg-coral, text-fg-muted, border-border-light, etc.) */
-  --color-bg:            var(--bg);
-  --color-bg-card:       var(--bg-card);
-  --color-bg-card-2:     var(--bg-card-2);
-  --color-bg-input:      var(--bg-input);
-  --color-fg:            var(--fg);
-  --color-fg-secondary:  var(--fg-secondary);
-  --color-fg-muted:      var(--fg-muted);
-  --color-border-app:    var(--border);
-  --color-border-light:  var(--border-light);
-  --color-coral:         var(--coral);
-  --color-coral-strong:  var(--coral-strong);
-  --color-coral-end:     var(--coral-end);
-  --color-coral-bg:      var(--coral-bg);
-  --color-coral-bg-strong: var(--coral-bg-strong);
-  --color-success:       var(--success);
-  --color-warning:       var(--warning);
+  /* Colors — expose Editorial Warm tokens through the legacy
+     Tailwind names so existing utilities keep compiling.
+     (bg-coral now = teal, bg-bg = paper, text-fg = ink, etc.) */
+  --color-bg:            var(--paper);
+  --color-bg-card:       var(--white);
+  --color-bg-card-2:     var(--paper-warm);
+  --color-bg-input:      var(--paper-warm);
+
+  --color-fg:            var(--ink);
+  --color-fg-secondary:  var(--ink-2);
+  --color-fg-muted:      var(--ink-3);
+
+  --color-border-app:    var(--rule);
+  --color-border-light:  var(--rule-soft);
+
+  /* Primary accent tokens: name kept as "coral" for compat,
+     but resolves to deep teal. */
+  --color-coral:           var(--teal);
+  --color-coral-strong:    #0B5E58;
+  --color-coral-end:       #134E48;
+  --color-coral-bg:        var(--teal-soft);
+  --color-coral-bg-strong: rgba(15, 118, 110, 0.16);
+
+  --color-success:       var(--teal);
+  --color-warning:       var(--amber);
   --color-error:         var(--error);
-  --color-violet:        var(--violet);
+
+  /* "violet" tokens now point to amber (pricing accent). */
+  --color-violet:        var(--amber);
+
+  /* Editorial Warm direct names for new usage. */
+  --color-paper:         var(--paper);
+  --color-paper-warm:    var(--paper-warm);
+  --color-white:         var(--white);
+  --color-ink:           var(--ink);
+  --color-ink-2:         var(--ink-2);
+  --color-ink-3:         var(--ink-3);
+  --color-teal:          var(--teal);
+  --color-amber:         var(--amber);
+  --color-partner:       var(--partner);
 
   /* Font families */
-  --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: var(--font-geist-mono), 'SF Mono', Consolas, monospace;
+  --font-serif: var(--font-instrument-serif), 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --font-sans:  'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* Radii matching the RN app */
+  /* Radii */
   --radius-sm:   6px;
   --radius-md:   12px;
   --radius-lg:   16px;
@@ -93,67 +110,67 @@
 
 html {
   color-scheme: light;
-  background: var(--bg);
+  background: var(--paper);
 }
 
 body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-sans);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+  font-feature-settings: "ss03", "ss04";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-feature-settings: "ss03", "ss04";
+  text-rendering: optimizeLegibility;
   position: relative;
 }
 
-/* Liquid Glass wallpaper — 3 radial layers fixed behind everything.
-   Matches lightTheme.wallpaperLayers in src/theme/colors.ts. */
+/* ─── paper grain (barely there) — replaces mint radial wallpaper ─── */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 60% 45% at 10% 0%,  rgba(94, 200, 180, 0.35), transparent 70%),
-    radial-gradient(ellipse 55% 45% at 100% 30%, rgba(130, 170, 240, 0.30), transparent 70%),
-    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(160, 200, 180, 0.32), transparent 70%);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.06 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.6;
 }
 
-/* Numeric text — use .font-mono class or explicit `font-family: var(--font-mono)` */
+/* Numeric text — use .num or the font-mono class */
 .num {
-  font-family: var(--font-mono);
+  font-family: var(--mono);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
-/* Standard Liquid Glass card — matches DESIGN.md v2 .glass spec.
-   Use on content blocks that should read "floating on wallpaper". */
-.glass {
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
-  background:      var(--glass-bg);
-  border:          1px solid var(--glass-border);
-  box-shadow:      var(--glass-shadow);
-  border-radius:   16px;
-  overflow:        hidden;
-  position:        relative;
+/* Serif display helper — opt-in on headings that should read editorial */
+.serif {
+  font-family: var(--serif);
+  font-weight: 400;
+  letter-spacing: -0.02em;
 }
 
-.glass::before {
+/* Section marker — "I. 문제", "II. 기능" etc. with flanking rules */
+.section-mark {
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink-3);
+  padding: 48px 0;
+  letter-spacing: 0.04em;
+}
+.section-mark::before,
+.section-mark::after {
   content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 41px;
-  background: linear-gradient(
-    180deg,
-    rgba(255,255,255,0.55) 0px,
-    rgba(255,255,255,0.55) 1px,
-    rgba(255,255,255,0) 41px
-  );
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 1;
+  display: inline-block;
+  width: 80px;
+  height: 1px;
+  background: var(--rule);
+  vertical-align: middle;
+  margin: 0 18px;
 }
 
 /* Reduced motion */

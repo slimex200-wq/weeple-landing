@@ -1,13 +1,18 @@
 'use client'
 
 /**
- * LiveDemo — "3초 입력" 라이브 시연 섹션.
+ * LiveDemo — Editorial Warm v2.
  *
- * 21st 패턴: 자동 타이핑 + 결과 카드 fade-in.
- * 실제 앱 자연어 입력 포맷(줄임말, 단위 생략 등)을 그대로 보여준다.
+ * 패턴 (unchanged):
+ *   - 자동 타이핑 + 결과 카드 fade-in
+ *   - 3 cases 루프 (스벅/버거킹/택시)
+ *   - STEPS 3단 (01/02/03)
  *
- * 루프: 타이핑 → 카테고리 칩 pop-in → 2s 유지 → reset.
- * 폰 목업 프레임만 off-black 하드코딩 유지 (실제 기기 색감).
+ * Editorial Warm:
+ *   - 헤드라인: Instrument Serif + italic teal accent
+ *   - 폰 프레임(#1a1a1a) 유지 (실기기 색감)
+ *   - 스텝 카드: white + hairline + soft shadow
+ *   - 금액(.num) Geist Mono
  */
 
 import { useEffect, useState } from 'react'
@@ -85,7 +90,6 @@ export default function LiveDemo() {
 
   useEffect(() => {
     if (prefersReducedMotion) {
-      // 정적: 첫 케이스 완성된 상태로 고정
       setTyped(CASES[0].input)
       setShowResult(true)
       return
@@ -95,14 +99,11 @@ export default function LiveDemo() {
     setTyped('')
     setShowResult(false)
 
-    // 글자별 타이핑
     const typingTimer = setInterval(() => {
       charIndex += 1
       if (charIndex > currentCase.input.length) {
         clearInterval(typingTimer)
-        // 0.5s 대기 후 결과 카드 표시
         setTimeout(() => setShowResult(true), 500)
-        // 2.5s 유지 후 다음 케이스로
         setTimeout(() => {
           setCaseIndex((i) => (i + 1) % CASES.length)
         }, 3000)
@@ -129,15 +130,37 @@ export default function LiveDemo() {
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
           className="max-w-3xl mb-16 sm:mb-20"
         >
-          <div className="text-xs font-semibold tracking-wider text-coral uppercase mb-4">
+          <div
+            className="inline-flex items-center gap-2.5 text-xs font-semibold tracking-[0.14em] uppercase mb-5"
+            style={{ color: 'var(--teal)' }}
+          >
+            <span
+              aria-hidden
+              className="inline-block w-7 h-px"
+              style={{ background: 'var(--teal)' }}
+            />
             라이브 데모
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-fg">
+          <h2
+            className="leading-[1.02] mb-6"
+            style={{
+              fontFamily: 'var(--serif)',
+              fontWeight: 400,
+              fontSize: 'clamp(2.5rem, 5.5vw, 5rem)',
+              letterSpacing: '-0.025em',
+              color: 'var(--ink)',
+            }}
+          >
             3초면 끝.
             <br />
-            <span className="text-fg-muted">진짜로.</span>
+            <span style={{ fontStyle: 'italic', color: 'var(--teal)' }}>
+              진짜로.
+            </span>
           </h2>
-          <p className="text-base sm:text-lg text-fg-secondary leading-relaxed max-w-2xl">
+          <p
+            className="text-base sm:text-lg leading-relaxed max-w-2xl"
+            style={{ color: 'var(--ink-2)' }}
+          >
             카테고리 고르지 마세요. 금액 칸 따로 찾지 마세요. 한 줄만 치세요.
             나머지는 weeple 이 합니다.
           </p>
@@ -145,7 +168,7 @@ export default function LiveDemo() {
 
         {/* 2열 레이아웃 */}
         <div className="grid gap-12 lg:grid-cols-2 items-center">
-          {/* 폰 목업 — off-black 프레임은 실제 기기 색감 표현용으로 하드코딩 유지 */}
+          {/* 폰 목업 — #1a1a1a 프레임 유지(실기기 색감) */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -154,35 +177,65 @@ export default function LiveDemo() {
             className="flex justify-center"
           >
             <div
-              className="relative w-[320px] sm:w-[360px] rounded-[40px] border-8 border-[#1a1a1a] bg-white shadow-[0_40px_100px_-20px_rgba(0,0,0,0.25),0_0_0_1px_rgba(0,0,0,0.04)]"
-              style={{ aspectRatio: '9/18' }}
+              className="relative w-[320px] sm:w-[360px] rounded-[40px] border-8"
+              style={{
+                borderColor: '#1a1a1a',
+                background: 'var(--white)',
+                aspectRatio: '9/18',
+                boxShadow:
+                  '0 40px 100px -20px rgba(26,20,16,0.22), 0 0 0 1px var(--rule-soft)',
+              }}
             >
-              {/* Notch — 기기 프레임 일부 */}
+              {/* Notch */}
               <div
-                className="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-24 rounded-full bg-[#1a1a1a]"
+                className="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-24 rounded-full"
+                style={{ background: '#1a1a1a' }}
                 aria-hidden
               />
               {/* 내부 */}
               <div className="h-full w-full rounded-[32px] overflow-hidden flex flex-col p-5 pt-10">
                 {/* 상단 바 */}
-                <div className="flex items-center justify-between text-[10px] text-fg-muted mb-6">
+                <div
+                  className="flex items-center justify-between text-[10px] mb-6"
+                  style={{ color: 'var(--ink-3)' }}
+                >
                   <span className="num">9:41</span>
                   <div className="flex items-center gap-1">
-                    <div className="w-4 h-2 rounded-sm border border-fg-muted">
-                      <div className="w-3/4 h-full bg-fg-muted rounded-sm" />
+                    <div
+                      className="w-4 h-2 rounded-sm"
+                      style={{ border: '1px solid var(--ink-3)' }}
+                    >
+                      <div
+                        className="w-3/4 h-full rounded-sm"
+                        style={{ background: 'var(--ink-3)' }}
+                      />
                     </div>
                   </div>
                 </div>
 
                 {/* 타이틀 */}
-                <h3 className="text-[11px] font-semibold text-fg-muted uppercase tracking-wider mb-2">
+                <h3
+                  className="text-[11px] font-semibold uppercase tracking-wider mb-2"
+                  style={{ color: 'var(--ink-3)' }}
+                >
                   새 거래
                 </h3>
 
                 {/* 입력 필드 */}
-                <div className="relative rounded-xl border border-coral/40 bg-bg-input px-4 py-3.5 mb-5">
+                <div
+                  className="relative rounded-xl px-4 py-3.5 mb-5"
+                  style={{
+                    border: '1px solid var(--teal)',
+                    background: 'var(--paper-warm)',
+                  }}
+                >
                   <div className="flex items-center gap-2 min-h-[1.25rem]">
-                    <span className="num text-base text-fg">{typed}</span>
+                    <span
+                      className="num text-base"
+                      style={{ color: 'var(--ink)' }}
+                    >
+                      {typed}
+                    </span>
                     <motion.span
                       animate={{ opacity: [1, 0] }}
                       transition={{
@@ -190,7 +243,8 @@ export default function LiveDemo() {
                         repeat: Infinity,
                         ease: 'linear',
                       }}
-                      className="inline-block w-[2px] h-5 bg-coral"
+                      className="inline-block w-[2px] h-5"
+                      style={{ background: 'var(--teal)' }}
                       aria-hidden
                     />
                   </div>
@@ -204,23 +258,51 @@ export default function LiveDemo() {
                     y: showResult ? 0 : 12,
                   }}
                   transition={{ duration: 0.45, ease: [0.2, 0.8, 0.2, 1] }}
-                  className="rounded-xl border border-border-light bg-bg-card p-4"
+                  className="rounded-xl p-4"
+                  style={{
+                    background: 'var(--white)',
+                    border: '1px solid var(--rule)',
+                    boxShadow: 'var(--shadow-1)',
+                  }}
                 >
                   <div className="flex items-center justify-between mb-3">
-                    <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-coral-bg">
-                      <div className="w-3.5 h-3.5 text-coral">
+                    <div
+                      className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full"
+                      style={{ background: 'var(--teal-soft)' }}
+                    >
+                      <div
+                        className="w-3.5 h-3.5"
+                        style={{ color: 'var(--teal)' }}
+                      >
                         {currentCase.icon}
                       </div>
-                      <span className="text-[11px] font-semibold text-coral">
+                      <span
+                        className="text-[11px] font-semibold"
+                        style={{ color: 'var(--teal)' }}
+                      >
                         {currentCase.category}
                       </span>
                     </div>
-                    <span className="text-[10px] text-fg-muted num">오늘</span>
+                    <span
+                      className="text-[10px] num"
+                      style={{ color: 'var(--ink-3)' }}
+                    >
+                      오늘
+                    </span>
                   </div>
-                  <div className="num text-2xl font-extrabold text-fg tracking-tight">
+                  <div
+                    className="num text-2xl tracking-tight"
+                    style={{
+                      color: 'var(--ink)',
+                      fontWeight: 500,
+                    }}
+                  >
                     {currentCase.amount}
                   </div>
-                  <div className="mt-3 flex items-center gap-1.5 text-[10px] text-coral">
+                  <div
+                    className="mt-3 flex items-center gap-1.5 text-[10px]"
+                    style={{ color: 'var(--teal)' }}
+                  >
                     <svg
                       width="10"
                       height="10"
@@ -238,15 +320,21 @@ export default function LiveDemo() {
 
                 {/* 하단 플레이스홀더 */}
                 <div className="mt-auto space-y-2" aria-hidden>
-                  <div className="h-8 rounded-lg bg-bg-input" />
-                  <div className="h-8 rounded-lg bg-bg-input" />
+                  <div
+                    className="h-8 rounded-lg"
+                    style={{ background: 'var(--paper-warm)' }}
+                  />
+                  <div
+                    className="h-8 rounded-lg"
+                    style={{ background: 'var(--paper-warm)' }}
+                  />
                 </div>
               </div>
             </div>
           </motion.div>
 
           {/* 단계 설명 */}
-          <div className="space-y-6">
+          <div className="space-y-4">
             {STEPS.map((step, i) => (
               <motion.div
                 key={step.n}
@@ -258,16 +346,40 @@ export default function LiveDemo() {
                   delay: 0.12 * i,
                   ease: [0.2, 0.8, 0.2, 1],
                 }}
-                className="flex gap-5 rounded-2xl p-6 bg-bg-card border border-border-light hover:border-coral/40 transition-colors duration-300"
+                className="flex gap-5 rounded-2xl p-6 transition-colors duration-300"
+                style={{
+                  background: 'var(--white)',
+                  border: '1px solid var(--rule)',
+                  boxShadow: 'var(--shadow-1)',
+                }}
               >
-                <div className="shrink-0 w-12 h-12 rounded-xl border border-coral/40 bg-coral-bg flex items-center justify-center num text-sm font-bold text-coral">
+                <div
+                  className="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center num text-sm font-medium"
+                  style={{
+                    background: 'var(--teal-soft)',
+                    color: 'var(--teal)',
+                  }}
+                >
                   {step.n}
                 </div>
                 <div>
-                  <h4 className="text-lg font-bold text-fg mb-1.5">
+                  <h4
+                    className="mb-1.5"
+                    style={{
+                      fontFamily: 'var(--serif)',
+                      fontWeight: 400,
+                      fontSize: '1.375rem',
+                      letterSpacing: '-0.015em',
+                      color: 'var(--ink)',
+                      lineHeight: 1.15,
+                    }}
+                  >
                     {step.title}
                   </h4>
-                  <p className="text-sm text-fg-secondary leading-relaxed">
+                  <p
+                    className="text-sm leading-relaxed"
+                    style={{ color: 'var(--ink-2)' }}
+                  >
                     {step.body}
                   </p>
                 </div>

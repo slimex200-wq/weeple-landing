@@ -1,5 +1,12 @@
 'use client'
 
+/**
+ * Footer — Editorial Warm v2.
+ *
+ * Brand "weeple" 는 Instrument Serif italic + teal 마침표.
+ * 링크는 Pretendard, 호버 시 teal.
+ */
+
 type LinkGroup = {
   title: string
   links: { label: string; href: string }[]
@@ -10,7 +17,7 @@ const groups: LinkGroup[] = [
     title: '제품',
     links: [
       { label: '기능', href: '#' },
-      { label: '가격', href: '#' },
+      { label: '가격', href: '#pricing' },
       { label: '3D 체험', href: '#experience' },
       { label: '업데이트 노트', href: '#' },
     ],
@@ -46,26 +53,44 @@ const groups: LinkGroup[] = [
 
 export default function Footer() {
   return (
-    <footer className="relative mt-20 border-t border-border-light bg-bg">
+    <footer
+      className="relative mt-20"
+      style={{
+        background: 'var(--paper)',
+        borderTop: '1px solid var(--rule)',
+      }}
+    >
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Main grid */}
         <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(4,1fr)]">
           {/* Brand column */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div
-                className="text-2xl font-extrabold tracking-tight"
+            <div className="flex items-baseline gap-1 mb-4">
+              <span
+                className="text-3xl tracking-tight"
                 style={{
-                  background: 'linear-gradient(135deg, #F97066 0%, #D4533F 100%)',
-                  WebkitBackgroundClip: 'text',
-                  backgroundClip: 'text',
-                  color: 'transparent',
+                  fontFamily: 'var(--serif)',
+                  fontStyle: 'italic',
+                  color: 'var(--ink)',
+                  letterSpacing: '-0.01em',
                 }}
               >
                 weeple
-              </div>
+              </span>
+              <span
+                className="text-3xl"
+                style={{
+                  fontFamily: 'var(--serif)',
+                  color: 'var(--teal)',
+                }}
+              >
+                .
+              </span>
             </div>
-            <p className="text-sm text-fg-secondary leading-relaxed max-w-xs mb-6">
+            <p
+              className="text-sm leading-relaxed max-w-xs mb-6"
+              style={{ color: 'var(--ink-2)' }}
+            >
               둘이 쓰는 돈, 한눈에. 자연어 입력부터 AI 분석까지 한 앱에서.
             </p>
             {/* Social */}
@@ -92,7 +117,10 @@ export default function Footer() {
           {/* Link groups */}
           {groups.map((g) => (
             <div key={g.title}>
-              <h4 className="text-xs font-semibold text-fg uppercase tracking-wider mb-4">
+              <h4
+                className="text-[11px] font-semibold uppercase tracking-[0.12em] mb-4"
+                style={{ color: 'var(--ink)' }}
+              >
                 {g.title}
               </h4>
               <ul className="space-y-3">
@@ -100,7 +128,14 @@ export default function Footer() {
                   <li key={l.label}>
                     <a
                       href={l.href}
-                      className="text-sm text-fg-secondary hover:text-coral transition-colors"
+                      className="text-sm transition-colors"
+                      style={{ color: 'var(--ink-2)' }}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.color = 'var(--teal)')
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.color = 'var(--ink-2)')
+                      }
                     >
                       {l.label}
                     </a>
@@ -112,7 +147,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-14 pt-8 border-t border-border-light flex flex-col sm:flex-row justify-between gap-4 text-xs text-fg-muted">
+        <div
+          className="mt-14 pt-8 flex flex-col sm:flex-row justify-between gap-4 text-xs"
+          style={{
+            borderTop: '1px solid var(--rule-soft)',
+            color: 'var(--ink-3)',
+          }}
+        >
           <div>
             © 2026 weeple. All rights reserved. ·
             <span className="num ml-1">v1.0</span>
@@ -138,7 +179,13 @@ function SocialIcon({
     <a
       href="#"
       aria-label={label}
-      className="w-9 h-9 rounded-full border border-border-app bg-bg-card flex items-center justify-center text-fg-muted transition-all hover:border-coral hover:text-coral hover:scale-105"
+      className="w-9 h-9 rounded-full flex items-center justify-center transition-all hover:scale-105"
+      style={{
+        background: 'var(--white)',
+        border: '1px solid var(--rule)',
+        color: 'var(--ink-3)',
+        boxShadow: 'var(--shadow-1)',
+      }}
     >
       <svg
         width="16"
@@ -146,7 +193,7 @@ function SocialIcon({
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        strokeWidth="1.8"
+        strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       >

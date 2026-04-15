@@ -1,13 +1,15 @@
 'use client'
 
 /**
- * Pricing — weeple 크레딧 팩 3단 구조.
+ * Pricing — Editorial Warm v2.
  *
- * 구독 아님. 크레딧 팩만 판매. 사용기한 없음.
- * 기본 기능(자연어 입력, OCR, 커플 공유, 목표) 은 전부 무료,
- * 매월 AI 분석 1회 무료 제공. AI 분석 더 돌리려면 크레딧.
+ * THIS IS THE AMBER SECTION. Teal 대신 amber(#B45309) 가 유일한 액센트.
+ * (Couple/Security 섹션과 시각적 대비 — 가격은 결정 모멘트라 온도를 올림)
  *
- * 21st 패턴: 3D tilt 카드 + 추천 카드 translateZ 로 앞으로 튀어나옴.
+ * 패턴 (unchanged):
+ *   - TiltCard 3D 틸트
+ *   - 추천 카드 translateZ + scale (튀어나옴)
+ *   - stagger reveal
  */
 
 import { motion } from 'motion/react'
@@ -72,22 +74,20 @@ const TIERS: Tier[] = [
   },
 ]
 
-function Check() {
+function Arrow() {
   return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="text-coral shrink-0"
+    <span
       aria-hidden
+      className="shrink-0 leading-none"
+      style={{
+        fontFamily: 'var(--serif)',
+        fontStyle: 'italic',
+        color: 'var(--amber)',
+        fontSize: '1.1em',
+      }}
     >
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
+      →
+    </span>
   )
 }
 
@@ -108,20 +108,42 @@ export default function Pricing() {
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
           className="text-center max-w-2xl mx-auto mb-6"
         >
-          <div className="text-xs font-semibold tracking-wider text-coral uppercase mb-4">
+          <div
+            className="inline-flex items-center gap-2.5 text-xs font-semibold tracking-[0.14em] uppercase mb-5 justify-center"
+            style={{ color: 'var(--amber)' }}
+          >
+            <span
+              aria-hidden
+              className="inline-block w-7 h-px"
+              style={{ background: 'var(--amber)' }}
+            />
             크레딧 팩
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-5">
+          <h2
+            className="leading-[1.02] mb-5"
+            style={{
+              fontFamily: 'var(--serif)',
+              fontWeight: 400,
+              fontSize: 'clamp(2.75rem, 6vw, 5.5rem)',
+              letterSpacing: '-0.025em',
+              color: 'var(--ink)',
+            }}
+          >
             쓴 만큼만,
             <br />
-            <span className="text-fg-muted">한 번만 결제.</span>
+            <span style={{ fontStyle: 'italic', color: 'var(--amber)' }}>
+              한 번만 결제.
+            </span>
           </h2>
-          <p className="text-base sm:text-lg text-fg-secondary leading-relaxed">
+          <p
+            className="text-base sm:text-lg leading-relaxed"
+            style={{ color: 'var(--ink-2)' }}
+          >
             구독 없음. 사용기한 없음. AI 분석이 필요할 때 크레딧을 씁니다.
           </p>
         </motion.div>
 
-        {/* 무료 안내 — 토글 자리 대체 */}
+        {/* 무료 안내 */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -129,9 +151,21 @@ export default function Pricing() {
           transition={{ duration: 0.6, delay: 0.15, ease: [0.2, 0.8, 0.2, 1] }}
           className="max-w-2xl mx-auto mb-16 text-center"
         >
-          <div className="inline-flex flex-wrap justify-center items-center gap-x-2 gap-y-1 px-5 py-3 rounded-2xl bg-coral-bg border border-coral/25 text-sm text-fg-secondary">
-            <span className="font-semibold text-coral">매월 AI 분석 1회 무료</span>
-            <span className="text-fg-muted">›</span>
+          <div
+            className="inline-flex flex-wrap justify-center items-center gap-x-2 gap-y-1 px-5 py-3 rounded-full text-sm"
+            style={{
+              background: 'var(--amber-soft)',
+              border: '1px solid var(--rule)',
+              color: 'var(--ink-2)',
+            }}
+          >
+            <span
+              className="font-semibold"
+              style={{ color: 'var(--amber)' }}
+            >
+              매월 AI 분석 1회 무료
+            </span>
+            <span style={{ color: 'var(--ink-3)' }}>›</span>
             <span>자연어 입력 · 영수증 OCR · 커플 공유 · 목표 전부 무료</span>
           </div>
         </motion.div>
@@ -157,67 +191,133 @@ export default function Pricing() {
                 zIndex: tier.highlighted ? 10 : 1,
               }}
             >
-              <TiltCard
-                className={`relative flex flex-col h-full rounded-3xl p-8 ${
-                  tier.highlighted
-                    ? 'bg-gradient-to-b from-coral-bg to-bg-card border border-coral/40 shadow-[0_60px_120px_-30px_rgba(14,165,160,0.45)]'
-                    : 'bg-bg-card border border-border-light hover:border-coral/30 transition-colors duration-300'
-                }`}
-              >
-                {tier.badge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-coral text-white text-[11px] font-bold tracking-wide uppercase shadow-[0_8px_20px_-4px_rgba(14,165,160,0.5)]">
-                    {tier.badge}
-                  </div>
-                )}
-
-                {/* 이름 + 크레딧 + 가격 */}
-                <div className="mb-6">
-                  <h3 className="text-sm font-semibold text-fg-muted uppercase tracking-wider mb-3">
-                    {tier.name}
-                  </h3>
-                  <div className="num text-sm font-semibold text-fg-secondary mb-2">
-                    {tier.credits}
-                  </div>
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="num text-5xl font-extrabold tracking-tight text-fg">
-                      {tier.price}
-                    </span>
-                  </div>
-                  <div className="num text-xs text-fg-muted mb-3">
-                    {tier.unit}
-                  </div>
-                  <p className="text-sm text-fg-secondary leading-relaxed">
-                    {tier.description}
-                  </p>
-                </div>
-
-                {/* 기능 */}
-                <ul className="flex-1 space-y-3 mb-8">
-                  {tier.features.map((f) => (
-                    <li key={f} className="flex items-start gap-3 text-sm">
-                      <Check />
-                      <span className="text-fg-secondary leading-relaxed">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA */}
-                <a
-                  href="#"
-                  className={`inline-flex items-center justify-center h-12 rounded-full text-sm font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
+              <TiltCard className="h-full">
+                <div
+                  className="relative flex flex-col h-full rounded-3xl p-8"
+                  style={
                     tier.highlighted
-                      ? 'bg-coral text-white hover:scale-[1.02] hover:shadow-[0_12px_30px_-6px_rgba(14,165,160,0.55)]'
-                      : 'border border-border-app bg-bg hover:border-coral hover:text-coral'
-                  }`}
+                      ? {
+                          background: 'var(--white)',
+                          border: '2px solid var(--amber)',
+                          boxShadow: 'var(--shadow-3)',
+                        }
+                      : {
+                          background: 'var(--white)',
+                          border: '1px solid var(--rule)',
+                          boxShadow: 'var(--shadow-1)',
+                        }
+                  }
                 >
-                  {tier.cta}
-                </a>
+                  {tier.badge && (
+                    <div
+                      className="absolute -top-3 left-8 px-3 py-1 rounded-full text-[10px] font-semibold tracking-[0.12em] uppercase num"
+                      style={{
+                        background: 'var(--amber)',
+                        color: 'var(--white)',
+                      }}
+                    >
+                      {tier.badge}
+                    </div>
+                  )}
+
+                  {/* 이름 + 크레딧 + 가격 */}
+                  <div className="mb-6">
+                    <h3
+                      className="mb-4"
+                      style={{
+                        fontFamily: 'var(--serif)',
+                        fontStyle: 'italic',
+                        fontWeight: 400,
+                        fontSize: '1.25rem',
+                        color: 'var(--ink-3)',
+                      }}
+                    >
+                      {tier.name}
+                    </h3>
+                    <div
+                      className="num text-sm font-medium mb-2"
+                      style={{ color: 'var(--amber)' }}
+                    >
+                      {tier.credits}
+                    </div>
+                    <div className="flex items-baseline gap-2 mb-2">
+                      <span
+                        className="num tracking-tight"
+                        style={{
+                          color: 'var(--ink)',
+                          fontSize: '2.75rem',
+                          fontWeight: 500,
+                          letterSpacing: '-0.025em',
+                        }}
+                      >
+                        {tier.price}
+                      </span>
+                    </div>
+                    <div
+                      className="num text-xs mb-3"
+                      style={{ color: 'var(--ink-3)' }}
+                    >
+                      {tier.unit}
+                    </div>
+                    <p
+                      className="text-sm leading-relaxed pt-4"
+                      style={{
+                        color: 'var(--ink-2)',
+                        borderTop: '1px solid var(--rule-soft)',
+                      }}
+                    >
+                      {tier.description}
+                    </p>
+                  </div>
+
+                  {/* 기능 */}
+                  <ul className="flex-1 space-y-2.5 mb-8">
+                    {tier.features.map((f) => (
+                      <li
+                        key={f}
+                        className="flex items-start gap-3 text-sm"
+                      >
+                        <Arrow />
+                        <span
+                          className="leading-relaxed"
+                          style={{ color: 'var(--ink-2)' }}
+                        >
+                          {f}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* CTA */}
+                  <a
+                    href="#"
+                    className="inline-flex items-center justify-center h-12 rounded-full text-sm font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                    style={
+                      tier.highlighted
+                        ? {
+                            background: 'var(--ink)',
+                            color: 'var(--paper)',
+                            border: '1px solid var(--ink)',
+                          }
+                        : {
+                            background: 'var(--paper)',
+                            color: 'var(--ink)',
+                            border: '1px solid var(--rule)',
+                          }
+                    }
+                  >
+                    {tier.cta}
+                  </a>
+                </div>
               </TiltCard>
             </motion.div>
           ))}
         </div>
 
-        <p className="mt-12 text-center text-xs text-fg-muted leading-relaxed">
+        <p
+          className="mt-14 text-center text-xs leading-relaxed max-w-lg mx-auto"
+          style={{ color: 'var(--ink-3)' }}
+        >
           부가세 포함. App Store / Google Play 수수료 별도 없음. 크레딧 사용기한 없음.
         </p>
       </div>

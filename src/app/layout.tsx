@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist_Mono } from 'next/font/google'
+import { Geist_Mono, Instrument_Serif } from 'next/font/google'
 import './globals.css'
 import ScrollProgress from '@/components/ScrollProgress'
 
@@ -8,6 +8,15 @@ const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
+})
+
+// Editorial Warm v2 — 디스플레이용 Instrument Serif (이탤릭 포함).
+const instrumentSerif = Instrument_Serif({
+  variable: '--font-instrument-serif',
+  subsets: ['latin'],
+  weight: ['400'],
+  style: ['normal', 'italic'],
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -27,8 +36,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko" className={`${geistMono.variable} h-full`}>
-      <body className="min-h-full flex flex-col bg-bg text-fg">
+    <html
+      lang="ko"
+      className={`${geistMono.variable} ${instrumentSerif.variable} h-full`}
+    >
+      <body className="min-h-full flex flex-col">
         <ScrollProgress />
         {children}
       </body>

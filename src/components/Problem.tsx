@@ -1,11 +1,17 @@
 'use client'
 
 /**
- * Problem — "왜 가계부는 3개월 안에 버려지는가" 섹션.
+ * Problem — Editorial Warm v2.
  *
- * 21st 패턴: 거대 숫자 카운트업 + 단어별 reveal (whileInView stagger).
- * 3가지 이유는 circle-bg 아이콘 없이 세로 리스트 + hairline divider 로 정리.
- * (anti-slop #9 — 3-column feature grid with circle-background icons 회피)
+ * 21st 패턴 (unchanged):
+ *   - 단어별 reveal 헤드라인 (stagger)
+ *   - 거대 숫자 카운트업 (whileInView)
+ *   - 3 reasons 세로 리스트 + hairline divider (no circle-bg icons)
+ *
+ * Editorial Warm:
+ *   - Display: Instrument Serif (serif, near-black)
+ *   - Stat 93: serif, solid ink + small sans-serif teal sup
+ *   - 01/02/03 numbers: Geist Mono in teal
  */
 
 import { useEffect, useRef, useState } from 'react'
@@ -67,19 +73,34 @@ export default function Problem() {
       aria-label="문제 인식"
     >
       <div className="max-w-6xl mx-auto">
-        {/* eyebrow */}
+        {/* eyebrow — short leading rule */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-xs font-semibold tracking-wider text-coral uppercase mb-6 text-center"
+          className="inline-flex items-center gap-2.5 text-xs font-semibold tracking-[0.14em] uppercase mb-8"
+          style={{ color: 'var(--teal)' }}
         >
+          <span
+            aria-hidden
+            className="inline-block w-7 h-px"
+            style={{ background: 'var(--teal)' }}
+          />
           문제
         </motion.div>
 
-        {/* 단어별 reveal 헤드라인 */}
-        <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight text-center mb-16 sm:mb-20">
+        {/* 단어별 reveal 헤드라인 — Instrument Serif */}
+        <h2
+          className="leading-[1.02] mb-16 sm:mb-20"
+          style={{
+            fontFamily: 'var(--serif)',
+            fontWeight: 400,
+            fontSize: 'clamp(2.5rem, 5.5vw, 5rem)',
+            letterSpacing: '-0.025em',
+            color: 'var(--ink)',
+          }}
+        >
           {HEADLINE_WORDS.map((w, i) => (
             <motion.span
               key={i}
@@ -92,49 +113,73 @@ export default function Problem() {
                 ease: [0.2, 0.8, 0.2, 1],
               }}
               className="inline-block mr-[0.25em]"
+              style={
+                // "3개월" 만 italic teal 로 액센트
+                w === '3개월'
+                  ? { fontStyle: 'italic', color: 'var(--teal)' }
+                  : undefined
+              }
             >
               {w}
             </motion.span>
           ))}
         </h2>
 
-        {/* 거대 숫자 — v2 teal 그라디언트 */}
+        {/* 거대 숫자 — serif, solid ink + sup */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.97 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-center mb-4"
+          className="text-center mb-2"
         >
           <div
-            className="num font-extrabold tracking-[-0.05em] leading-[0.85]"
+            className="leading-[0.82]"
             style={{
+              fontFamily: 'var(--serif)',
+              fontWeight: 400,
               fontSize: 'clamp(10rem, 22vw, 22rem)',
-              background:
-                'linear-gradient(180deg, #1A1A1A 0%, #0EA5A0 55%, #CCFBF1 100%)',
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text',
-              color: 'transparent',
+              letterSpacing: '-0.04em',
+              color: 'var(--ink)',
             }}
           >
             <CountUp target={93} />
-            <span className="text-[0.4em] align-top ml-2">%</span>
+            <sup
+              className="align-top font-semibold"
+              style={{
+                fontFamily: 'var(--sans)',
+                fontSize: '0.22em',
+                color: 'var(--teal)',
+                marginLeft: '0.08em',
+                top: '0.5em',
+                position: 'relative',
+              }}
+            >
+              %
+            </sup>
           </div>
         </motion.div>
 
-        {/* 출처 설명 */}
+        {/* 출처 설명 — hairline 위 캡션 스타일 */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, delay: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-center text-sm sm:text-base text-fg-muted mb-20 sm:mb-28 max-w-xl mx-auto leading-relaxed"
+          className="mx-auto text-center text-sm leading-relaxed mb-20 sm:mb-28 max-w-xl pt-4"
+          style={{
+            color: 'var(--ink-3)',
+            borderTop: '1px solid var(--rule)',
+          }}
         >
           통계청 가계금융복지조사 · 2024 — 가계부 시작 후 90일 내 포기 비율
         </motion.p>
 
-        {/* 3가지 이유 — 세로 리스트 + hairline divider. circle-bg 아이콘 없음. */}
-        <div className="max-w-3xl mx-auto">
+        {/* 3가지 이유 — 세로 리스트 + hairline. circle-bg 없음. */}
+        <div
+          className="max-w-4xl mx-auto"
+          style={{ borderTop: '1px solid var(--rule)' }}
+        >
           {REASONS.map((reason, i) => (
             <motion.div
               key={reason.title}
@@ -146,21 +191,34 @@ export default function Problem() {
                 delay: 0.1 * i,
                 ease: [0.2, 0.8, 0.2, 1],
               }}
-              className={`grid grid-cols-[auto_1fr] gap-x-8 gap-y-2 py-8 sm:py-10 ${
-                i !== REASONS.length - 1 ? 'border-b border-border-light' : ''
-              }`}
+              className="grid grid-cols-[80px_1fr] md:grid-cols-[90px_1fr_1.2fr] gap-x-8 gap-y-2 py-8 sm:py-10 items-baseline"
+              style={{
+                borderBottom: '1px solid var(--rule)',
+              }}
             >
               <div
-                className="num text-sm font-semibold text-coral tracking-wider"
+                className="num text-xs font-medium tracking-[0.08em]"
+                style={{ color: 'var(--teal)' }}
                 aria-hidden
               >
-                0{i + 1}
+                {String(i + 1).padStart(2, '0')}
               </div>
-              <h3 className="text-2xl sm:text-3xl font-bold text-fg leading-tight">
+              <h3
+                className="leading-tight"
+                style={{
+                  fontFamily: 'var(--serif)',
+                  fontWeight: 400,
+                  fontSize: 'clamp(1.75rem, 2.4vw, 2rem)',
+                  letterSpacing: '-0.02em',
+                  color: 'var(--ink)',
+                }}
+              >
                 {reason.title}
               </h3>
-              <div className="hidden sm:block" aria-hidden />
-              <p className="text-base text-fg-secondary leading-relaxed max-w-xl">
+              <p
+                className="text-[15px] leading-relaxed col-start-2 md:col-start-3 md:row-start-1"
+                style={{ color: 'var(--ink-2)' }}
+              >
                 {reason.detail}
               </p>
             </motion.div>

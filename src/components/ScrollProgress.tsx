@@ -26,8 +26,9 @@ export default function ScrollProgress() {
       style={{
         scaleX,
         transformOrigin: '0% 50%',
+        background: 'var(--ink)',
       }}
-      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px] bg-gradient-to-r from-coral via-coral to-violet"
+      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px]"
     />
   )
 }
