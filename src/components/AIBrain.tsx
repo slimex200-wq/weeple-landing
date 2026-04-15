@@ -66,9 +66,9 @@ const AIS: AI[] = [
     name: 'Gemini',
     maker: 'Google',
     color: 'success',
-    tagline: '금전운 🔮',
+    tagline: '금전운 스코어',
     insight:
-      '🔮 이번 달 금전운 73점. 월 중반부터 "재물의 흐름"이 서쪽으로 기울어 외식 카테고리 약세. 주중 절제 권장, 주말 고정 지출 유지. 15일 이후 공동 지출 정산이 유리합니다.',
+      '이번 달 금전운 73점. 월 중반부터 외식 카테고리 약세 예상 — 주중 절제 권장, 주말 고정 지출 유지. 15일 이후 공동 지출 정산이 유리합니다.',
     metric: { label: '금전운 점수', value: '73/100' },
     icon: (
       <svg viewBox="0 0 48 48" fill="currentColor" aria-hidden>
@@ -174,7 +174,8 @@ export default function AIBrain() {
             </h2>
             <p className="text-base sm:text-lg text-fg-secondary leading-relaxed">
               매월 무료 1회. Claude 는 절약 코치, GPT 는 패턴 분석, Gemini 는
-              금전운 (🔮 1~100점). 동일한 소비 데이터를 서로 다른 역할로.
+              금전운 스코어(1~100점). 동일한 소비 데이터를 서로 다른 역할로.
+              추가 분석은 크레딧 팩(10개 ₩9,900부터).
             </p>
           </div>
           <div className="space-y-6">

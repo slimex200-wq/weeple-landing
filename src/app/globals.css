@@ -11,16 +11,16 @@
    compat with existing components (values are now teal/mint).
    ============================================================= */
 :root {
-  /* Backgrounds — Mint-tinted off-white base */
-  --bg:            #EDEFE9;
-  --bg-card:       #FBFCFA;          /* solid white-ish card */
-  --bg-card-2:     rgba(255,255,255,0.6);
-  --bg-input:      #F3F5F1;
+  /* Backgrounds — Mint-tinted off-white, slightly muted for readability */
+  --bg:            #E2E6DE;                 /* darker than #EDEFE9 for contrast */
+  --bg-card:       #F7F9F4;                 /* slightly warm white card */
+  --bg-card-2:     rgba(255,255,255,0.7);   /* frosted glass surface */
+  --bg-input:      #EDF0E9;
 
-  /* Foregrounds — dark on light */
-  --fg:            #1A1A1A;
-  --fg-secondary:  #6A6A74;
-  --fg-muted:      #A0A0AA;
+  /* Foregrounds — higher contrast on light bg */
+  --fg:            #14161A;
+  --fg-secondary:  #4A4F58;                 /* darker than #6A6A74 */
+  --fg-muted:      #838892;
 
   /* Borders — teal-tinted subtle */
   --border:        rgba(14,165,160,0.12);
@@ -40,7 +40,9 @@
   --success:       #0EA5A0;
   --warning:       #D4A017;
   --error:         #E5484D;
-  --violet:        #818cf8;                /* legacy, avoid */
+
+  /* Secondary accent — 커플 파트너 / 대비 포인트용. Dark theme 의 coral 파트너 톤 */
+  --violet:        #FF8A7A;                /* 토큰 이름 호환; 값은 v2 coral/peach */
 
   /* Glass surface — use via .glass utility below */
   --glass-bg:            rgba(255,255,255,0.18);
@@ -74,6 +76,7 @@
   --color-success:       var(--success);
   --color-warning:       var(--warning);
   --color-error:         var(--error);
+  --color-violet:        var(--violet);
 
   /* Font families */
   --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -112,9 +115,9 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 60% 45% at 10% 0%,  rgba(120,220,200,0.55), transparent 70%),
-    radial-gradient(ellipse 55% 45% at 100% 30%, rgba(140,180,255,0.50), transparent 70%),
-    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(180,230,220,0.52), transparent 70%);
+    radial-gradient(ellipse 60% 45% at 10% 0%,  rgba(94, 200, 180, 0.35), transparent 70%),
+    radial-gradient(ellipse 55% 45% at 100% 30%, rgba(130, 170, 240, 0.30), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(160, 200, 180, 0.32), transparent 70%);
 }
 
 /* Numeric text — use .font-mono class or explicit `font-family: var(--font-mono)` */

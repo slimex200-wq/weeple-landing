@@ -99,12 +99,12 @@ export default function Couple() {
             >
               <defs>
                 <radialGradient id="coral-grad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="rgba(249,112,102,0.6)" />
-                  <stop offset="100%" stopColor="rgba(249,112,102,0.1)" />
+                  <stop offset="0%" stopColor="rgba(14,165,160,0.55)" />
+                  <stop offset="100%" stopColor="rgba(14,165,160,0.08)" />
                 </radialGradient>
                 <radialGradient id="violet-grad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="rgba(129,140,248,0.6)" />
-                  <stop offset="100%" stopColor="rgba(129,140,248,0.1)" />
+                  <stop offset="0%" stopColor="rgba(255,138,122,0.55)" />
+                  <stop offset="100%" stopColor="rgba(255,138,122,0.08)" />
                 </radialGradient>
                 <filter id="glow">
                   <feGaussianBlur stdDeviation="3" result="b" />
@@ -121,7 +121,7 @@ export default function Couple() {
                 cy="120"
                 r="70"
                 fill="url(#coral-grad)"
-                stroke="#F97066"
+                stroke="#0EA5A0"
                 strokeWidth="1.5"
                 animate={prefersReducedMotion ? undefined : { cx: leftCx }}
                 transition={{ type: 'spring', stiffness: 80, damping: 18 }}
@@ -133,7 +133,7 @@ export default function Couple() {
                 cy="120"
                 r="70"
                 fill="url(#violet-grad)"
-                stroke="#818cf8"
+                stroke="#FF8A7A"
                 strokeWidth="1.5"
                 animate={prefersReducedMotion ? undefined : { cx: rightCx }}
                 transition={{ type: 'spring', stiffness: 80, damping: 18 }}
@@ -143,7 +143,7 @@ export default function Couple() {
               <motion.text
                 x={leftCx - 30}
                 y="125"
-                fill="#fafafa"
+                fill="#14161A"
                 fontSize="11"
                 fontWeight="700"
                 animate={prefersReducedMotion ? undefined : { x: leftCx - 30 }}
@@ -154,7 +154,7 @@ export default function Couple() {
               <motion.text
                 x={rightCx + 15}
                 y="125"
-                fill="#fafafa"
+                fill="#14161A"
                 fontSize="11"
                 fontWeight="700"
                 animate={prefersReducedMotion ? undefined : { x: rightCx + 15 }}
@@ -167,7 +167,7 @@ export default function Couple() {
                 x="120"
                 y="118"
                 textAnchor="middle"
-                fill="#F97066"
+                fill="#0EA5A0"
                 fontSize="10"
                 fontWeight="700"
                 letterSpacing="1"
@@ -178,7 +178,7 @@ export default function Couple() {
                 x="120"
                 y="135"
                 textAnchor="middle"
-                fill="#fafafa"
+                fill="#14161A"
                 fontSize="13"
                 fontWeight="800"
                 fontFamily="var(--font-mono)"

@@ -27,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko" className={`${geistMono.variable} h-full dark`}>
+    <html lang="ko" className={`${geistMono.variable} h-full`}>
       <body className="min-h-full flex flex-col bg-bg text-fg">
         <ScrollProgress />
         {children}
