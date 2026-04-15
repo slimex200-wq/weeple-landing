@@ -9,27 +9,16 @@ const groups: LinkGroup[] = [
   {
     title: '제품',
     links: [
-      { label: '기능', href: '#' },
-      { label: '가격', href: '#' },
+      { label: '기능', href: '#features' },
+      { label: '가격', href: '#pricing' },
       { label: '3D 체험', href: '#experience' },
-      { label: '업데이트 노트', href: '#' },
-    ],
-  },
-  {
-    title: '회사',
-    links: [
-      { label: '소개', href: '#' },
-      { label: '블로그', href: '#' },
-      { label: '보도자료', href: '#' },
-      { label: '채용', href: '#' },
     ],
   },
   {
     title: '지원',
     links: [
-      { label: '고객센터', href: '#' },
-      { label: '자주 묻는 질문', href: '#' },
       { label: '문의하기', href: 'mailto:support@weeple.app' },
+      // TODO: Better Stack / UptimeRobot 세팅 후 public URL 교체
       { label: '상태 페이지', href: '#' },
     ],
   },
@@ -38,7 +27,7 @@ const groups: LinkGroup[] = [
     links: [
       { label: '이용약관', href: '/terms-of-service.html' },
       { label: '개인정보처리방침', href: '/privacy-policy.html' },
-      { label: '위치정보 약관', href: '#' },
+      // TODO: 사업자 등록 완료 후 /business-info.html 생성해서 연결
       { label: '사업자 정보', href: '#' },
     ],
   },
@@ -49,7 +38,7 @@ export default function Footer() {
     <footer className="relative mt-20 border-t border-border-light bg-bg">
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Main grid */}
-        <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(4,1fr)]">
+        <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(3,1fr)]">
           {/* Brand column */}
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -78,10 +67,10 @@ export default function Footer() {
               <SocialIcon label="X (Twitter)">
                 <path d="M18 4 6 20M6 4l12 16" />
               </SocialIcon>
-              <SocialIcon label="GitHub">
+              <SocialIcon label="GitHub" href="https://github.com/slimex200-wq">
                 <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
               </SocialIcon>
-              <SocialIcon label="Threads">
+              <SocialIcon label="Threads" href="https://www.threads.net/@hype.boyo">
                 <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z" />
                 <path d="M8 12c1.5 2.5 4 4 8 3.5" />
                 <path d="M8.5 8.5c2-1 5-1 6 1" />
@@ -129,15 +118,20 @@ export default function Footer() {
 
 function SocialIcon({
   label,
+  href = '#',
   children,
 }: {
   label: string
+  href?: string
   children: React.ReactNode
 }) {
+  const isExternal = href.startsWith('http')
   return (
     <a
-      href="#"
+      href={href}
       aria-label={label}
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
       className="w-9 h-9 rounded-full border border-border-app bg-bg-card flex items-center justify-center text-fg-muted transition-all hover:border-coral hover:text-coral hover:scale-105"
     >
       <svg
