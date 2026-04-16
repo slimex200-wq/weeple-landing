@@ -1,19 +1,5 @@
 'use client'
 
-/**
- * Hero — Opal Tadpole 스타일 멀티 챕터 히어로.
- *
- * 구조:
- *   - Sticky container (h-screen) 가 섹션 안에 고정
- *   - 왼쪽: 4 챕터 텍스트가 순차적으로 아래→위로 올라오며 교체
- *   - 오른쪽: 3D promo iframe 이 항상 보임 (팽창 없음, 정적 사이즈)
- *   - 오른쪽 상단: 작은 플로팅 "다운로드" 카드
- *   - 섹션은 200svh → 각 챕터 50vh 스크롤
- *
- * 이전 버전의 "중앙 타이틀 ↔ iframe 팽창" 구조는 겹침 발생으로 폐기.
- * Opal 의 "왼쪽 텍스트 swap + 오른쪽 제품 상주" 패턴만 차용.
- */
-
 import { useRef, useEffect, useState } from 'react'
 import {
   motion,
@@ -30,6 +16,13 @@ type Chapter = {
   body: string
 }
 
+type DemoCase = {
+  input: string
+  category: string
+  amount: string
+  icon: React.ReactNode
+}
+
 const CHAPTERS: Chapter[] = [
   {
     eyebrow: 'Smart couple budget',
@@ -43,48 +36,64 @@ const CHAPTERS: Chapter[] = [
     accent: '진짜로.',
     body: '"스타벅스 4500원" 한 줄만 치면 카테고리 · 날짜 · 금액까지 자동 분류. 이제 가계부 앱 못 돌아감.',
   },
+]
+
+const CASES: DemoCase[] = [
   {
-    eyebrow: 'Couple mode',
-    title: '혼자도, 함께도.',
-    accent: '용돈은 따로, 저축은 같이.',
-    body: '실시간 공유, 3가지 커플 타입 (전액 공동 · 부분 공동 · 기여금), 파트너 프라이버시는 지키면서.',
+    input: '스타벅스 4500원',
+    category: '카페',
+    amount: '₩4,500',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+        <path d="M8 2v4M16 2v4" strokeLinecap="round" />
+        <path d="M4 8h13a3 3 0 0 1 3 3v0a3 3 0 0 1-3 3v4a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V8z" />
+      </svg>
+    ),
   },
   {
-    eyebrow: 'AI + Alerts',
-    title: '결제 알림,',
-    accent: '스와이프로 기록.',
-    body: '카드사 푸시를 자동 파싱해서 오른쪽 스와이프는 기록, 왼쪽은 무시. AI 3개 모델이 소비 패턴을 분석.',
+    input: '버거킹 12000',
+    category: '식비',
+    amount: '₩12,000',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+        <path d="M4 10a8 8 0 0 1 16 0" strokeLinecap="round" />
+        <path d="M3 14h18M5 18h14" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    input: '택시 9800',
+    category: '교통',
+    amount: '₩9,800',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+        <path d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11M4 11h16v6H4z" />
+        <circle cx="8" cy="15" r="1.2" fill="currentColor" />
+        <circle cx="16" cy="15" r="1.2" fill="currentColor" />
+      </svg>
+    ),
   },
 ]
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion()
   const sectionRef = useRef<HTMLElement>(null)
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
-
-  // native scroll 기반 progress
   const scrollYProgress = useMotionValue(0)
+  const [caseIndex, setCaseIndex] = useState(0)
+  const [typed, setTyped] = useState('')
+  const [showResult, setShowResult] = useState(false)
+
+  const currentCase = CASES[caseIndex]
 
   useEffect(() => {
     const handleScroll = () => {
       const section = sectionRef.current
       if (!section) return
-      const rect = section.getBoundingClientRect()
       const viewportHeight = window.innerHeight
       const totalScroll = section.offsetHeight - viewportHeight
-      if (totalScroll <= 0) {
-        scrollYProgress.set(0)
-        return
-      }
-      const scrolled = -rect.top
-      const p = Math.max(0, Math.min(1, scrolled / totalScroll))
+      if (totalScroll <= 0) { scrollYProgress.set(0); return }
+      const rect = section.getBoundingClientRect()
+      const p = Math.max(0, Math.min(1, -rect.top / totalScroll))
       scrollYProgress.set(p)
     }
     handleScroll()
@@ -96,137 +105,54 @@ export default function Hero() {
     }
   }, [scrollYProgress])
 
-  // 배경 fade (은은한 변화)
-  const bgOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0.75])
-  const starOpacity = useTransform(scrollYProgress, [0, 0.7], [0.5, 0.25])
-
-  // 워터마크는 초반에만
-  const watermarkOpacity = useTransform(scrollYProgress, [0, 0.15], [0.08, 0])
-
-  // iframe 은 챕터 1이 끝나면서 등장하고 계속 유지
-  const iframeOpacity = useTransform(scrollYProgress, [0.08, 0.22], [0, 1])
-  const iframeScale = useTransform(scrollYProgress, [0.08, 0.22], [0.9, 1])
+  useEffect(() => {
+    if (prefersReducedMotion) {
+      setTyped(CASES[0].input)
+      setShowResult(true)
+      return
+    }
+    let charIndex = 0
+    setTyped('')
+    setShowResult(false)
+    const typingTimer = setInterval(() => {
+      charIndex += 1
+      if (charIndex > currentCase.input.length) {
+        clearInterval(typingTimer)
+        setTimeout(() => setShowResult(true), 500)
+        setTimeout(() => {
+          setCaseIndex((i) => (i + 1) % CASES.length)
+        }, 3000)
+        return
+      }
+      setTyped(currentCase.input.slice(0, charIndex))
+    }, 80)
+    return () => clearInterval(typingTimer)
+  }, [caseIndex, prefersReducedMotion, currentCase.input])
 
   return (
     <section
       ref={sectionRef}
       aria-label="weeple 히어로"
       className="relative"
-      style={{
-        minHeight: prefersReducedMotion ? '100svh' : '320svh',
-      }}
+      style={{ minHeight: prefersReducedMotion ? '100svh' : '150svh' }}
     >
-      {/* Sticky viewport 컨테이너 */}
       <div className="sticky top-0 h-screen w-full overflow-hidden">
-        {/* 배경 gradient */}
-        <motion.div
+        <div
           aria-hidden
           className="absolute inset-0 -z-10"
           style={{
-            opacity: bgOpacity,
             background: `
-              radial-gradient(ellipse 70% 60% at 25% 30%, rgba(249, 112, 102, 0.16), transparent 60%),
-              radial-gradient(ellipse 60% 50% at 80% 70%, rgba(129, 140, 248, 0.12), transparent 60%),
-              radial-gradient(ellipse 100% 80% at 50% 100%, rgba(249, 112, 102, 0.06), transparent 70%),
-              #0a0a0a
+              radial-gradient(ellipse 70% 60% at 20% 20%, rgba(14,165,160,0.12), transparent 60%),
+              radial-gradient(ellipse 60% 50% at 80% 70%, rgba(125,211,252,0.1), transparent 60%),
+              radial-gradient(ellipse 80% 60% at 50% 100%, rgba(94,234,212,0.08), transparent 70%)
             `,
           }}
         />
 
-        {/* 별 */}
-        <motion.div
-          aria-hidden
-          className="absolute inset-0 -z-10"
-          style={{
-            opacity: starOpacity,
-            backgroundImage: `
-              radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.8), transparent),
-              radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.6), transparent),
-              radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.5), transparent),
-              radial-gradient(2px 2px at 80% 10%, rgba(255,255,255,0.9), transparent),
-              radial-gradient(1px 1px at 15% 65%, rgba(255,255,255,0.7), transparent),
-              radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.6), transparent)
-            `,
-            backgroundSize: '600px 600px',
-          }}
-        />
+        <h1 className="sr-only">둘이 쓰는 돈, 한눈에 weeple.</h1>
 
-        {/* 거대 워터마크 */}
-        <motion.div
-          aria-hidden
-          className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden"
-          style={{ opacity: watermarkOpacity }}
-        >
-          <span
-            className="font-extrabold tracking-[-0.05em] whitespace-nowrap select-none"
-            style={{
-              fontSize: 'clamp(14rem, 30vw, 36rem)',
-              color: 'transparent',
-              WebkitTextStroke: '2px rgba(250, 250, 250, 0.35)',
-              lineHeight: 0.9,
-            }}
-          >
-            weeple
-          </span>
-        </motion.div>
-
-        {/* 상단 네비 */}
-        <div className="absolute top-0 left-0 right-0 z-30 flex items-center justify-between px-6 sm:px-12 py-6">
-          <div className="flex items-center gap-3">
-            <div
-              className="font-extrabold text-xl sm:text-2xl tracking-tight"
-              style={{
-                background: 'linear-gradient(135deg, #fafafa 0%, #F97066 100%)',
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                color: 'transparent',
-              }}
-            >
-              weeple
-            </div>
-            <span className="hidden sm:inline text-[11px] text-fg-muted tracking-wide">
-              스마트 커플 가계부
-            </span>
-          </div>
-
-          {/* 플로팅 다운로드 카드 (Opal 오른쪽 상단 참고) */}
-          <div className="hidden md:flex items-center gap-4 rounded-xl border border-border-light bg-bg-card/90 backdrop-blur-md px-4 py-2.5">
-            <div className="flex items-center gap-2">
-              <div
-                className="w-7 h-7 rounded-md flex items-center justify-center"
-                style={{
-                  background: 'linear-gradient(135deg, #F97066 0%, #D4533F 100%)',
-                }}
-                aria-hidden
-              >
-                <span className="text-white text-[11px] font-extrabold">w</span>
-              </div>
-              <div>
-                <div className="text-[11px] font-semibold text-fg">weeple iOS · Android</div>
-                <div className="num text-[10px] text-fg-muted">무료 · iOS 17+ / Android 12+</div>
-              </div>
-            </div>
-            <a
-              href="#pricing"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-coral text-white text-[11px] font-semibold transition-all hover:scale-[1.03] hover:shadow-[0_8px_20px_-6px_rgba(249,112,102,0.5)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
-            >
-              시작하기
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>
-                <path d="M5 12h14M13 5l7 7-7 7" />
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        {/* SR 전용 제목 */}
-        <h1 className="sr-only">
-          둘이 쓰는 돈, 한눈에 weeple. 개인부터 커플 공동 예산까지.
-        </h1>
-
-        {/* 메인 레이아웃: 좌 텍스트 / 우 iframe */}
-        <div className="relative h-full grid grid-cols-1 md:grid-cols-[0.85fr_1.5fr] lg:grid-cols-[0.8fr_1.6fr] gap-6 md:gap-10 items-center px-6 sm:px-10 pt-24 pb-10">
-          {/* LEFT — 4 챕터 absolute 스택 */}
-          <div className="relative min-h-[320px] md:min-h-[420px]">
+        <div className="relative h-full grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center px-6 sm:px-10 pt-24 pb-10 max-w-6xl mx-auto">
+          <div className="relative min-h-[280px] md:min-h-[360px]">
             {CHAPTERS.map((c, i) => (
               <ChapterBlock
                 key={i}
@@ -239,48 +165,95 @@ export default function Hero() {
             ))}
           </div>
 
-          {/* RIGHT — iframe 항상 보임 */}
           <motion.div
-            className="relative rounded-2xl overflow-hidden border border-white/10 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)]"
-            style={{
-              opacity: iframeOpacity,
-              scale: iframeScale,
-              height: isMobile ? '50vh' : '78vh',
-              minHeight: isMobile ? 320 : 520,
-            }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
+            className="flex justify-center"
           >
-            <iframe
-              src="/weeple-3d-promo.html"
-              title="weeple 3D 미리보기"
-              loading="lazy"
-              className="w-full h-full block"
-              style={{ border: 'none' }}
-            />
+            <div
+              className="relative w-[280px] sm:w-[320px] rounded-[40px] glass p-3 shadow-[0_40px_100px_-20px_rgba(14,165,160,0.2)]"
+              style={{ aspectRatio: '9/18' }}
+            >
+              <div className="h-full w-full rounded-[32px] overflow-hidden bg-gradient-to-b from-[#F0F4F1] to-[#E5EDE8] flex flex-col p-5 pt-8">
+                <div className="flex items-center justify-between text-[10px] text-fg-muted mb-6">
+                  <span className="num">9:41</span>
+                  <div className="flex items-center gap-1">
+                    <div className="w-4 h-2 rounded-sm border border-fg-muted">
+                      <div className="w-3/4 h-full bg-fg-muted rounded-sm" />
+                    </div>
+                  </div>
+                </div>
+
+                <h3 className="text-[11px] font-semibold text-fg-muted uppercase tracking-wider mb-2">
+                  새 거래
+                </h3>
+
+                <div className="relative rounded-xl border border-mint/40 bg-white/50 px-4 py-3.5 mb-5">
+                  <div className="flex items-center gap-2 min-h-[1.25rem]">
+                    <span className="num text-base text-fg">{typed}</span>
+                    <motion.span
+                      animate={{ opacity: [1, 0] }}
+                      transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+                      className="inline-block w-[2px] h-5 bg-mint"
+                      aria-hidden
+                    />
+                  </div>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.92, y: 12 }}
+                  animate={{
+                    opacity: showResult ? 1 : 0,
+                    scale: showResult ? 1 : 0.92,
+                    y: showResult ? 0 : 12,
+                  }}
+                  transition={{ duration: 0.45, ease: [0.2, 0.8, 0.2, 1] }}
+                  className="rounded-xl glass p-4"
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-mint-bg">
+                      <div className="w-3.5 h-3.5 text-mint">
+                        {currentCase.icon}
+                      </div>
+                      <span className="text-[11px] font-semibold text-mint">
+                        {currentCase.category}
+                      </span>
+                    </div>
+                    <span className="text-[10px] text-fg-muted num">오늘</span>
+                  </div>
+                  <div className="num text-2xl font-extrabold text-fg tracking-tight">
+                    {currentCase.amount}
+                  </div>
+                  <div className="mt-3 flex items-center gap-1.5 text-[10px] text-[#0f766e]">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>
+                      <path d="M20 6 9 17l-5-5" strokeLinecap="round" />
+                    </svg>
+                    <span>저축률 실시간 반영</span>
+                  </div>
+                </motion.div>
+
+                <div className="mt-auto space-y-2" aria-hidden>
+                  <div className="h-8 rounded-lg bg-white/30" />
+                  <div className="h-8 rounded-lg bg-white/30" />
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
 
-        {/* 스크롤 힌트 — 첫 챕터에만 */}
         <ScrollHint progress={scrollYProgress} prefersReducedMotion={!!prefersReducedMotion} />
       </div>
     </section>
   )
 }
 
-// ===== 챕터 블록 =====
 function ChapterBlock({
-  chapter,
-  index,
-  total,
-  progress,
-  prefersReducedMotion,
+  chapter, index, total, progress, prefersReducedMotion,
 }: {
-  chapter: Chapter
-  index: number
-  total: number
-  progress: MotionValue<number>
-  prefersReducedMotion: boolean
+  chapter: Chapter; index: number; total: number;
+  progress: MotionValue<number>; prefersReducedMotion: boolean;
 }) {
-  // 각 챕터는 section progress 안에서 1/total 구간을 차지
   const slot = 1 / total
   const start = index * slot
   const end = start + slot
@@ -289,54 +262,35 @@ function ChapterBlock({
 
   const opacity = useTransform(
     progress,
-    [start, enterEnd, exitStart, end],
-    prefersReducedMotion ? [1, 1, 1, 1] : [0, 1, 1, 0],
+    index === 0 ? [0, enterEnd, exitStart, end] : [start, enterEnd, exitStart, end],
+    index === 0
+      ? (prefersReducedMotion ? [1,1,1,1] : [1,1,1,0])
+      : (prefersReducedMotion ? [1,1,1,1] : [0,1,1,0]),
   )
   const y = useTransform(
     progress,
-    [start, enterEnd, exitStart, end],
-    prefersReducedMotion ? [0, 0, 0, 0] : [60, 0, 0, -60],
-  )
-
-  // 첫 챕터는 section 시작 시 0 progress 에서 opacity 1 로 시작해야 함
-  const firstChapterOpacity = useTransform(
-    progress,
-    [0, enterEnd, exitStart, end],
-    prefersReducedMotion ? [1, 1, 1, 1] : [1, 1, 1, 0],
-  )
-  const firstChapterY = useTransform(
-    progress,
-    [0, enterEnd, exitStart, end],
-    prefersReducedMotion ? [0, 0, 0, 0] : [0, 0, 0, -60],
+    index === 0 ? [0, enterEnd, exitStart, end] : [start, enterEnd, exitStart, end],
+    index === 0
+      ? (prefersReducedMotion ? [0,0,0,0] : [0,0,0,-60])
+      : (prefersReducedMotion ? [0,0,0,0] : [60,0,0,-60]),
   )
 
   return (
     <motion.div
       className="absolute inset-0 flex flex-col justify-center"
-      style={{
-        opacity: index === 0 ? firstChapterOpacity : opacity,
-        y: index === 0 ? firstChapterY : y,
-      }}
+      style={{ opacity, y }}
     >
-      <div className="text-xs font-semibold tracking-[0.15em] text-coral uppercase mb-5">
+      <div className="text-xs font-semibold tracking-[0.15em] text-mint uppercase mb-5">
         {chapter.eyebrow}
       </div>
-      <h2
-        className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[0.96] tracking-[-0.04em] mb-2 sm:mb-3"
-        style={{
-          background: 'linear-gradient(135deg, #fafafa 0%, #a3a3a3 100%)',
-          WebkitBackgroundClip: 'text',
-          backgroundClip: 'text',
-          color: 'transparent',
-        }}
-      >
+      <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[0.96] tracking-[-0.04em] mb-2 sm:mb-3 text-fg">
         {chapter.title}
       </h2>
       {chapter.accent && (
         <h2
           className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[0.96] tracking-[-0.04em] mb-6"
           style={{
-            background: 'linear-gradient(135deg, #F97066 0%, #D4533F 100%)',
+            background: 'linear-gradient(135deg, #0EA5A0 0%, #5EEAD4 100%)',
             WebkitBackgroundClip: 'text',
             backgroundClip: 'text',
             color: 'transparent',
@@ -345,22 +299,37 @@ function ChapterBlock({
           {chapter.accent}
         </h2>
       )}
-      <p className="max-w-md text-base sm:text-lg text-fg-secondary leading-relaxed">
+      <p className="max-w-md text-base sm:text-lg text-fg-secondary leading-relaxed mb-8">
         {chapter.body}
       </p>
+      {index === 1 && (
+        <div className="space-y-3 max-w-md">
+          {[
+            { n: '01', title: '한 줄 입력', body: '자연어 한 줄. 콤마·단위 자유.' },
+            { n: '02', title: 'AI 자동 분류', body: '카테고리·금액·날짜 바로 태깅.' },
+            { n: '03', title: '대시보드 반영', body: '저축률·예산·공유 기록 즉시 업데이트.' },
+          ].map((s) => (
+            <div
+              key={s.n}
+              className="flex gap-3 rounded-xl p-3 glass"
+            >
+              <div className="shrink-0 w-8 h-8 rounded-lg border border-mint/40 bg-mint-bg flex items-center justify-center num text-[11px] font-bold text-mint">
+                {s.n}
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-fg leading-tight">{s.title}</h4>
+                <p className="text-xs text-fg-secondary leading-snug mt-0.5">{s.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </motion.div>
   )
 }
 
-// ===== 스크롤 힌트 =====
-function ScrollHint({
-  progress,
-  prefersReducedMotion,
-}: {
-  progress: MotionValue<number>
-  prefersReducedMotion: boolean
-}) {
-  const opacity = useTransform(progress, [0, 0.08], [1, 0])
+function ScrollHint({ progress, prefersReducedMotion }: { progress: MotionValue<number>; prefersReducedMotion: boolean }) {
+  const opacity = useTransform(progress, [0, 0.15], [1, 0])
   return (
     <motion.div
       style={{ opacity }}
@@ -369,11 +338,7 @@ function ScrollHint({
       <span className="tracking-wider">스크롤해서 더 보기</span>
       <motion.div
         animate={prefersReducedMotion ? undefined : { y: [0, 8, 0] }}
-        transition={
-          prefersReducedMotion
-            ? undefined
-            : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }
-        }
+        transition={prefersReducedMotion ? undefined : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
         className="w-[1px] h-8 bg-gradient-to-b from-fg-muted to-transparent"
         aria-hidden
       />

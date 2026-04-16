@@ -3,7 +3,6 @@ import { Geist_Mono } from 'next/font/google'
 import './globals.css'
 import ScrollProgress from '@/components/ScrollProgress'
 
-// Geist Mono 만 Google Fonts 로 로드. Pretendard 는 globals.css 의 @import 로.
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
@@ -27,8 +26,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko" className={`${geistMono.variable} h-full dark`}>
-      <body className="min-h-full flex flex-col bg-bg text-fg">
+    <html lang="ko" className={`${geistMono.variable} h-full light`}>
+      <body className="min-h-full flex flex-col text-fg">
         <ScrollProgress />
         {children}
       </body>

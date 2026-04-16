@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.gstack/
+
+# review screenshots (working files)
+/review/
+
+# omc state
+/.omc/state/

@@ -1,74 +1,60 @@
-/* @import rules must precede all other rules (except @charset / @layer).
-   Load Pretendard BEFORE Tailwind so the cascade stays valid. */
 @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
 @import "tailwindcss";
 
-/* =============================================================
-   weeple 디자인 토큰 (dark 기본)
-   Matches the React Native app: coral accent + Pretendard (UI) +
-   Geist Mono (numbers/amounts only).
-   ============================================================= */
 :root {
-  /* Backgrounds */
-  --bg:            #0a0a0a;
-  --bg-card:       #171717;
-  --bg-card-2:     #1f1f1f;
-  --bg-input:      #262626;
+  --bg-base-from: #F0F4F1;
+  --bg-base-to:   #E5EDE8;
+  --bg-surface:   rgba(255,255,255,0.55);
+  --bg-surface-2: rgba(255,255,255,0.35);
+  --bg-input:     rgba(255,255,255,0.7);
 
-  /* Foregrounds */
-  --fg:            #fafafa;
-  --fg-secondary:  #a3a3a3;
-  --fg-muted:      #737373;
+  --fg:           #1A1A1A;
+  --fg-secondary: #4a5a50;
+  --fg-muted:     #5f6f65;
 
-  /* Borders */
-  --border:        #262626;
-  --border-light:  #1f1f1f;
+  --border:       rgba(255,255,255,0.9);
+  --border-subtle: rgba(255,255,255,0.5);
+  --divider:      rgba(0,0,0,0.06);
 
-  /* Accent — coral */
-  --coral:             #F97066;
-  --coral-strong:      #D4533F;
-  --coral-bg:          rgba(249, 112, 102, 0.12);
-  --coral-bg-strong:   rgba(249, 112, 102, 0.2);
+  --mint:         #0EA5A0;
+  --mint-end:     #5EEAD4;
+  --mint-bg:      rgba(14,165,160,0.08);
+  --mint-bg-strong: rgba(14,165,160,0.15);
+  --mint-glow:    rgba(14,165,160,0.3);
 
-  /* Semantic */
-  --success:       #34d399;
-  --warning:       #fbbf24;
-  --error:         #ef4444;
-  --violet:        #818cf8;
+  --positive:     #0EA5A0;
+  --negative:     #E5484D;
+  --violet:       #818cf8;
+  --sky:          #7DD3FC;
 
-  /* 섹션 전환용 — 라이트/다크 리듬 */
-  --cream:         #EDE7DE;
-  --off-black:     #1A1A1A;
-  --bg-violet:     #0d0b14;
-  --bg-dark:       #050505;
+  --glass-shadow: 0 10px 40px rgba(30,20,40,0.08);
+  --amt-grad:     linear-gradient(135deg, #1a1a1a, #0EA5A0);
 }
 
 @theme inline {
-  /* Colors — expose design tokens as Tailwind utilities
-     (bg-coral, text-fg-muted, border-border-light, etc.) */
-  --color-bg:            var(--bg);
-  --color-bg-card:       var(--bg-card);
-  --color-bg-card-2:     var(--bg-card-2);
-  --color-bg-input:      var(--bg-input);
-  --color-fg:            var(--fg);
-  --color-fg-secondary:  var(--fg-secondary);
-  --color-fg-muted:      var(--fg-muted);
-  --color-border-app:    var(--border);
-  --color-border-light:  var(--border-light);
-  --color-coral:         var(--coral);
-  --color-coral-strong:  var(--coral-strong);
-  --color-coral-bg:      var(--coral-bg);
-  --color-coral-bg-strong: var(--coral-bg-strong);
-  --color-success:       var(--success);
-  --color-warning:       var(--warning);
-  --color-error:         var(--error);
-  --color-violet:        var(--violet);
+  --color-bg: var(--bg-base-from);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-surface-2: var(--bg-surface-2);
+  --color-bg-input: var(--bg-input);
+  --color-fg: var(--fg);
+  --color-fg-secondary: var(--fg-secondary);
+  --color-fg-muted: var(--fg-muted);
+  --color-border-app: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-divider: var(--divider);
+  --color-mint: var(--mint);
+  --color-mint-end: var(--mint-end);
+  --color-mint-bg: var(--mint-bg);
+  --color-mint-bg-strong: var(--mint-bg-strong);
+  --color-mint-glow: var(--mint-glow);
+  --color-positive: var(--positive);
+  --color-negative: var(--negative);
+  --color-violet: var(--violet);
+  --color-sky: var(--sky);
 
-  /* Font families */
   --font-sans: 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: var(--font-geist-mono), 'SF Mono', Consolas, monospace;
 
-  /* Radii matching the RN app */
   --radius-sm:   6px;
   --radius-md:   12px;
   --radius-lg:   16px;
@@ -78,12 +64,12 @@
 }
 
 html {
-  color-scheme: dark;
-  background: var(--bg);
+  color-scheme: light;
 }
 
 body {
-  background: var(--bg);
+  background: linear-gradient(180deg, var(--bg-base-from) 0%, var(--bg-base-to) 100%);
+  background-attachment: fixed;
   color: var(--fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -91,14 +77,36 @@ body {
   font-feature-settings: "ss03", "ss04";
 }
 
-/* Numeric text — use .font-mono class or explicit `font-family: var(--font-mono)` */
 .num {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
 
-/* Reduced motion */
+@layer utilities {
+  .glass {
+    background: var(--bg-surface);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid var(--border);
+    box-shadow: var(--glass-shadow);
+  }
+}
+
+/* Decorative colored blobs behind main content — give backdrop-filter something to blur */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 50% 40% at 12% 18%, rgba(14,165,160,0.18), transparent 60%),
+    radial-gradient(ellipse 45% 35% at 88% 28%, rgba(125,211,252,0.14), transparent 60%),
+    radial-gradient(ellipse 55% 40% at 20% 62%, rgba(94,234,212,0.12), transparent 60%),
+    radial-gradient(ellipse 45% 35% at 85% 78%, rgba(14,165,160,0.1), transparent 60%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

@@ -94,7 +94,7 @@ function Check() {
       strokeWidth="2.4"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="text-coral shrink-0"
+      className="text-mint shrink-0"
       aria-hidden
     >
       <path d="M20 6 9 17l-5-5" />
@@ -121,7 +121,7 @@ export default function Pricing() {
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
           className="text-center max-w-2xl mx-auto mb-10"
         >
-          <div className="text-xs font-semibold tracking-wider text-coral uppercase mb-4">
+          <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             Pricing
           </div>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-5">
@@ -147,10 +147,10 @@ export default function Pricing() {
             onClick={() => setPeriod('monthly')}
             aria-pressed={period === 'monthly'}
             className={cx(
-              'inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+              'inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
               period === 'monthly'
-                ? 'bg-coral text-white shadow-[0_8px_24px_-8px_rgba(249,112,102,0.5)]'
-                : 'bg-bg-card text-fg-muted border border-border-light hover:text-fg',
+                ? 'bg-mint text-white shadow-[0_8px_24px_-8px_rgba(14,165,160,0.5)]'
+                : 'glass text-fg-muted border border-border-app hover:text-fg',
             )}
           >
             <span className="h-2 w-2 rounded-full bg-current" />
@@ -161,10 +161,10 @@ export default function Pricing() {
             onClick={() => setPeriod('yearly')}
             aria-pressed={period === 'yearly'}
             className={cx(
-              'inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
+              'inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
               period === 'yearly'
-                ? 'bg-coral text-white shadow-[0_8px_24px_-8px_rgba(249,112,102,0.5)]'
-                : 'bg-bg-card text-fg-muted border border-border-light hover:text-fg',
+                ? 'bg-mint text-white shadow-[0_8px_24px_-8px_rgba(14,165,160,0.5)]'
+                : 'glass text-fg-muted border border-border-app hover:text-fg',
             )}
           >
             <span className="h-2 w-2 rounded-full bg-current" />
@@ -196,12 +196,12 @@ export default function Pricing() {
               <TiltCard
                 className={`relative flex flex-col h-full rounded-3xl p-8 ${
                   tier.highlighted
-                    ? 'bg-gradient-to-b from-coral-bg to-bg-card border border-coral/40 shadow-[0_60px_120px_-30px_rgba(249,112,102,0.5)]'
-                    : 'bg-bg-card border border-border-light hover:border-coral/30 transition-colors duration-300'
+                    ? 'bg-gradient-to-b from-mint-bg to-bg-surface border border-mint/40 shadow-[0_60px_120px_-30px_rgba(14,165,160,0.5)]'
+                    : 'glass border border-border-app hover:border-mint/30 transition-colors duration-300'
                 }`}
               >
                 {tier.badge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-coral text-white text-[11px] font-bold tracking-wide uppercase shadow-[0_8px_20px_-4px_rgba(249,112,102,0.6)]">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-mint text-white text-[11px] font-bold tracking-wide uppercase shadow-[0_8px_20px_-4px_rgba(14,165,160,0.6)]">
                     {tier.badge}
                   </div>
                 )}
@@ -249,10 +249,10 @@ export default function Pricing() {
                 {/* CTA */}
                 <a
                   href="#"
-                  className={`inline-flex items-center justify-center h-12 rounded-full text-sm font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
+                  className={`inline-flex items-center justify-center h-12 rounded-full text-sm font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
                     tier.highlighted
-                      ? 'bg-coral text-white hover:scale-[1.02] hover:shadow-[0_12px_30px_-6px_rgba(249,112,102,0.6)]'
-                      : 'border border-border-app bg-bg hover:border-coral hover:text-coral'
+                      ? 'bg-mint text-white hover:scale-[1.02] hover:shadow-[0_12px_30px_-6px_rgba(14,165,160,0.6)]'
+                      : 'border border-mint/40 text-mint bg-mint-bg hover:bg-mint-bg-strong hover:border-mint'
                   }`}
                 >
                   {tier.cta}

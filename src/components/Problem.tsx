@@ -79,7 +79,7 @@ export default function Problem() {
   return (
     <section
       id="problem"
-      className="relative py-32 sm:py-40 px-6 overflow-hidden bg-[#050505]"
+      className="relative py-20 sm:py-28 px-6 overflow-hidden"
       aria-label="문제 인식"
     >
       <div className="max-w-6xl mx-auto">
@@ -89,7 +89,7 @@ export default function Problem() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-xs font-semibold tracking-wider text-coral uppercase mb-6 text-center"
+          className="text-xs font-semibold tracking-wider text-mint uppercase mb-6 text-center"
         >
           The Problem
         </motion.div>
@@ -127,7 +127,7 @@ export default function Problem() {
             style={{
               fontSize: 'clamp(10rem, 22vw, 22rem)',
               background:
-                'linear-gradient(180deg, #F97066 0%, #D4533F 60%, rgba(212,83,63,0.3) 100%)',
+                'linear-gradient(180deg, #0EA5A0 0%, #5EEAD4 60%, rgba(94,234,212,0.3) 100%)',
               WebkitBackgroundClip: 'text',
               backgroundClip: 'text',
               color: 'transparent',
@@ -162,9 +162,9 @@ export default function Problem() {
                 delay: 0.1 * i,
                 ease: [0.2, 0.8, 0.2, 1],
               }}
-              className="relative rounded-2xl p-8 bg-bg-card border border-border-light hover:border-coral/30 transition-colors duration-300"
+              className="relative rounded-2xl p-8 glass hover:border-mint/30 transition-colors duration-300"
             >
-              <div className="w-12 h-12 rounded-xl bg-coral-bg flex items-center justify-center text-coral mb-5">
+              <div className="w-12 h-12 rounded-xl bg-mint-bg flex items-center justify-center text-mint mb-5">
                 <div className="w-6 h-6">{reason.icon}</div>
               </div>
               <h3 className="text-xl font-bold text-fg mb-3">{reason.title}</h3>

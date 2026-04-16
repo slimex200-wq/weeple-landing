@@ -55,7 +55,7 @@ export default function Couple() {
   return (
     <section
       id="couple"
-      className="relative py-32 sm:py-40 px-6 overflow-hidden"
+      className="relative py-20 sm:py-28 px-6 overflow-hidden"
       aria-label="커플 모드"
     >
       <div className="max-w-6xl mx-auto">
@@ -67,7 +67,7 @@ export default function Couple() {
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
           className="max-w-3xl mb-16 sm:mb-20"
         >
-          <div className="text-xs font-semibold tracking-wider text-coral uppercase mb-4">
+          <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             Couple mode
           </div>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
@@ -98,13 +98,13 @@ export default function Couple() {
               aria-label={`${active.label} 모드 — 두 원의 겹침으로 공동 지출 범위 표현`}
             >
               <defs>
-                <radialGradient id="coral-grad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="rgba(249,112,102,0.6)" />
-                  <stop offset="100%" stopColor="rgba(249,112,102,0.1)" />
+                <radialGradient id="mint-grad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="rgba(14,165,160,0.6)" />
+                  <stop offset="100%" stopColor="rgba(14,165,160,0.1)" />
                 </radialGradient>
-                <radialGradient id="violet-grad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="rgba(129,140,248,0.6)" />
-                  <stop offset="100%" stopColor="rgba(129,140,248,0.1)" />
+                <radialGradient id="sky-grad" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="rgba(125,211,252,0.6)" />
+                  <stop offset="100%" stopColor="rgba(125,211,252,0.1)" />
                 </radialGradient>
                 <filter id="glow">
                   <feGaussianBlur stdDeviation="3" result="b" />
@@ -120,8 +120,8 @@ export default function Couple() {
                 cx={leftCx}
                 cy="120"
                 r="70"
-                fill="url(#coral-grad)"
-                stroke="#F97066"
+                fill="url(#mint-grad)"
+                stroke="#0EA5A0"
                 strokeWidth="1.5"
                 animate={prefersReducedMotion ? undefined : { cx: leftCx }}
                 transition={{ type: 'spring', stiffness: 80, damping: 18 }}
@@ -132,32 +132,34 @@ export default function Couple() {
                 cx={rightCx}
                 cy="120"
                 r="70"
-                fill="url(#violet-grad)"
-                stroke="#818cf8"
+                fill="url(#sky-grad)"
+                stroke="#7DD3FC"
                 strokeWidth="1.5"
                 animate={prefersReducedMotion ? undefined : { cx: rightCx }}
                 transition={{ type: 'spring', stiffness: 80, damping: 18 }}
                 filter="url(#glow)"
               />
-              {/* 라벨 */}
+              {/* 라벨 — 원 위쪽으로 배치, 중앙 라벨과 충돌 방지 */}
               <motion.text
-                x={leftCx - 30}
-                y="125"
-                fill="#fafafa"
-                fontSize="11"
+                x={leftCx}
+                y="55"
+                textAnchor="middle"
+                fill="#1A1A1A"
+                fontSize="12"
                 fontWeight="700"
-                animate={prefersReducedMotion ? undefined : { x: leftCx - 30 }}
+                animate={prefersReducedMotion ? undefined : { x: leftCx }}
                 transition={{ type: 'spring', stiffness: 80, damping: 18 }}
               >
                 나
               </motion.text>
               <motion.text
-                x={rightCx + 15}
-                y="125"
-                fill="#fafafa"
-                fontSize="11"
+                x={rightCx}
+                y="55"
+                textAnchor="middle"
+                fill="#1A1A1A"
+                fontSize="12"
                 fontWeight="700"
-                animate={prefersReducedMotion ? undefined : { x: rightCx + 15 }}
+                animate={prefersReducedMotion ? undefined : { x: rightCx }}
                 transition={{ type: 'spring', stiffness: 80, damping: 18 }}
               >
                 파트너
@@ -167,7 +169,7 @@ export default function Couple() {
                 x="120"
                 y="118"
                 textAnchor="middle"
-                fill="#F97066"
+                fill="#0EA5A0"
                 fontSize="10"
                 fontWeight="700"
                 letterSpacing="1"
@@ -178,7 +180,7 @@ export default function Couple() {
                 x="120"
                 y="135"
                 textAnchor="middle"
-                fill="#fafafa"
+                fill="#1A1A1A"
                 fontSize="13"
                 fontWeight="800"
                 fontFamily="var(--font-mono)"
@@ -199,10 +201,10 @@ export default function Couple() {
                     type="button"
                     onClick={() => setActive(mode)}
                     aria-pressed={isActive}
-                    className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
+                    className={`px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
                       isActive
-                        ? 'bg-coral text-white shadow-[0_8px_24px_-6px_rgba(249,112,102,0.5)]'
-                        : 'bg-bg-card border border-border-app text-fg-secondary hover:border-coral hover:text-coral'
+                        ? 'bg-mint text-white shadow-[0_8px_24px_-6px_rgba(14,165,160,0.5)]'
+                        : 'glass text-fg-secondary hover:border-mint hover:text-mint'
                     }`}
                   >
                     {mode.label}
@@ -216,9 +218,9 @@ export default function Couple() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-              className="rounded-2xl p-6 sm:p-8 bg-bg-card border border-border-light mb-6"
+              className="rounded-2xl p-6 sm:p-8 glass mb-6"
             >
-              <div className="text-xs font-semibold tracking-wider text-coral uppercase mb-3">
+              <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-3">
                 {active.sub}
               </div>
               <h3 className="text-2xl font-bold text-fg mb-3">{active.label}</h3>
@@ -233,7 +235,7 @@ export default function Couple() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative rounded-2xl p-5 bg-gradient-to-br from-coral-bg to-bg-card border border-coral/30 overflow-hidden"
+              className="relative rounded-2xl p-5 glass border border-mint/30 overflow-hidden"
             >
               <motion.div
                 className="absolute top-3 left-3 h-2 w-2 rounded-full bg-success"
@@ -255,7 +257,7 @@ export default function Couple() {
                 </div>
                 <div className="text-sm text-fg leading-relaxed">
                   파트너가 방금{' '}
-                  <span className="num font-bold text-coral">₩11,500</span> 을{' '}
+                  <span className="num font-bold text-mint">₩11,500</span> 을{' '}
                   <span className="font-semibold">버거킹</span> 에서 사용했어요.
                 </div>
                 <div className="mt-2 text-[11px] text-fg-muted num">

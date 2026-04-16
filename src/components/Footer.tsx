@@ -1,5 +1,7 @@
 'use client'
 
+import WeepleLogo from './WeepleLogo'
+
 type LinkGroup = {
   title: string
   links: { label: string; href: string }[]
@@ -46,17 +48,18 @@ const groups: LinkGroup[] = [
 
 export default function Footer() {
   return (
-    <footer className="relative mt-20 border-t border-border-light bg-bg">
+    <footer className="relative mt-20 border-t border-divider bg-bg">
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Main grid */}
         <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(4,1fr)]">
           {/* Brand column */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-2.5 mb-4">
+              <WeepleLogo size={36} />
               <div
                 className="text-2xl font-extrabold tracking-tight"
                 style={{
-                  background: 'linear-gradient(135deg, #F97066 0%, #D4533F 100%)',
+                  background: 'linear-gradient(135deg, #0EA5A0 0%, #5EEAD4 100%)',
                   WebkitBackgroundClip: 'text',
                   backgroundClip: 'text',
                   color: 'transparent',
@@ -100,7 +103,7 @@ export default function Footer() {
                   <li key={l.label}>
                     <a
                       href={l.href}
-                      className="text-sm text-fg-secondary hover:text-coral transition-colors"
+                      className="text-sm text-fg-secondary hover:text-mint transition-colors"
                     >
                       {l.label}
                     </a>
@@ -112,14 +115,14 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-14 pt-8 border-t border-border-light flex flex-col sm:flex-row justify-between gap-4 text-xs text-fg-muted">
+        <div className="mt-14 pt-8 border-t border-divider flex flex-col sm:flex-row justify-between gap-4 text-xs text-fg-muted">
           <div>
             © 2026 weeple. All rights reserved. ·
             <span className="num ml-1">v1.0</span>
           </div>
           <div className="flex gap-4">
             <span>Made in Seoul</span>
-            <span className="num">· Supabase + Expo SDK 55</span>
+            <span>서울에서 만들었습니다</span>
           </div>
         </div>
       </div>
@@ -138,7 +141,7 @@ function SocialIcon({
     <a
       href="#"
       aria-label={label}
-      className="w-9 h-9 rounded-full border border-border-app bg-bg-card flex items-center justify-center text-fg-muted transition-all hover:border-coral hover:text-coral hover:scale-105"
+      className="w-9 h-9 rounded-full border border-divider bg-bg-surface flex items-center justify-center text-fg-muted transition-all hover:border-mint hover:text-mint hover:scale-105"
     >
       <svg
         width="16"
