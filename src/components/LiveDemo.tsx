@@ -48,33 +48,13 @@ export default function LiveDemo() {
           className="relative w-full rounded-3xl overflow-hidden glass shadow-[0_60px_120px_-30px_rgba(14,165,160,0.25)]"
           style={{ aspectRatio: isMobile ? '4/5' : '16/10' }}
         >
-          {isMobile === false && (
+          {isMobile !== null && (
             <iframe
-              src="/weeple-3d-promo.html"
+              src={isMobile ? '/weeple-3d-promo.html?solo=1' : '/weeple-3d-promo.html'}
               title="weeple 3D 데모"
               loading="lazy"
               className="absolute inset-0 w-full h-full border-0"
             />
-          )}
-          {isMobile === true && (
-            <div className="absolute inset-0 flex flex-col">
-              <div
-                className="flex-1 bg-center bg-cover"
-                style={{ backgroundImage: 'url(/demo-fallback.png)' }}
-                aria-hidden
-              />
-              <a
-                href="/weeple-3d-promo.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-4 bg-mint text-white font-semibold text-sm"
-              >
-                360° 체험하기
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
-                  <path d="M7 17L17 7M17 7H8M17 7v9" />
-                </svg>
-              </a>
-            </div>
           )}
         </motion.div>
       </div>
