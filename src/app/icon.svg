@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <!-- Ring: 4 arcs with linear gradients approximating a conic gradient -->
+    <linearGradient id="r1" x1="50%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#5EEAD4"/>
+      <stop offset="100%" stop-color="#B89EFF"/>
+    </linearGradient>
+    <linearGradient id="r2" x1="100%" y1="50%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#B89EFF"/>
+      <stop offset="100%" stop-color="#FF8A7A"/>
+    </linearGradient>
+    <linearGradient id="r3" x1="50%" y1="100%" x2="0%" y2="50%">
+      <stop offset="0%" stop-color="#FF8A7A"/>
+      <stop offset="100%" stop-color="#F9D876"/>
+    </linearGradient>
+    <linearGradient id="r4" x1="0%" y1="50%" x2="50%" y2="0%">
+      <stop offset="0%" stop-color="#F9D876"/>
+      <stop offset="100%" stop-color="#5EEAD4"/>
+    </linearGradient>
+
+    <!-- Inner wallpaper gradients -->
+    <linearGradient id="wallBase" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#F0F4F1"/>
+      <stop offset="100%" stop-color="#E5EDE8"/>
+    </linearGradient>
+    <radialGradient id="blob1" cx="28%" cy="24%" r="55%">
+      <stop offset="0%" stop-color="#0EA5A0" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#0EA5A0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blob2" cx="78%" cy="78%" r="55%">
+      <stop offset="0%" stop-color="#7DD3FC" stop-opacity="0.3"/>
+      <stop offset="60%" stop-color="#7DD3FC" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blob3" cx="85%" cy="22%" r="50%">
+      <stop offset="0%" stop-color="#5EEAD4" stop-opacity="0.22"/>
+      <stop offset="60%" stop-color="#5EEAD4" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Clip inner wallpaper to circle -->
+    <clipPath id="innerCircle">
+      <circle cx="256" cy="256" r="212"/>
+    </clipPath>
+  </defs>
+
+  <!-- Inner wallpaper -->
+  <g clip-path="url(#innerCircle)">
+    <rect width="512" height="512" fill="url(#wallBase)"/>
+    <rect width="512" height="512" fill="url(#blob1)"/>
+    <rect width="512" height="512" fill="url(#blob2)"/>
+    <rect width="512" height="512" fill="url(#blob3)"/>
+  </g>
+
+  <!-- Ring -->
+  <g fill="none" stroke-width="28" stroke-linecap="butt">
+    <path d="M 256 32 A 224 224 0 0 1 480 256" stroke="url(#r1)"/>
+    <path d="M 480 256 A 224 224 0 0 1 256 480" stroke="url(#r2)"/>
+    <path d="M 256 480 A 224 224 0 0 1 32 256" stroke="url(#r3)"/>
+    <path d="M 32 256 A 224 224 0 0 1 256 32" stroke="url(#r4)"/>
+  </g>
+
+  <!-- "w" text -->
+  <text x="256" y="256" text-anchor="middle" dominant-baseline="central"
+        font-family="'Geist Mono','SF Mono',Menlo,Consolas,monospace"
+        font-size="280" font-weight="700" fill="#181622"
+        letter-spacing="-0.05em">w</text>
+</svg>
