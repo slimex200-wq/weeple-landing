@@ -70,10 +70,13 @@ export default function Couple() {
           <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             Couple mode
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
+          <h2 className="text-[32px] sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
             혼자도, 함께도.
             <br />
-            <span className="text-fg-muted">용돈은 따로, 저축은 같이.</span>
+            <span className="text-fg-muted">
+              용돈은 따로,
+              <br className="sm:hidden" /> 저축은 같이.
+            </span>
           </h2>
           <p className="text-base sm:text-lg text-fg-secondary leading-relaxed max-w-2xl">
             커플마다 돈 관리 방식이 다르죠. weeple 은 3가지 모드 중 하나를
@@ -140,30 +143,26 @@ export default function Couple() {
                 filter="url(#glow)"
               />
               {/* 라벨 — 원 위쪽으로 배치, 중앙 라벨과 충돌 방지 */}
-              <motion.text
+              <text
                 x={leftCx}
                 y="55"
                 textAnchor="middle"
                 fill="#1A1A1A"
                 fontSize="12"
                 fontWeight="700"
-                animate={prefersReducedMotion ? undefined : { x: leftCx }}
-                transition={{ type: 'spring', stiffness: 80, damping: 18 }}
               >
                 나
-              </motion.text>
-              <motion.text
+              </text>
+              <text
                 x={rightCx}
                 y="55"
                 textAnchor="middle"
                 fill="#1A1A1A"
                 fontSize="12"
                 fontWeight="700"
-                animate={prefersReducedMotion ? undefined : { x: rightCx }}
-                transition={{ type: 'spring', stiffness: 80, damping: 18 }}
               >
                 파트너
-              </motion.text>
+              </text>
               {/* 중앙 공동 영역 라벨 */}
               <text
                 x="120"
