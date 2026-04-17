@@ -11,12 +11,12 @@ const ASSETLINKS_JSON = JSON.stringify([
   },
 ])
 
-interface Env {
-  ASSETS: Fetcher
+type AssetsBinding = {
+  fetch: (request: Request) => Promise<Response>
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: { ASSETS: AssetsBinding }): Promise<Response> {
     const url = new URL(request.url)
     if (url.pathname === '/.well-known/assetlinks.json') {
       return new Response(ASSETLINKS_JSON, {
