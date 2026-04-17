@@ -45,4 +45,4 @@ next-env.d.ts
 /review/
 
 # omc state
-/.omc/state/
+.omc/
