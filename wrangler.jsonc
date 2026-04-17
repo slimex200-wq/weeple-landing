@@ -1,7 +1,9 @@
 {
   "name": "weeple",
   "compatibility_date": "2026-04-16",
+  "main": "src/worker.ts",
   "assets": {
-    "directory": "./out"
+    "directory": "./out",
+    "binding": "ASSETS"
   }
 }
