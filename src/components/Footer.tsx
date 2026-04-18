@@ -109,8 +109,14 @@ export default function Footer() {
             © 2026 weeple. All rights reserved. ·
             <span className="num ml-1">v1.0</span>
           </div>
-          <div className="flex gap-4">
-            <span>서울에서 만들었습니다</span>
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            <span>커플을 위한 가계부 · 서울</span>
+            <a
+              href="mailto:support@weeple.app"
+              className="hover:text-mint transition-colors"
+            >
+              문의 support@weeple.app
+            </a>
           </div>
         </div>
       </div>
