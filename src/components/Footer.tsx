@@ -11,28 +11,17 @@ const groups: LinkGroup[] = [
   {
     title: '제품',
     links: [
-      { label: '기능', href: '#' },
-      { label: '가격', href: '#' },
-      { label: '3D 체험', href: '#experience' },
-      { label: '업데이트 노트', href: '#' },
-    ],
-  },
-  {
-    title: '회사',
-    links: [
-      { label: '소개', href: '#' },
-      { label: '블로그', href: '#' },
-      { label: '보도자료', href: '#' },
-      { label: '채용', href: '#' },
+      { label: '기능', href: '#smart-insights' },
+      { label: '가격', href: '#pricing' },
+      { label: '3D 체험', href: '#live-demo' },
     ],
   },
   {
     title: '지원',
     links: [
-      { label: '고객센터', href: '#' },
-      { label: '자주 묻는 질문', href: '#' },
+      { label: '소개', href: '#about' },
+      { label: '자주 묻는 질문', href: '#faq' },
       { label: '문의하기', href: 'mailto:support@weeple.app' },
-      { label: '상태 페이지', href: '#' },
     ],
   },
   {
@@ -40,8 +29,6 @@ const groups: LinkGroup[] = [
     links: [
       { label: '이용약관', href: '/terms-of-service.html' },
       { label: '개인정보처리방침', href: '/privacy-policy.html' },
-      { label: '위치정보 약관', href: '#' },
-      { label: '사업자 정보', href: '#' },
     ],
   },
 ]
@@ -51,7 +38,7 @@ export default function Footer() {
     <footer className="relative mt-20 border-t border-divider bg-bg">
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Main grid */}
-        <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(4,1fr)]">
+        <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(3,1fr)]">
           {/* Brand column */}
           <div>
             <div className="flex items-center gap-2.5 mb-4">
@@ -123,7 +110,6 @@ export default function Footer() {
             <span className="num ml-1">v1.0</span>
           </div>
           <div className="flex gap-4">
-            <span>Made in Seoul</span>
             <span>서울에서 만들었습니다</span>
           </div>
         </div>
