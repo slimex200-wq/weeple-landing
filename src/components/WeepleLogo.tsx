@@ -4,8 +4,8 @@ type Props = {
 }
 
 /**
- * weeple 로고 - C 변형
- * 4색 conic gradient 링 + 가운데에 L3 Mist+Mint 월페이퍼 + "w"
+ * weeple 로고 — C 변형 (표준).
+ * 4색 conic gradient 링 + 가운데에 L3 Mist+Mint 월페이퍼 + 소문자 "w".
  */
 export default function WeepleLogo({ size = 32, className }: Props) {
   const padding = Math.max(2, Math.round(size * 0.065))
@@ -28,7 +28,6 @@ export default function WeepleLogo({ size = 32, className }: Props) {
       }}
       aria-hidden
     >
-      {/* Inner wallpaper — same gradients + blobs as landing body */}
       <span
         style={{
           position: 'absolute',
@@ -42,7 +41,6 @@ export default function WeepleLogo({ size = 32, className }: Props) {
           `,
         }}
       />
-      {/* Text */}
       <span
         style={{
           position: 'relative',
