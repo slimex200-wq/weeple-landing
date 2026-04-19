@@ -6,134 +6,304 @@
   <title>weeple - 개인정보처리방침</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    /* Liquid Glass wallpaper — mint/sky/sage 3-layer radial (src/theme/colors.ts lightTheme) */
-    html {
-      min-height: 100%;
-      background:
-        radial-gradient(ellipse 60% 45% at 10% 0%, rgba(94, 234, 212, 0.75), transparent 70%),
-        radial-gradient(ellipse 55% 45% at 100% 30%, rgba(125, 196, 250, 0.65), transparent 70%),
-        radial-gradient(ellipse 60% 50% at 50% 100%, rgba(160, 230, 210, 0.7), transparent 70%),
-        #EDEFE9;
-      background-attachment: fixed;
-    }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      line-height: 1.7;
-      color: #1a1a1a;
-      max-width: 720px;
-      margin: 40px auto;
-      padding: 40px 36px;
-      background: rgba(255, 255, 255, 0.6);
-      -webkit-backdrop-filter: blur(24px) saturate(140%);
-      backdrop-filter: blur(24px) saturate(140%);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      border-radius: 24px;
-      box-shadow: 0 10px 40px rgba(30, 20, 40, 0.08);
-    }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.7; color: #1a1a1a; max-width: 720px; margin: 0 auto; padding: 24px 16px; }
     h1 { font-size: 1.5rem; margin-bottom: 8px; }
     h2 { font-size: 1.15rem; margin-top: 28px; margin-bottom: 8px; }
     p, li { font-size: 0.95rem; margin-bottom: 8px; }
     ul { padding-left: 20px; }
     .date { color: #666; font-size: 0.85rem; margin-bottom: 24px; }
-    hr { border: none; border-top: 1px solid rgba(0, 0, 0, 0.08); margin: 32px 0; }
-    @media (max-width: 600px) {
-      body { margin: 16px; padding: 28px 24px; border-radius: 18px; }
-    }
+    hr { border: none; border-top: 1px solid #e0e0e0; margin: 32px 0; }
+    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9rem; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #f5f5f5; font-weight: 600; }
   </style>
 </head>
 <body>
 
 <h1>weeple 개인정보처리방침</h1>
-<p class="date">시행일: 2026년 3월 23일</p>
+<p class="date">시행일: 2026년 3월 23일 (v1.0)</p>
 
-<p>weeple(이하 "앱")는 이용자의 개인정보를 중요하게 생각하며, 관련 법률을 준수합니다. 본 방침은 앱이 수집하는 정보와 그 처리 방법을 설명합니다.</p>
+<p>weeple(이하 "앱")은 「개인정보 보호법」 및 관련 법령을 준수하며, 이용자의 개인정보를 소중히 보호하기 위해 노력합니다. 본 방침은 앱이 수집·이용·위탁·이전하는 개인정보의 범위와 처리 방법, 이용자의 권리를 설명합니다.</p>
 
-<h2>1. 수집하는 개인정보</h2>
+<h2>1. 수집하는 개인정보 항목</h2>
 <ul>
-  <li><strong>계정 정보:</strong> 이메일 주소 (회원가입/로그인 시)</li>
-  <li><strong>거래 데이터:</strong> 사용자가 직접 입력한 수입/지출 내역, 카테고리, 예산</li>
-  <li><strong>결제 알림:</strong> Android 알림 접근 권한을 허용한 경우, 결제 관련 알림 텍스트 (가맹점명, 금액)</li>
-  <li><strong>구매 정보:</strong> 인앱 결제 시 거래 ID, 영수증 데이터</li>
+  <li><strong>필수 항목:</strong> 이메일 주소, 비밀번호(해시 처리)</li>
+  <li><strong>선택 항목:</strong> 닉네임, 프로필 아바타 이미지</li>
+  <li><strong>자동 수집 항목:</strong> ADID(Android) / IDFA(iOS) 광고 식별자, 접속 로그(IP, 접속일시, 기기정보), Sentry 크래시 로그</li>
+  <li><strong>구매 정보:</strong> 인앱 결제 시 거래 ID, 영수증 데이터, 결제 일시</li>
 </ul>
 
-<h2>2. 개인정보의 이용 목적</h2>
+<h2>2. 기능별 수집 항목</h2>
 <ul>
-  <li>가계부 서비스 제공 (거래 기록, 예산 관리, 분석)</li>
+  <li><strong>거래 기록:</strong> 이용자가 직접 입력한 수입/지출 내역, 카테고리, 메모, 예산</li>
+  <li><strong>커플 연동:</strong> 파트너 계정 ID, 공유 카테고리 설정, 공동 예산, 공유 거래 목록</li>
+  <li><strong>기념일 사진:</strong> Supabase Storage(couple_memory 버킷)에 업로드된 이미지, 이미지에 첨부된 메모 및 날짜</li>
+  <li><strong>결제 알림 파싱(Android):</strong> 카드사/페이 앱 화이트리스트 매칭 시 가맹점명·결제금액·결제일시</li>
+  <li><strong>AI 분석:</strong> 거래 description 텍스트 및 월별 지출 요약</li>
+</ul>
+
+<h2>3. 개인정보의 처리 목적</h2>
+<ul>
+  <li>가계부 서비스 제공(거래 기록, 예산 관리, 분석 리포트)</li>
+  <li>회원 가입 및 본인 확인, 계정 유지</li>
+  <li>커플 연동 및 공동 재정 대시보드 제공</li>
   <li>AI 기반 지출 분석 및 리포트 생성</li>
-  <li>인앱 결제 처리 및 프리미엄 기능 제공</li>
-  <li>서비스 개선 및 오류 수정</li>
+  <li>인앱 결제 처리, 영수증 검증, 프리미엄 기능 제공</li>
+  <li>서비스 개선, 오류 수정, 크래시 진단</li>
+  <li>약관 개정·공지사항 등 고지사항 전달</li>
 </ul>
 
-<h2>3. 개인정보의 보관 및 파기</h2>
-<p>이용자의 데이터는 계정이 유지되는 동안 Supabase 클라우드 서버에 암호화되어 저장됩니다. 계정 삭제 요청 시 모든 데이터는 30일 이내에 완전히 파기됩니다.</p>
+<h2>4. 보유 및 이용 기간</h2>
+<table>
+  <thead>
+    <tr><th>구분</th><th>보관 기간</th><th>근거</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>원칙 (회원 탈퇴 시)</td><td>30일 이내 파기</td><td>내부 정책</td></tr>
+    <tr><td>계약 또는 청약철회 기록</td><td>5년</td><td>전자상거래법 제6조</td></tr>
+    <tr><td>대금결제 및 재화 공급 기록</td><td>5년</td><td>전자상거래법 제6조</td></tr>
+    <tr><td>소비자 불만·분쟁처리 기록</td><td>3년</td><td>전자상거래법 제6조</td></tr>
+    <tr><td>접속 로그</td><td>3개월</td><td>통신비밀보호법 제15조의2</td></tr>
+  </tbody>
+</table>
 
-<h2>4. 개인정보의 제3자 제공</h2>
-<p>앱은 이용자의 개인정보를 제3자에게 판매하거나 공유하지 않습니다. 다만, 아래의 경우 예외로 합니다:</p>
+<h2>5. 개인정보의 제3자 제공</h2>
 <ul>
-  <li>AI 분석 기능 이용 시: 해당 월의 지출 요약 데이터가 AI 서비스 제공자(Anthropic, OpenAI, Google)에 전송됩니다. 개인 식별 정보는 포함되지 않습니다.</li>
-  <li>결제 처리: Google Play / Apple App Store를 통한 영수증 검증</li>
-  <li>법률에 의해 요구되는 경우</li>
+  <li>앱은 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만 법령에 근거하거나 수사기관의 적법한 요청이 있는 경우 제공될 수 있습니다.</li>
+  <li>커플 연동 기능을 활성화한 경우 다음 정보가 파트너에게 공유됩니다: (a) 공동 예산 금액 및 달성률, (b) 공유 카테고리로 태그된 거래 내역(가맹점명·금액·일시·메모), (c) 기념일 사진 및 첨부 메모.</li>
+  <li>커플 연동 시에도 파트너에게 공개되지 않는 정보: 개인 카테고리로 기록된 거래, 이메일 주소, 비밀번호, 개인 메모.</li>
+  <li>커플 연동을 해제하더라도 연동 기간 중 파트너 계정에 전송·복사된 과거 공유 데이터는 파트너 측에 잔존할 수 있습니다.</li>
 </ul>
 
-<h2>5. 알림 접근 권한</h2>
-<p>Android에서 결제 알림 자동 기입 기능을 사용하려면 알림 접근 권한이 필요합니다. 이 권한은 결제 관련 알림만 처리하며, 다른 앱의 알림 내용은 저장하지 않습니다. 이 기능은 선택적이며 언제든 비활성화할 수 있습니다.</p>
+<h2>6. 개인정보 처리 위탁</h2>
+<table>
+  <thead>
+    <tr><th>수탁자</th><th>위탁업무 내용</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Supabase, Inc.</td><td>데이터베이스·인증·Storage 운영 (이메일/비밀번호 해시, 거래 데이터, 사진 파일 저장)</td></tr>
+    <tr><td>Anthropic, PBC</td><td>Claude API를 통한 거래 description 및 지출 요약 기반 AI 분석</td></tr>
+    <tr><td>Google LLC</td><td>Gemini API 보조 AI 분석, Google Play 인앱 결제 처리, FCM 푸시 알림 전송</td></tr>
+    <tr><td>Expo, Inc.</td><td>Push Notification Service 푸시 토큰 관리, Sentry 크래시 리포트 수집</td></tr>
+    <tr><td>Apple Inc.</td><td>App Store 인앱 결제 처리 및 영수증 검증</td></tr>
+  </tbody>
+</table>
+<p>서비스 제공자는 위탁업무의 내용과 수탁자를 본 방침을 통해 공개하며, 수탁자가 개인정보를 안전하게 처리하도록 감독합니다.</p>
 
-<h2>6. 이용자의 권리</h2>
+<h2>7. 개인정보의 국외 이전</h2>
+<p>앱은 서비스 운영을 위해 아래와 같이 개인정보를 국외로 이전합니다(「개인정보 보호법」 제28조의8, 제28조의9).</p>
+<table>
+  <thead>
+    <tr><th>이전받는 자</th><th>국가</th><th>이전 항목</th><th>목적</th><th>이전 시점·방법</th><th>보유기간</th><th>연락처</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Supabase, Inc.</td><td>미국(US), 싱가포르(SG)</td><td>계정 정보, 거래 데이터, 업로드된 사진</td><td>DB·인증·Storage 운영</td><td>서비스 이용 시 실시간 API 호출</td><td>회원 탈퇴 후 30일 이내 파기</td><td>privacy@supabase.io</td></tr>
+    <tr><td>Anthropic, PBC</td><td>미국(US)</td><td>거래 description, 지출 요약</td><td>AI 분석</td><td>AI 기능 이용 시 실시간</td><td>Anthropic 정책에 따름</td><td>privacy@anthropic.com</td></tr>
+    <tr><td>Google LLC</td><td>미국(US)</td><td>거래 description, 결제 영수증, 푸시 토큰</td><td>Gemini AI 분석, Google Play IAP 검증, FCM 푸시 전송</td><td>해당 기능 이용 시 실시간</td><td>Google 정책에 따름</td><td>support.google.com</td></tr>
+    <tr><td>Expo, Inc.</td><td>미국(US)</td><td>푸시 토큰, 크래시 스택트레이스</td><td>푸시 알림, 크래시 모니터링</td><td>앱 실행 및 크래시 발생 시</td><td>Expo·Sentry 정책에 따름</td><td>secure@expo.dev</td></tr>
+    <tr><td>Apple Inc.</td><td>미국(US)</td><td>결제 영수증, 거래 ID</td><td>App Store IAP 검증</td><td>iOS 인앱 결제 시 실시간</td><td>Apple 정책에 따름</td><td>apple.com/legal/privacy</td></tr>
+  </tbody>
+</table>
+
+<h2>8. 자동수집장치의 설치·운영 및 거부</h2>
 <ul>
-  <li>개인정보 열람, 수정, 삭제 요청</li>
-  <li>계정 삭제 요청</li>
-  <li>데이터 내보내기 요청</li>
+  <li><strong>Sentry(크래시 모니터링, US):</strong> 앱 비정상 종료 시 스택트레이스와 기기 정보를 수집합니다. 개인 식별 정보는 전송되지 않습니다.</li>
+  <li><strong>ADID(Android) / IDFA(iOS) 광고 식별자:</strong> 서비스 이용 통계 분석 목적으로 자동 수집될 수 있습니다.</li>
+  <li><strong>거부 방법:</strong> Android는 설정 → 개인정보 보호 → 광고 → 광고 ID 재설정/삭제, iOS는 설정 → 개인정보 보호 및 보안 → 추적 → 앱이 추적 요청 허용 차단을 통해 제한할 수 있습니다.</li>
 </ul>
-<p>위 요청은 앱 내 설정 또는 아래 연락처로 가능합니다.</p>
 
-<h2>7. 연락처</h2>
+<h2>9. 민감 기능에 대한 추가 안내</h2>
+<ul>
+  <li><strong>결제 알림 파싱(Android):</strong> 알림 접근 권한은 기술적으로 기기의 모든 알림 payload에 일시적 접근이 가능하나, 앱은 카드사·간편결제 앱 화이트리스트와 매칭된 알림에서만 가맹점명·결제금액·결제일시를 추출·저장합니다. 그 외 알림 내용은 파싱 직후 메모리에서 즉시 폐기되며 서버로 전송되지 않습니다. 본 기능은 선택적이며 언제든 비활성화할 수 있습니다.</li>
+  <li><strong>AI 분석:</strong> 이용자의 거래 description 텍스트가 Anthropic·Google 서버로 전송됩니다. 이메일·이름·전화번호 등 직접 식별정보는 전송되지 않으나 description 자체에 식별 가능성이 존재할 수 있으므로, 카드번호·주민등록번호·계좌번호 등 민감정보를 description에 입력하지 않을 것을 권고합니다.</li>
+  <li><strong>기념일 사진 업로드:</strong> 이미지는 Supabase Storage의 couple_memory 버킷에 저장되며 연동된 파트너에게 공유됩니다. 계정 삭제 시 해당 사진도 함께 삭제됩니다.</li>
+</ul>
+
+<h2>10. 이용자 및 법정대리인의 권리와 행사 방법</h2>
+<ul>
+  <li>이용자는 언제든지 다음 권리를 행사할 수 있습니다: (1) 개인정보 열람 요구, (2) 오류 정정 요구, (3) 삭제 요구, (4) 처리정지 및 동의 철회 요구.</li>
+  <li>만 14세 미만 아동의 경우 법정대리인이 아동의 개인정보에 대한 열람·정정·삭제·처리정지를 요구할 수 있습니다.</li>
+  <li>권리 행사는 앱 내 설정 화면 또는 <strong>support@weeple.app</strong>으로 서면·이메일을 통해 요청할 수 있으며, 서비스 제공자는 지체 없이 조치합니다.</li>
+  <li>정보주체가 직접 삭제할 수 없는 법정 보관 항목은 제4조에 명시된 기간 동안 분리 보관됩니다.</li>
+</ul>
+
+<h2>11. 아동의 개인정보 보호</h2>
+<p>앱은 만 14세 미만 아동의 회원가입을 원칙적으로 제한하며, 부득이하게 수집이 필요한 경우 법정대리인의 동의를 받습니다(「개인정보 보호법」 제22조의2). 법정대리인 동의 없이 수집된 아동의 개인정보가 확인될 경우 즉시 삭제합니다.</p>
+
+<h2>12. 개인정보의 안전성 확보 조치</h2>
+<ul>
+  <li><strong>전송 구간 암호화:</strong> 모든 데이터 통신은 TLS(HTTPS)로 암호화됩니다.</li>
+  <li><strong>비밀번호 보호:</strong> 이용자 비밀번호는 일방향 해시 알고리즘으로 저장되며 평문으로 보관되지 않습니다.</li>
+  <li><strong>접근 통제:</strong> Supabase Row Level Security(RLS)를 적용하여 본인 및 연동된 파트너 외에는 데이터에 접근할 수 없도록 제한합니다.</li>
+  <li><strong>접속 기록 보관:</strong> 서비스 접속 로그를 최소 3개월간 보관하여 부정 접근을 모니터링합니다.</li>
+  <li><strong>최소 권한 원칙:</strong> 개인정보 처리 업무 담당자를 최소화하고 권한을 엄격히 관리합니다.</li>
+</ul>
+
+<h2>13. 개인정보 보호책임자</h2>
+<ul>
+  <li><strong>성명:</strong> [서비스 운영자] <!-- TODO: 대표자 확정 시 실명 교체 --></li>
+  <li><strong>직책:</strong> 개인정보 보호책임자</li>
+  <li><strong>연락처:</strong> support@weeple.app</li>
+</ul>
+<p>이용자는 개인정보 처리와 관련한 문의, 불만처리, 피해구제 등에 관하여 위 책임자에게 연락할 수 있으며, 서비스 제공자는 지체 없이 답변 및 처리하도록 노력합니다.</p>
+
+<h2>14. 권익침해 구제 방법</h2>
+<p>개인정보 침해로 인한 신고·상담이 필요한 경우 아래 기관에 문의할 수 있습니다.</p>
+<ul>
+  <li>개인정보 침해신고센터(KISA): 국번없이 118 / privacy.kisa.or.kr</li>
+  <li>개인정보 분쟁조정위원회: 1833-6972 / www.kopico.go.kr</li>
+  <li>대검찰청 사이버수사과: 국번없이 1301 / www.spo.go.kr</li>
+  <li>경찰청 사이버수사국: 국번없이 182 / ecrm.police.go.kr</li>
+</ul>
+
+<h2>15. 개정 이력</h2>
+<p>v1.0 (시행일: 2026년 3월 23일) — 최초 제정. 본 방침이 개정되는 경우 시행일 최소 7일 전(이용자에게 불리한 변경은 30일 전)에 앱 내 공지사항을 통해 고지합니다.</p>
+
+<h2>16. 연락처</h2>
 <p>개인정보 관련 문의: <strong>support@weeple.app</strong></p>
 
 <hr>
 
 <h1>weeple Privacy Policy</h1>
-<p class="date">Effective: March 23, 2026</p>
+<p class="date">Effective: March 23, 2026 (v1.0)</p>
 
-<p>weeple ("the App") values your privacy and complies with applicable data protection laws. This policy explains what information we collect and how we use it.</p>
+<p>weeple ("the App") complies with the Personal Information Protection Act (PIPA) and related laws of the Republic of Korea, and is committed to protecting your personal information. This policy explains what information we collect, use, entrust, and transfer, as well as your rights as a data subject.</p>
 
-<h2>1. Information We Collect</h2>
+<h2>1. Personal Information We Collect</h2>
 <ul>
-  <li><strong>Account info:</strong> Email address (for sign-up/login)</li>
-  <li><strong>Transaction data:</strong> Income/expense records, categories, budgets you enter</li>
-  <li><strong>Payment notifications:</strong> If you grant Android notification access, payment notification text (merchant name, amount)</li>
-  <li><strong>Purchase info:</strong> Transaction IDs and receipts for in-app purchases</li>
+  <li><strong>Required:</strong> Email address, password (hashed)</li>
+  <li><strong>Optional:</strong> Nickname, profile avatar image</li>
+  <li><strong>Automatically collected:</strong> ADID (Android) / IDFA (iOS) advertising identifiers, access logs (IP, access time, device info), Sentry crash logs</li>
+  <li><strong>Purchase info:</strong> Transaction ID, receipt data, payment timestamp for in-app purchases</li>
 </ul>
 
-<h2>2. How We Use Your Information</h2>
+<h2>2. Collection by Feature</h2>
 <ul>
-  <li>Provide budgeting services (transaction tracking, budget management, reports)</li>
-  <li>AI-powered spending analysis</li>
-  <li>Process in-app purchases and premium features</li>
-  <li>Improve the service and fix bugs</li>
+  <li><strong>Transaction records:</strong> Income/expense entries, categories, memos, budgets entered by the user</li>
+  <li><strong>Couple linking:</strong> Partner account ID, shared category settings, joint budget, shared transaction list</li>
+  <li><strong>Anniversary photos:</strong> Images uploaded to Supabase Storage (couple_memory bucket), attached memos and dates</li>
+  <li><strong>Payment notification parsing (Android):</strong> Merchant name, amount, and timestamp extracted only from notifications matching the card/pay-app whitelist</li>
+  <li><strong>AI analysis:</strong> Transaction description text and monthly spending summaries</li>
 </ul>
 
-<h2>3. Data Storage and Deletion</h2>
-<p>Your data is stored encrypted on Supabase cloud servers while your account is active. Upon account deletion request, all data is permanently deleted within 30 days.</p>
-
-<h2>4. Third-Party Sharing</h2>
-<p>We do not sell or share your personal data. Exceptions:</p>
+<h2>3. Purposes of Processing</h2>
 <ul>
-  <li>AI analysis: Monthly spending summaries (no personally identifiable information) are sent to AI providers (Anthropic, OpenAI, Google)</li>
-  <li>Payment processing: Receipt validation via Google Play / Apple App Store</li>
-  <li>When required by law</li>
+  <li>Providing budgeting services (transaction tracking, budget management, analysis reports)</li>
+  <li>Account registration, identity verification, and account maintenance</li>
+  <li>Couple linking and shared financial dashboard</li>
+  <li>AI-powered spending analysis and report generation</li>
+  <li>In-app purchase processing, receipt validation, and premium feature delivery</li>
+  <li>Service improvement, bug fixing, and crash diagnostics</li>
+  <li>Delivering notices such as amendments to terms and announcements</li>
 </ul>
 
-<h2>5. Notification Access</h2>
-<p>The payment auto-entry feature on Android requires notification access. Only payment-related notifications are processed; other app notifications are not stored. This feature is optional and can be disabled at any time.</p>
+<h2>4. Retention and Use Periods</h2>
+<table>
+  <thead>
+    <tr><th>Category</th><th>Retention Period</th><th>Legal Basis</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Principle (on account withdrawal)</td><td>Deleted within 30 days</td><td>Internal policy</td></tr>
+    <tr><td>Records of contracts / withdrawal of offers</td><td>5 years</td><td>E-Commerce Consumer Protection Act, Art. 6</td></tr>
+    <tr><td>Records of payment and supply of goods</td><td>5 years</td><td>Same Act, Art. 6</td></tr>
+    <tr><td>Records of consumer complaints / disputes</td><td>3 years</td><td>Same Act, Art. 6</td></tr>
+    <tr><td>Access logs</td><td>3 months</td><td>Protection of Communications Secrets Act, Art. 15-2</td></tr>
+  </tbody>
+</table>
 
-<h2>6. Your Rights</h2>
+<h2>5. Provision to Third Parties</h2>
 <ul>
-  <li>Access, modify, or delete your personal data</li>
-  <li>Request account deletion</li>
-  <li>Request data export</li>
+  <li>As a rule, the App does not provide personal information to third parties. Exceptions apply only where required by law or pursuant to lawful requests from investigative agencies.</li>
+  <li>If you activate the couple-linking feature, the following information is shared with your partner: (a) joint budget amounts and achievement rates, (b) transactions tagged to shared categories (merchant, amount, date, memo), (c) anniversary photos and attached memos.</li>
+  <li>Information NOT shared with the partner even when linked: transactions in personal categories, email address, password, personal memos.</li>
+  <li>Even after unlinking, historical shared data copied to the partner's account during the linked period may remain on the partner side.</li>
 </ul>
 
-<h2>7. Contact</h2>
+<h2>6. Consignment of Personal Information Processing</h2>
+<table>
+  <thead>
+    <tr><th>Consignee</th><th>Consigned Tasks</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Supabase, Inc.</td><td>Database, authentication, storage operations (hashed email/password, transaction data, photo files)</td></tr>
+    <tr><td>Anthropic, PBC</td><td>AI analysis via Claude API based on transaction descriptions and spending summaries</td></tr>
+    <tr><td>Google LLC</td><td>Supplementary AI via Gemini API, Google Play in-app purchase processing, FCM push delivery</td></tr>
+    <tr><td>Expo, Inc.</td><td>Push token management (Push Notification Service), crash log collection (Sentry)</td></tr>
+    <tr><td>Apple Inc.</td><td>App Store in-app purchase processing and receipt verification</td></tr>
+  </tbody>
+</table>
+<p>The service provider discloses the details of consigned tasks and consignees in this policy, and supervises them to ensure safe processing of personal information.</p>
+
+<h2>7. Cross-Border Transfer of Personal Information</h2>
+<p>The App transfers personal information overseas as follows, pursuant to Articles 28-8 and 28-9 of the Personal Information Protection Act.</p>
+<table>
+  <thead>
+    <tr><th>Recipient</th><th>Country</th><th>Items</th><th>Purpose</th><th>Time / Method</th><th>Retention</th><th>Contact</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Supabase, Inc.</td><td>United States (US), Singapore (SG)</td><td>Account info, transaction data, uploaded photos</td><td>DB, auth, storage operations</td><td>Real-time API calls during service use</td><td>Deleted within 30 days after withdrawal</td><td>privacy@supabase.io</td></tr>
+    <tr><td>Anthropic, PBC</td><td>United States (US)</td><td>Transaction descriptions, spending summaries</td><td>AI analysis</td><td>Real-time when using AI features</td><td>Per Anthropic policy</td><td>privacy@anthropic.com</td></tr>
+    <tr><td>Google LLC</td><td>United States (US)</td><td>Transaction descriptions, payment receipts, push tokens</td><td>Gemini AI, Google Play IAP verification, FCM push delivery</td><td>Real-time during use</td><td>Per Google policy</td><td>support.google.com</td></tr>
+    <tr><td>Expo, Inc.</td><td>United States (US)</td><td>Push tokens, crash stack traces</td><td>Push notifications, crash monitoring</td><td>On app launch and crash events</td><td>Per Expo / Sentry policy</td><td>secure@expo.dev</td></tr>
+    <tr><td>Apple Inc.</td><td>United States (US)</td><td>Payment receipts, transaction IDs</td><td>App Store IAP verification</td><td>Real-time for iOS in-app purchases</td><td>Per Apple policy</td><td>apple.com/legal/privacy</td></tr>
+  </tbody>
+</table>
+
+<h2>8. Automatic Data Collection Tools and Opt-Out</h2>
+<ul>
+  <li><strong>Sentry (crash monitoring, US):</strong> Collects stack traces and device information upon abnormal app termination. No directly identifying information is transmitted.</li>
+  <li><strong>ADID (Android) / IDFA (iOS) advertising identifiers:</strong> May be automatically collected for service usage analytics.</li>
+  <li><strong>Opt-out:</strong> Android → Settings → Privacy → Ads → Reset/Delete advertising ID; iOS → Settings → Privacy & Security → Tracking → disable "Allow Apps to Request to Track".</li>
+</ul>
+
+<h2>9. Additional Notice on Sensitive Features</h2>
+<ul>
+  <li><strong>Payment notification parsing (Android):</strong> Notification access technically allows transient access to all notification payloads on the device; however, the App extracts and stores only merchant, amount, and timestamp from notifications matching the card/pay-app whitelist. All other notification content is discarded from memory immediately after parsing and is never transmitted to servers. This feature is optional and can be disabled at any time.</li>
+  <li><strong>AI analysis:</strong> Your transaction description text is transmitted to Anthropic and Google servers. Direct identifiers such as email, name, and phone number are NOT transmitted, but the description itself may contain identifying elements; we recommend not entering sensitive information (card numbers, national ID numbers, bank account numbers, etc.) in descriptions.</li>
+  <li><strong>Anniversary photo upload:</strong> Images are stored in the couple_memory bucket of Supabase Storage and shared with the linked partner. Upon account deletion, these photos are also deleted.</li>
+</ul>
+
+<h2>10. Rights of Data Subjects and Legal Representatives</h2>
+<ul>
+  <li>Data subjects may exercise the following rights at any time: (1) access, (2) correction, (3) deletion, (4) suspension of processing and withdrawal of consent.</li>
+  <li>For children under 14, their legal representatives may exercise these rights on the child's behalf.</li>
+  <li>Requests can be submitted via in-app settings or by email to <strong>support@weeple.app</strong>; the service provider will take prompt action.</li>
+  <li>Items that cannot be deleted by the data subject due to statutory retention obligations will be stored separately for the periods specified in Section 4.</li>
+</ul>
+
+<h2>11. Protection of Children's Personal Information</h2>
+<p>The App, in principle, does not allow registration by children under 14. When collection is unavoidable, consent from the legal representative is obtained (Article 22-2, Personal Information Protection Act). Any children's personal information collected without such consent will be deleted immediately upon discovery.</p>
+
+<h2>12. Safeguards for Personal Information Security</h2>
+<ul>
+  <li><strong>Encryption in transit:</strong> All data communication is encrypted via TLS (HTTPS).</li>
+  <li><strong>Password protection:</strong> Passwords are stored using one-way hash algorithms and never kept in plaintext.</li>
+  <li><strong>Access control:</strong> Supabase Row Level Security (RLS) restricts data access to the owner and linked partner only.</li>
+  <li><strong>Access log retention:</strong> Service access logs are retained for at least 3 months to monitor unauthorized access.</li>
+  <li><strong>Principle of least privilege:</strong> The number of personnel handling personal information is minimized and their access is strictly managed.</li>
+</ul>
+
+<h2>13. Personal Information Protection Officer</h2>
+<ul>
+  <li><strong>Name:</strong> [Service Operator] <!-- TODO: replace with actual name once representative confirmed --></li>
+  <li><strong>Role:</strong> Personal Information Protection Officer</li>
+  <li><strong>Contact:</strong> support@weeple.app</li>
+</ul>
+<p>Users may contact the officer above for inquiries, complaints, or remedy requests related to personal information processing; the service provider will endeavor to respond promptly.</p>
+
+<h2>14. Remedies for Infringement of Rights</h2>
+<p>For reports or consultation regarding personal information infringement, you may contact the following agencies.</p>
+<ul>
+  <li>KISA Personal Information Infringement Report Center: dial 118 (no area code) / privacy.kisa.or.kr</li>
+  <li>Personal Information Dispute Mediation Committee: 1833-6972 / www.kopico.go.kr</li>
+  <li>Supreme Prosecutors' Office Cyber Investigation: dial 1301 / www.spo.go.kr</li>
+  <li>Korean National Police Agency Cyber Bureau: dial 182 / ecrm.police.go.kr</li>
+</ul>
+
+<h2>15. Revision History</h2>
+<p>v1.0 (Effective: March 23, 2026) — Initial version. When this policy is revised, we will provide notice in the App at least 7 days before the effective date (30 days for changes disadvantageous to users).</p>
+
+<h2>16. Contact</h2>
 <p>Privacy inquiries: <strong>support@weeple.app</strong></p>
 
 </body>
