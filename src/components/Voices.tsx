@@ -200,7 +200,7 @@ export default function Voices() {
   return (
     <section
       id="voices"
-      className="relative py-24 sm:py-32 px-6 overflow-hidden"
+      className="relative py-16 sm:py-32 px-6 overflow-hidden"
       aria-label="사용자 후기"
     >
       <div className="max-w-6xl mx-auto">
@@ -209,12 +209,12 @@ export default function Voices() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-          className="max-w-3xl mb-16 sm:mb-20"
+          className="max-w-3xl mb-10 sm:mb-20"
         >
           <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             Real users
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-fg">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-fg">
             먼저 써본 사람들,
             <br />
             <span className="text-fg-muted">이렇게 말합니다.</span>

@@ -82,6 +82,14 @@ export default function Hero() {
   const [caseIndex, setCaseIndex] = useState(0)
   const [typed, setTyped] = useState('')
   const [showResult, setShowResult] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
 
   const currentCase = CASES[caseIndex]
 
@@ -134,9 +142,9 @@ export default function Hero() {
       ref={sectionRef}
       aria-label="weeple 히어로"
       className="relative"
-      style={{ minHeight: prefersReducedMotion ? '100svh' : '150svh' }}
+      style={{ minHeight: (prefersReducedMotion || isMobile) ? '100svh' : '150svh' }}
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <div className={`${isMobile ? '' : 'sticky top-0'} h-screen w-full overflow-hidden`}>
         <div
           aria-hidden
           className="absolute inset-0 -z-10"
@@ -151,25 +159,52 @@ export default function Hero() {
 
         <h1 className="sr-only">둘이 쓰는 돈, 한눈에 weeple.</h1>
 
-        <div className="relative h-full grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 md:gap-12 items-center px-5 sm:px-10 pt-16 sm:pt-24 pb-6 sm:pb-10 max-w-6xl mx-auto">
-          <div className="relative min-h-[160px] sm:min-h-[280px] md:min-h-[360px]">
-            {CHAPTERS.map((c, i) => (
-              <ChapterBlock
-                key={i}
-                chapter={c}
-                index={i}
-                total={CHAPTERS.length}
-                progress={scrollYProgress}
-                prefersReducedMotion={!!prefersReducedMotion}
-              />
-            ))}
-          </div>
+        <div className="relative h-full grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 md:gap-12 items-center px-5 sm:px-10 pt-16 sm:pt-24 pb-6 sm:pb-10 max-w-6xl mx-auto">
+          {isMobile ? (
+            <div className="flex flex-col justify-center">
+              <div className="text-[10px] font-semibold tracking-[0.15em] text-mint uppercase mb-3">
+                {CHAPTERS[0].eyebrow}
+              </div>
+              <h2 className="text-3xl font-extrabold leading-[0.96] tracking-[-0.04em] mb-1.5 text-fg">
+                {CHAPTERS[0].title}
+              </h2>
+              {CHAPTERS[0].accent && (
+                <h2
+                  className="text-3xl font-extrabold leading-[0.96] tracking-[-0.04em] mb-4"
+                  style={{
+                    background: 'linear-gradient(135deg, #0EA5A0 0%, #5EEAD4 100%)',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    color: 'transparent',
+                  }}
+                >
+                  {CHAPTERS[0].accent}
+                </h2>
+              )}
+              <p className="max-w-md text-sm text-fg-secondary leading-relaxed">
+                {CHAPTERS[0].body}
+              </p>
+            </div>
+          ) : (
+            <div className="relative min-h-[280px] md:min-h-[360px]">
+              {CHAPTERS.map((c, i) => (
+                <ChapterBlock
+                  key={i}
+                  chapter={c}
+                  index={i}
+                  total={CHAPTERS.length}
+                  progress={scrollYProgress}
+                  prefersReducedMotion={!!prefersReducedMotion}
+                />
+              ))}
+            </div>
+          )}
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
-            className="flex justify-center"
+            className="hidden sm:flex justify-center"
           >
             <div
               className="relative w-[180px] sm:w-[280px] md:w-[320px] rounded-[32px] sm:rounded-[40px] glass p-2 sm:p-3 shadow-[0_40px_100px_-20px_rgba(14,165,160,0.2)]"

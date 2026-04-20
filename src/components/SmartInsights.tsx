@@ -83,12 +83,12 @@ export default function SmartInsights() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-          className="max-w-3xl mb-14"
+          className="max-w-3xl mb-10 sm:mb-14"
         >
           <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             AI Insights
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
             AI가 알려주는
             <br />
             <span className="text-fg-muted">돈 이야기.</span>
@@ -112,7 +112,7 @@ export default function SmartInsights() {
                   delay: 0.1 * i,
                   ease: [0.2, 0.8, 0.2, 1],
                 }}
-                className={`glass rounded-2xl p-7 ${colors.border} hover:shadow-lg transition-shadow`}
+                className={`glass rounded-2xl p-5 sm:p-7 ${colors.border} hover:shadow-lg transition-shadow`}
               >
                 <div className={`w-12 h-12 rounded-xl ${colors.bg} flex items-center justify-center ${colors.text} mb-5`}>
                   <div className="w-6 h-6">{item.icon}</div>

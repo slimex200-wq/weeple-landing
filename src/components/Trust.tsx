@@ -46,7 +46,7 @@ export default function Trust() {
       aria-label="보안과 프라이버시"
     >
       <div className="max-w-6xl mx-auto">
-        <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr] items-center">
+        <div className="grid gap-8 lg:gap-12 lg:grid-cols-[1.2fr_1fr] items-center">
           {/* Left — text */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -57,7 +57,7 @@ export default function Trust() {
             <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
               Trust & Privacy
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
               파트너와도
               <br />
               나누지 못하는
@@ -80,7 +80,7 @@ export default function Trust() {
               transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
               className="flex justify-center mb-6"
             >
-              <div className="relative w-24 h-28">
+              <div className="relative w-20 h-24 sm:w-24 sm:h-28">
                 <svg viewBox="0 0 96 112" fill="none" className="w-full h-full">
                   <motion.path
                     d="M48 4L8 24v32c0 28 40 48 40 48s40-20 40-48V24L48 4z"

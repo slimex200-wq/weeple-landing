@@ -104,7 +104,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-14 pt-8 border-t border-divider flex flex-col sm:flex-row justify-between gap-4 text-xs text-fg-muted">
+        <div className="mt-10 pt-6 sm:mt-14 sm:pt-8 border-t border-divider flex flex-col sm:flex-row justify-between gap-4 text-xs text-fg-muted">
           <div>
             © 2026 weeple. All rights reserved. ·
             <span className="num ml-1">v1.0</span>

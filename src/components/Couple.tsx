@@ -65,7 +65,7 @@ export default function Couple() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-          className="max-w-3xl mb-16 sm:mb-20"
+          className="max-w-3xl mb-10 sm:mb-20"
         >
           <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             Couple mode
@@ -85,14 +85,14 @@ export default function Couple() {
         </motion.div>
 
         {/* 2열 — 벤 다이어그램 + 탭 */}
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] items-center">
+        <div className="grid gap-8 lg:gap-12 lg:grid-cols-[1.1fr_1fr] items-center">
           {/* 벤 다이어그램 SVG */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
-            className="relative w-full aspect-square max-w-[520px] mx-auto"
+            className="relative w-full aspect-square max-w-[320px] sm:max-w-[520px] mx-auto"
           >
             <svg
               viewBox="0 0 240 240"

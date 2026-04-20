@@ -95,7 +95,7 @@ export default function Problem() {
         </motion.div>
 
         {/* 단어별 reveal 헤드라인 */}
-        <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight text-center mb-16 sm:mb-20">
+        <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight text-center mb-10 sm:mb-20">
           {HEADLINE_WORDS.map((w, i) => (
             <motion.span
               key={i}
@@ -125,7 +125,7 @@ export default function Problem() {
           <div
             className="num font-extrabold tracking-[-0.05em] leading-[0.85]"
             style={{
-              fontSize: 'clamp(10rem, 22vw, 22rem)',
+              fontSize: 'clamp(6rem, 22vw, 22rem)',
               background:
                 'linear-gradient(180deg, #0EA5A0 0%, #5EEAD4 60%, rgba(94,234,212,0.3) 100%)',
               WebkitBackgroundClip: 'text',
@@ -144,7 +144,7 @@ export default function Problem() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, delay: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-center text-sm sm:text-base text-fg-muted mb-20 sm:mb-28 max-w-xl mx-auto leading-relaxed"
+          className="text-center text-sm sm:text-base text-fg-muted mb-12 sm:mb-28 max-w-xl mx-auto leading-relaxed"
         >
           통계청 가계금융복지조사 · 2024 — 가계부 시작 후 90일 내 포기 비율
         </motion.p>

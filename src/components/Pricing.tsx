@@ -108,7 +108,7 @@ export default function Pricing() {
   return (
     <section
       id="pricing"
-      className="relative py-32 px-6"
+      className="relative py-20 sm:py-32 px-6"
       style={{ perspective: '1200px' }}
       aria-label="가격"
     >
@@ -124,7 +124,7 @@ export default function Pricing() {
           <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             Pricing
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-5">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-5">
             필요한 만큼만,
             <br />
             <span className="text-fg-muted">단순하게.</span>
@@ -140,7 +140,7 @@ export default function Pricing() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.2, 0.8, 0.2, 1] }}
-          className="flex items-center justify-center gap-3 mb-16"
+          className="flex items-center justify-center gap-3 mb-10 sm:mb-16"
         >
           <button
             type="button"
@@ -194,7 +194,7 @@ export default function Pricing() {
               }}
             >
               <TiltCard
-                className={`relative flex flex-col h-full rounded-3xl p-8 ${
+                className={`relative flex flex-col h-full rounded-3xl p-6 sm:p-8 ${
                   tier.highlighted
                     ? 'bg-gradient-to-b from-mint-bg to-bg-surface border border-mint/40 shadow-[0_60px_120px_-30px_rgba(14,165,160,0.5)]'
                     : 'glass border border-border-app hover:border-mint/30 transition-colors duration-300'
@@ -217,7 +217,7 @@ export default function Pricing() {
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-                      className="num text-5xl font-extrabold tracking-tight text-fg"
+                      className="num text-4xl sm:text-5xl font-extrabold tracking-tight text-fg"
                     >
                       {tier.price[period]}
                     </motion.span>

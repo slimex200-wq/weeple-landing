@@ -14,7 +14,7 @@ export default function FinalCTA() {
   return (
     <section
       id="final-cta"
-      className="relative min-h-[70vh] flex items-center justify-center py-24 px-6 overflow-hidden bg-gradient-to-br from-[#0EA5A0] via-[#5EEAD4] to-[#7DD3FC]"
+      className="relative min-h-[70vh] flex items-center justify-center py-16 sm:py-24 px-6 overflow-hidden bg-gradient-to-br from-[#0EA5A0] via-[#5EEAD4] to-[#7DD3FC]"
       aria-label="앱 다운로드"
     >
       <div className="max-w-5xl w-full text-center">
@@ -23,7 +23,7 @@ export default function FinalCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-xs font-semibold tracking-wider text-white/90 uppercase mb-8"
+          className="text-xs font-semibold tracking-wider text-white/90 uppercase mb-5 sm:mb-8"
         >
           Start today
         </motion.div>
@@ -35,7 +35,7 @@ export default function FinalCTA() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
           className="font-extrabold leading-[0.92] tracking-[-0.04em] mb-4 text-white"
-          style={{ fontSize: 'clamp(3rem, 10vw, 10rem)' }}
+          style={{ fontSize: 'clamp(2rem, 10vw, 10rem)' }}
         >
           오늘 입력한
           <br />
@@ -47,8 +47,8 @@ export default function FinalCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.9, delay: 0.15, ease: [0.2, 0.8, 0.2, 1] }}
-          className="font-extrabold leading-[0.92] tracking-[-0.04em] mb-12 text-white/80"
-          style={{ fontSize: 'clamp(3rem, 10vw, 10rem)' }}
+          className="font-extrabold leading-[0.92] tracking-[-0.04em] mb-8 sm:mb-12 text-white/80"
+          style={{ fontSize: 'clamp(2rem, 10vw, 10rem)' }}
         >
           내일의 예산이
           <br />
@@ -60,7 +60,7 @@ export default function FinalCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="max-w-xl mx-auto text-base sm:text-lg text-white/90 leading-relaxed mb-12"
+          className="max-w-xl mx-auto text-sm sm:text-lg text-white/90 leading-relaxed mb-8 sm:mb-12"
         >
           회원가입 30초. 첫 거래 3초. 그게 전부입니다.
         </motion.p>

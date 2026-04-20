@@ -19,7 +19,7 @@ export default function About() {
           <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             About
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-8">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6 sm:mb-8">
             둘이 쓰는 돈이 말이 되게,
             <br />
             <span className="text-fg-muted">우리를 피곤하지 않게.</span>

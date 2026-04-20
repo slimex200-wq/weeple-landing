@@ -25,12 +25,12 @@ export default function LiveDemo() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-          className="max-w-3xl mb-12 sm:mb-16 mx-auto text-center"
+          className="max-w-3xl mb-8 sm:mb-16 mx-auto text-center"
         >
           <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             Experience
           </div>
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-fg">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-fg">
             직접 만져보는
             <br />
             <span className="text-fg-muted">앱 체험.</span>

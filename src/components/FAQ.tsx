@@ -58,7 +58,7 @@ export default function FAQ() {
           <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             FAQ
           </div>
-          <h2 className="text-4xl sm:text-5xl font-bold leading-tight tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-bold leading-tight tracking-tight">
             자주 묻는 질문
           </h2>
         </motion.div>
