@@ -29,6 +29,7 @@ const groups: LinkGroup[] = [
     links: [
       { label: '이용약관', href: '/terms-of-service.html' },
       { label: '개인정보처리방침', href: '/privacy-policy.html' },
+      { label: '계정 삭제', href: '/delete-account.html' },
     ],
   },
 ]
