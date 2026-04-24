@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>weeple - 계정 삭제 요청</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* Liquid Glass wallpaper — mint/sky/sage 3-layer radial (앱 LegalScreen 과 동일 팔레트) */
+    html {
+      min-height: 100%;
+      background:
+        radial-gradient(ellipse 60% 45% at 10% 0%, rgba(94, 234, 212, 0.75), transparent 70%),
+        radial-gradient(ellipse 55% 45% at 100% 30%, rgba(125, 196, 250, 0.65), transparent 70%),
+        radial-gradient(ellipse 60% 50% at 50% 100%, rgba(160, 230, 210, 0.7), transparent 70%),
+        #EDEFE9;
+      background-attachment: fixed;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.7;
+      color: #1a1a1a;
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 40px 36px;
+      background: rgba(255, 255, 255, 0.6);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+      backdrop-filter: blur(24px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(30, 20, 40, 0.08);
+    }
+    h1 { font-size: 1.5rem; margin-bottom: 8px; }
+    h2 { font-size: 1.15rem; margin-top: 28px; margin-bottom: 8px; }
+    p, li { font-size: 0.95rem; margin-bottom: 8px; }
+    ul, ol { padding-left: 20px; }
+    .lead { color: #444; font-size: 1rem; margin-bottom: 24px; }
+    a { color: #0B8A86; }
+    .email-btn {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 10px 16px;
+      background: #0EA5A0;
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .email-btn:hover { background: #0B8A86; }
+    hr { border: none; border-top: 1px solid #e0e0e0; margin: 32px 0; }
+    @media (max-width: 600px) {
+      body { margin: 16px; padding: 28px 24px; border-radius: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>weeple 계정 삭제 요청</h1>
+<p class="lead">weeple 계정과 연관된 개인 데이터를 삭제하는 방법을 안내합니다. 삭제 시점부터 복구는 불가능하니 신중히 결정해 주세요.</p>
+
+<h2>1. 앱 내에서 즉시 삭제 (권장)</h2>
+<p>weeple 앱에 로그인되어 있다면 앱 안에서 직접 삭제할 수 있습니다. 가장 빠르고 확실한 방법입니다.</p>
+<ol>
+  <li>weeple 앱을 실행합니다.</li>
+  <li>하단 탭에서 <strong>설정</strong> 으로 이동합니다.</li>
+  <li>설정 화면 맨 아래로 스크롤하여 <strong>회원 탈퇴</strong> 버튼을 탭합니다.</li>
+  <li>확인 문구 <strong>탈퇴합니다</strong> 를 입력합니다.</li>
+  <li>최종 확인 버튼을 누르면 즉시 계정과 주요 데이터가 삭제됩니다.</li>
+</ol>
+
+<h2>2. 이메일로 삭제 요청</h2>
+<p>앱에 로그인할 수 없거나 앱을 이미 제거한 경우, 이메일로 요청해 주세요.</p>
+<ul>
+  <li>수신: <strong>support@weeple.app</strong></li>
+  <li>제목: <strong>weeple 계정 삭제 요청</strong></li>
+  <li>본문에 <strong>가입에 사용한 이메일 주소</strong> 를 포함해 주세요.</li>
+  <li>서비스 제공자는 요청 접수 후 <strong>10 영업일 이내</strong> 에 계정 삭제를 처리합니다.</li>
+</ul>
+<p>
+  <a class="email-btn" href="mailto:support@weeple.app?subject=weeple%20%EA%B3%84%EC%A0%95%20%EC%82%AD%EC%A0%9C%20%EC%9A%94%EC%B2%AD&body=%EA%B0%80%EC%9E%85%EC%97%90%20%EC%82%AC%EC%9A%A9%ED%95%9C%20%EC%9D%B4%EB%A9%94%EC%9D%BC%3A%20(%EC%97%AC%EA%B8%B0%EC%97%90%20%EC%9E%85%EB%A0%A5)%0A%0A%EA%B3%84%EC%A0%95%20%EC%82%AD%EC%A0%9C%EB%A5%BC%20%EC%9A%94%EC%B2%AD%ED%95%A9%EB%8B%88%EB%8B%A4.">이메일로 삭제 요청 보내기</a>
+</p>
+
+<h2>3. 즉시 삭제되는 데이터</h2>
+<ul>
+  <li>프로필 (닉네임, 아바타 이미지)</li>
+  <li>거래 기록 (수입/지출, 카테고리, 메모)</li>
+  <li>예산 및 설정</li>
+  <li>커플 연동 정보</li>
+  <li>기념일 사진 (Supabase Storage couple_memory 버킷)</li>
+  <li>푸시 알림 토큰</li>
+  <li>세션 로그</li>
+</ul>
+
+<h2>4. 법정 보유로 분리 보관되는 데이터</h2>
+<p>전자상거래법·통신비밀보호법 등에 따라 아래 데이터는 즉시 삭제되지 않고 법정 기간 동안 분리 보관된 뒤 자동 파기됩니다.</p>
+<ul>
+  <li>결제 및 재화 공급 기록 — <strong>5년</strong> (전자상거래법 제6조)</li>
+  <li>계약 또는 청약철회 기록 — <strong>5년</strong> (전자상거래법 제6조)</li>
+  <li>소비자 불만 및 분쟁처리 기록 — <strong>3년</strong> (전자상거래법 제6조)</li>
+  <li>접속 로그 — <strong>3개월</strong> (통신비밀보호법 제15조의2)</li>
+</ul>
+
+<h2>5. 파트너 측에 잔존할 수 있는 데이터</h2>
+<p>커플 연동 기간 중 공유 카테고리로 파트너에게 공유된 거래 기록과 기념일 사진은 파트너 계정에 잔존할 수 있습니다. 본인 계정에서 삭제하더라도 파트너가 자신의 계정에서 직접 삭제해야 완전히 제거됩니다.</p>
+
+<h2>6. 관련 문서</h2>
+<ul>
+  <li><a href="/privacy-policy">개인정보처리방침</a> (제4조 보유 기간, 제10조 권리 행사)</li>
+  <li><a href="/terms-of-service">이용약관</a></li>
+</ul>
+
+<hr>
+
+<h1>weeple Account Deletion Request</h1>
+<p class="lead">This page explains how to delete your weeple account and associated personal data. Deletion is permanent and cannot be undone.</p>
+
+<h2>1. Delete In-App (Recommended)</h2>
+<p>If you are already signed into the weeple app, you can delete your account directly from within the app — this is the fastest and most reliable method.</p>
+<ol>
+  <li>Open the weeple app.</li>
+  <li>Tap <strong>Settings</strong> from the bottom tab bar.</li>
+  <li>Scroll to the bottom of the Settings screen and tap <strong>Delete Account</strong>.</li>
+  <li>Type the confirmation phrase <strong>DELETE</strong>.</li>
+  <li>Tap the final confirmation — your account and primary data are deleted immediately.</li>
+</ol>
+
+<h2>2. Request Deletion by Email</h2>
+<p>If you cannot sign into the app or have already uninstalled it, please submit a request by email.</p>
+<ul>
+  <li>Send to: <strong>support@weeple.app</strong></li>
+  <li>Subject: <strong>weeple Account Deletion Request</strong></li>
+  <li>Please include the <strong>email address you used to register</strong>.</li>
+  <li>We will process the deletion within <strong>10 business days</strong> of receipt.</li>
+</ul>
+<p>
+  <a class="email-btn" href="mailto:support@weeple.app?subject=weeple%20Account%20Deletion%20Request&body=Registered%20email%3A%20(enter%20here)%0A%0AI%20request%20to%20delete%20my%20weeple%20account.">Send deletion request email</a>
+</p>
+
+<h2>3. Data Deleted Immediately</h2>
+<ul>
+  <li>Profile (nickname, avatar image)</li>
+  <li>Transaction records (income/expense, categories, memos)</li>
+  <li>Budgets and settings</li>
+  <li>Couple-linking information</li>
+  <li>Anniversary photos (Supabase Storage couple_memory bucket)</li>
+  <li>Push notification tokens</li>
+  <li>Session logs</li>
+</ul>
+
+<h2>4. Data Retained Under Statutory Obligations</h2>
+<p>Under the Act on Consumer Protection in Electronic Commerce and the Protection of Communications Secrets Act, the following records are retained separately for the statutory period and then automatically destroyed.</p>
+<ul>
+  <li>Payment and supply of goods records — <strong>5 years</strong> (Art. 6, E-Commerce Consumer Protection Act)</li>
+  <li>Contract and withdrawal records — <strong>5 years</strong> (Art. 6, same Act)</li>
+  <li>Consumer complaints and dispute records — <strong>3 years</strong> (Art. 6, same Act)</li>
+  <li>Access logs — <strong>3 months</strong> (Art. 15-2, Protection of Communications Secrets Act)</li>
+</ul>
+
+<h2>5. Data That May Remain on Your Partner's Account</h2>
+<p>During couple linking, transactions and photos shared with your partner via shared categories may remain on your partner's account. Even if you delete your own account, your partner must delete these from their own account for complete removal.</p>
+
+<h2>6. Related Documents</h2>
+<ul>
+  <li><a href="/privacy-policy">Privacy Policy</a> (Section 4 retention, Section 10 rights)</li>
+  <li><a href="/terms-of-service">Terms of Service</a></li>
+</ul>
+
+</body>
+</html>
