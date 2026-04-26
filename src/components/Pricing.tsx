@@ -48,13 +48,13 @@ const TIERS: Tier[] = [
   },
   {
     name: 'Premium',
-    price: { monthly: '₩2,900', yearly: '₩29,000' },
+    price: { monthly: '₩3,900', yearly: '₩39,000' },
     period: { monthly: '/월', yearly: '/년' },
-    description: '모든 기능을 무제한으로. 혼자 또는 커플 모두.',
+    description: '대부분 사용자에 충분한 한도. 혼자 또는 커플 모두.',
     features: [
       'Free 의 모든 기능',
       'OCR 스캔 일 50회',
-      'AI 멀티모델 분석 무제한',
+      'AI 멀티모델 분석 월 100회',
       '프리미엄 넛지 전체',
       '실시간 파트너 공유',
       '결제 알림 자동 인식',
