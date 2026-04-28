@@ -60,11 +60,12 @@ export const metadata: Metadata = {
     'weeple',
     '위플',
   ],
-  // Chrome Claude로 네이버/구글 콘솔 가입 후 값 박을 자리
-  // verification: {
-  //   google: '',
-  //   other: { 'naver-site-verification': '' },
-  // },
+  verification: {
+    google: 'GuyuHoNqZlVgRG8pw0wAxnNP8y3oEsYB9iFREzEwLKU',
+    other: {
+      'naver-site-verification': 'ac7d3bb349b7066e744c77a53ec60ebd02965885',
+    },
+  },
   category: 'finance',
 }
 
