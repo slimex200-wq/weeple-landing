@@ -36,6 +36,36 @@ export const metadata: Metadata = {
     description: '커플 가계부 + AI 분석. 자연어 빠른 입력으로 3초 만에 기록.',
     images: ['/og-image.png'],
   },
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  keywords: [
+    '커플 가계부',
+    '가계부 앱',
+    '공동 예산',
+    '커플 머니',
+    '자연어 가계부',
+    'AI 가계부',
+    '영수증 OCR',
+    'weeple',
+    '위플',
+  ],
+  // Chrome Claude로 네이버/구글 콘솔 가입 후 값 박을 자리
+  // verification: {
+  //   google: '',
+  //   other: { 'naver-site-verification': '' },
+  // },
+  category: 'finance',
 }
 
 export default function RootLayout({
