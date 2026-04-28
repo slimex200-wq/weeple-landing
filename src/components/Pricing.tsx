@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 /**
  * Pricing — weeple 3단 가격 구조.
@@ -8,79 +8,13 @@
  * 연간 = 월간 × 10 (2개월 무료, 17% 할인).
  */
 
-import { useState } from 'react'
-import { motion } from 'motion/react'
-import TiltCard from '@/components/TiltCard'
-
-type Period = 'monthly' | 'yearly'
-
-type Tier = {
-  name: string
-  price: {
-    monthly: string
-    yearly: string
-  }
-  period: {
-    monthly: string
-    yearly: string
-  }
-  description: string
-  features: string[]
-  cta: string
-  highlighted?: boolean
-  badge?: string
-}
-
-const TIERS: Tier[] = [
-  {
-    name: 'Free',
-    price: { monthly: '₩0', yearly: '₩0' },
-    period: { monthly: '영원히', yearly: '영원히' },
-    description: '기본적인 가계부 기능. 개인 사용자에게 충분합니다.',
-    features: [
-      '자연어 빠른 입력',
-      'OCR 스캔 일 1회',
-      'AI 분석 1회 / 월',
-      '개인 예산 관리',
-      '기본 넛지',
-    ],
-    cta: '앱 다운로드',
-  },
-  {
-    name: 'Premium',
-    price: { monthly: '₩3,900', yearly: '₩39,000' },
-    period: { monthly: '/월', yearly: '/년' },
-    description: '대부분 사용자에 충분한 한도. 혼자 또는 커플 모두.',
-    features: [
-      'Free 의 모든 기능',
-      'OCR 스캔 일 50회',
-      'AI 멀티모델 분석 월 100회',
-      '프리미엄 넛지 전체',
-      '실시간 파트너 공유',
-      '결제 알림 자동 인식',
-    ],
-    cta: '프리미엄 시작',
-    highlighted: true,
-    badge: '가장 인기',
-  },
-  {
-    name: 'Couple Plus',
-    price: { monthly: '₩4,900', yearly: '₩49,000' },
-    period: { monthly: '/월 (2인)', yearly: '/년 (2인)' },
-    description: '두 사람이 함께 쓰는 프리미엄. 1인당 약 ₩2,450.',
-    features: [
-      'Premium 의 모든 기능 × 2',
-      '공동 목표 무제한',
-      '커플 리포트 PDF',
-      '기념일 리마인더',
-      '우선 고객지원',
-    ],
-    cta: '커플로 시작',
-  },
-]
+import { useState } from "react";
+import { motion } from "motion/react";
+import TiltCard from "@/components/TiltCard";
+import { type Period, type Tier, PRICING_TIERS } from "@/data/pricing";
 
 function cx(...parts: Array<string | false | undefined>) {
-  return parts.filter(Boolean).join(' ')
+  return parts.filter(Boolean).join(" ");
 }
 
 function Check() {
@@ -99,17 +33,17 @@ function Check() {
     >
       <path d="M20 6 9 17l-5-5" />
     </svg>
-  )
+  );
 }
 
 export default function Pricing() {
-  const [period, setPeriod] = useState<Period>('monthly')
+  const [period, setPeriod] = useState<Period>("monthly");
 
   return (
     <section
       id="pricing"
       className="relative py-20 sm:py-32 px-6"
-      style={{ perspective: '1200px' }}
+      style={{ perspective: "1200px" }}
       aria-label="가격"
     >
       <div className="max-w-6xl mx-auto">
@@ -117,7 +51,7 @@ export default function Pricing() {
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
           className="text-center max-w-2xl mx-auto mb-10"
         >
@@ -138,19 +72,19 @@ export default function Pricing() {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.2, 0.8, 0.2, 1] }}
           className="flex items-center justify-center gap-3 mb-10 sm:mb-16"
         >
           <button
             type="button"
-            onClick={() => setPeriod('monthly')}
-            aria-pressed={period === 'monthly'}
+            onClick={() => setPeriod("monthly")}
+            aria-pressed={period === "monthly"}
             className={cx(
-              'inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-              period === 'monthly'
-                ? 'bg-mint text-white shadow-[0_8px_24px_-8px_rgba(14,165,160,0.5)]'
-                : 'glass text-fg-muted border border-border-app hover:text-fg',
+              "inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+              period === "monthly"
+                ? "bg-mint text-white shadow-[0_8px_24px_-8px_rgba(14,165,160,0.5)]"
+                : "glass text-fg-muted border border-border-app hover:text-fg",
             )}
           >
             <span className="h-2 w-2 rounded-full bg-current" />
@@ -158,13 +92,13 @@ export default function Pricing() {
           </button>
           <button
             type="button"
-            onClick={() => setPeriod('yearly')}
-            aria-pressed={period === 'yearly'}
+            onClick={() => setPeriod("yearly")}
+            aria-pressed={period === "yearly"}
             className={cx(
-              'inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg',
-              period === 'yearly'
-                ? 'bg-mint text-white shadow-[0_8px_24px_-8px_rgba(14,165,160,0.5)]'
-                : 'glass text-fg-muted border border-border-app hover:text-fg',
+              "inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+              period === "yearly"
+                ? "bg-mint text-white shadow-[0_8px_24px_-8px_rgba(14,165,160,0.5)]"
+                : "glass text-fg-muted border border-border-app hover:text-fg",
             )}
           >
             <span className="h-2 w-2 rounded-full bg-current" />
@@ -174,30 +108,30 @@ export default function Pricing() {
 
         {/* 카드 */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
-          {TIERS.map((tier, i) => (
+          {PRICING_TIERS.map((tier, i) => (
             <motion.div
               key={tier.name}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
+              viewport={{ once: true, margin: "-60px" }}
               transition={{
                 duration: 0.7,
                 delay: i * 0.1,
                 ease: [0.2, 0.8, 0.2, 1],
               }}
               style={{
-                transformStyle: 'preserve-3d',
+                transformStyle: "preserve-3d",
                 transform: tier.highlighted
-                  ? 'translateZ(40px) scale(1.04)'
-                  : 'translateZ(0)',
+                  ? "translateZ(40px) scale(1.04)"
+                  : "translateZ(0)",
                 zIndex: tier.highlighted ? 10 : 1,
               }}
             >
               <TiltCard
                 className={`relative flex flex-col h-full rounded-3xl p-6 sm:p-8 ${
                   tier.highlighted
-                    ? 'bg-gradient-to-b from-mint-bg to-bg-surface border border-mint/40 shadow-[0_60px_120px_-30px_rgba(14,165,160,0.5)]'
-                    : 'glass border border-border-app hover:border-mint/30 transition-colors duration-300'
+                    ? "bg-gradient-to-b from-mint-bg to-bg-surface border border-mint/40 shadow-[0_60px_120px_-30px_rgba(14,165,160,0.5)]"
+                    : "glass border border-border-app hover:border-mint/30 transition-colors duration-300"
                 }`}
               >
                 {tier.badge && (
@@ -241,7 +175,9 @@ export default function Pricing() {
                   {tier.features.map((f) => (
                     <li key={f} className="flex items-start gap-3 text-sm">
                       <Check />
-                      <span className="text-fg-secondary leading-relaxed">{f}</span>
+                      <span className="text-fg-secondary leading-relaxed">
+                        {f}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -251,8 +187,8 @@ export default function Pricing() {
                   href="#"
                   className={`inline-flex items-center justify-center h-12 rounded-full text-sm font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
                     tier.highlighted
-                      ? 'bg-mint text-white hover:scale-[1.02] hover:shadow-[0_12px_30px_-6px_rgba(14,165,160,0.6)]'
-                      : 'border border-mint/40 text-mint bg-mint-bg hover:bg-mint-bg-strong hover:border-mint'
+                      ? "bg-mint text-white hover:scale-[1.02] hover:shadow-[0_12px_30px_-6px_rgba(14,165,160,0.6)]"
+                      : "border border-mint/40 text-mint bg-mint-bg hover:bg-mint-bg-strong hover:border-mint"
                   }`}
                 >
                   {tier.cta}
@@ -263,9 +199,10 @@ export default function Pricing() {
         </div>
 
         <p className="mt-12 text-center text-xs text-fg-muted">
-          모든 가격은 부가세 포함. 앱 스토어 결제 수수료 별도 없음. iOS 와 Android 동일.
+          모든 가격은 부가세 포함. 앱 스토어 결제 수수료 별도 없음. iOS 와
+          Android 동일.
         </p>
       </div>
     </section>
-  )
+  );
 }
