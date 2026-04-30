@@ -44,5 +44,7 @@ next-env.d.ts
 # review screenshots (working files)
 /review/
 
-# omc state
-.omc/
+# local AI/runtime state
+/.omc/
+/.omx/
+/.superpowers/

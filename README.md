@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Weeple Landing
 
-## Getting Started
+Public marketing landing site for Weeple.
 
-First, run the development server:
+This repository is the product-facing landing surface, not a default Next.js starter. Copy, visuals, and feature claims should reflect the actual Weeple app and documented product decisions.
+
+## Stack
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Motion
+- Lenis
+
+## AI Harness
+
+Before asking Claude, Codex, or another coding agent to work here, read:
+
+- `AGENTS.md` — repository rules for AI agents
+- `PROJECT_STATE.md` — current status and next work
+- `CHECKS.md` — build and visual verification expectations
+- `DECISIONS.md` — product and visual decisions
+
+## Commands
+
+```bash
+npm install
+npm run dev
+npm run build
+npm run start
+```
+
+## Local Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open the printed local URL in a browser. After visual or animation changes, inspect desktop and mobile widths; a successful build does not prove visual quality.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Product Rules
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Do not invent features, metrics, screenshots, or app behavior.
+- Verify claims against source, product docs, or explicit user decisions.
+- Keep landing copy concrete and product-specific.
+- For Next.js behavior, prefer local docs under `node_modules/next/dist/docs/` because this repo uses a newer Next version.
 
-## Learn More
+## Verification
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For layout, animation, 3D, or responsive changes, also run a browser check and record any gap in the handoff.
