@@ -199,8 +199,7 @@ export default function Pricing() {
         </div>
 
         <p className="mt-12 text-center text-xs text-fg-muted">
-          모든 가격은 부가세 포함. 앱 스토어 결제 수수료 별도 없음. iOS 와
-          Android 동일.
+          모든 가격은 부가세 포함. 현재 Android 결제 기준이며, iOS 는 준비 중입니다.
         </p>
       </div>
     </section>

@@ -79,20 +79,19 @@ export default function FinalCTA() {
             className="group inline-flex items-center gap-2 px-7 h-14 rounded-full bg-white text-[#0EA5A0] font-semibold text-base transition-all hover:scale-[1.02] hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.3)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0EA5A0]"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-              <path d="M17.05 12.04c-.02-2.42 1.98-3.58 2.07-3.64-1.13-1.66-2.89-1.88-3.52-1.91-1.5-.15-2.93.88-3.7.88-.76 0-1.95-.86-3.2-.84-1.64.03-3.16.96-4 2.44-1.71 2.96-.44 7.33 1.22 9.73.81 1.17 1.77 2.48 3.03 2.44 1.22-.05 1.68-.79 3.15-.79 1.47 0 1.89.79 3.18.76 1.32-.02 2.15-1.18 2.95-2.36.93-1.35 1.31-2.67 1.33-2.74-.03-.01-2.55-.98-2.57-3.89zM14.66 4.79c.66-.8 1.12-1.91.99-3.02-.96.04-2.12.64-2.81 1.44-.62.71-1.16 1.85-1.02 2.94 1.07.08 2.17-.55 2.84-1.36z" />
-            </svg>
-            iOS 앱 다운로드
-          </MagneticButton>
-          <MagneticButton
-            as="a"
-            href="#"
-            className="group inline-flex items-center gap-2 px-7 h-14 rounded-full border border-white/60 bg-white/10 text-white font-semibold text-base backdrop-blur-sm transition-all hover:bg-white/20 hover:border-white cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0EA5A0]"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
               <path d="M3 20.5V3.5c0-.6.3-1.1.8-1.4l12.3 9.9L3.8 21.9c-.5-.3-.8-.8-.8-1.4zm14.2-7.3l2.5-2-2.5-2 .1-.1 3.5 2-.1.1-3.5 2zM5.2 1.7l11.1 8.9-2.1 1.9L5.2 1.7zm0 20.6l9-10.8 2.1 1.9L5.2 22.3z" />
             </svg>
             Android 앱 다운로드
           </MagneticButton>
+          <span
+            aria-disabled="true"
+            className="group inline-flex items-center gap-2 px-7 h-14 rounded-full border border-white/40 bg-white/5 text-white/70 font-semibold text-base backdrop-blur-sm cursor-not-allowed"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+              <path d="M17.05 12.04c-.02-2.42 1.98-3.58 2.07-3.64-1.13-1.66-2.89-1.88-3.52-1.91-1.5-.15-2.93.88-3.7.88-.76 0-1.95-.86-3.2-.84-1.64.03-3.16.96-4 2.44-1.71 2.96-.44 7.33 1.22 9.73.81 1.17 1.77 2.48 3.03 2.44 1.22-.05 1.68-.79 3.15-.79 1.47 0 1.89.79 3.18.76 1.32-.02 2.15-1.18 2.95-2.36.93-1.35 1.31-2.67 1.33-2.74-.03-.01-2.55-.98-2.57-3.89zM14.66 4.79c.66-.8 1.12-1.91.99-3.02-.96.04-2.12.64-2.81 1.44-.62.71-1.16 1.85-1.02 2.94 1.07.08 2.17-.55 2.84-1.36z" />
+            </svg>
+            iOS 준비 중
+          </span>
         </motion.div>
 
         {/* 신뢰 지표 */}

@@ -12,9 +12,9 @@ const geistMono = Geist_Mono({
 const siteUrl = 'https://weeple.app'
 const siteTitle = 'weeple - 둘이 쓰는 돈, 한눈에'
 const siteDescription =
-  '개인부터 커플 공동 예산까지. 자연어 빠른 입력, 영수증 OCR, 실시간 공유, AI 분석이 한 앱에.'
+  '커플·부부·동거 커플을 위한 공동 가계부. 생활비 관리부터 데이트 비용 정산까지. 자연어 빠른 입력, 영수증 OCR, Android 결제 알림 확인 후 저장, AI 월간 분석을 한 앱에. iOS 는 준비 중.'
 const shareDescription =
-  '커플 가계부 + AI 분석. 자연어 빠른 입력으로 3초 만에 기록.'
+  '커플·부부 공동 가계부 + AI 분석. 자연어 한 줄로 3초 기록, 생활비·데이트 비용 정산까지. Android 우선 출시.'
 const ogImageUrl = `${siteUrl}/og-image.png`
 
 export const metadata: Metadata = {
@@ -60,12 +60,18 @@ export const metadata: Metadata = {
   },
   keywords: [
     '커플 가계부',
+    '부부 가계부',
+    '공동 가계부',
     '가계부 앱',
     '공동 예산',
     '커플 머니',
+    '생활비 관리',
+    '데이트 비용 정산',
+    '동거 커플 가계부',
     '자연어 가계부',
     'AI 가계부',
     '영수증 OCR',
+    'Android 가계부',
     'weeple',
     '위플',
   ],
