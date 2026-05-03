@@ -18,9 +18,41 @@ type AssetsBinding = {
   fetch: (request: Request) => Promise<Response>
 }
 
+type CloudflareRequest = Request & {
+  cf?: {
+    tlsVersion?: string
+  }
+}
+
+function redirectToCanonical(request: Request, url: URL) {
+  const cfVisitor = request.headers.get('cf-visitor')
+  const cf = (request as CloudflareRequest).cf
+  const wasHttpRequest =
+    url.protocol !== 'https:' ||
+    request.headers.get('x-forwarded-proto') === 'http' ||
+    cfVisitor?.includes('"scheme":"http"') ||
+    (url.hostname === 'weeple.app' && cf !== undefined && !cf.tlsVersion)
+  const shouldRedirect = wasHttpRequest || url.hostname === 'www.weeple.app'
+
+  if (!shouldRedirect) {
+    return null
+  }
+
+  url.protocol = 'https:'
+  url.hostname = 'weeple.app'
+
+  return Response.redirect(url.toString(), 301)
+}
+
 export default {
   async fetch(request: Request, env: { ASSETS: AssetsBinding }): Promise<Response> {
     const url = new URL(request.url)
+    const canonicalRedirect = redirectToCanonical(request, url)
+
+    if (canonicalRedirect) {
+      return canonicalRedirect
+    }
+
     if (url.pathname === '/.well-known/assetlinks.json') {
       return new Response(ASSETLINKS_JSON, {
         headers: {
