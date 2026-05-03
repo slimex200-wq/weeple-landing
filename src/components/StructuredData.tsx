@@ -10,6 +10,10 @@ const organization = {
   url: SITE_URL,
   logo: `${SITE_URL}/og-image.png`,
   description: "커플과 개인을 위한 가계부 + AI 분석 앱",
+  sameAs: [
+    "https://github.com/slimex200-wq/",
+    "https://www.threads.net/@hype.boyo",
+  ],
 };
 
 const softwareApplication = {
