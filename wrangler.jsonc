@@ -2,6 +2,12 @@
   "name": "weeple",
   "compatibility_date": "2026-04-16",
   "main": "src/worker.ts",
+  "routes": [
+    {
+      "pattern": "weeple.app",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "directory": "./out",
     "binding": "ASSETS"
