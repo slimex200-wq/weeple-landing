@@ -34,7 +34,7 @@ export const PRICING_TIERS: Tier[] = [
   },
   {
     name: "Premium",
-    price: { monthly: "₩3,900", yearly: "₩39,000" },
+    price: { monthly: "₩3,900", yearly: "₩35,000" },
     period: { monthly: "/월", yearly: "/년" },
     description: "대부분 사용자에 충분한 한도. 혼자 또는 커플 모두.",
     features: [
@@ -50,24 +50,26 @@ export const PRICING_TIERS: Tier[] = [
     badge: "가장 인기",
   },
   {
-    name: "Couple Plus",
-    price: { monthly: "₩4,900", yearly: "₩49,000" },
-    period: { monthly: "/월 (2인)", yearly: "/년 (2인)" },
-    description: "두 사람이 함께 쓰는 프리미엄. 1인당 약 ₩2,450.",
+    name: "Credits",
+    price: { monthly: "₩1,900부터", yearly: "₩1,900부터" },
+    period: { monthly: "필요할 때", yearly: "필요할 때" },
+    description: "구독 없이 AI 분석만 더 쓰고 싶을 때 충전합니다.",
     features: [
-      "Premium 의 모든 기능 × 2",
-      "공동 목표 무제한",
-      "커플 리포트 PDF",
-      "기념일 리마인더",
-      "우선 고객지원",
+      "10 크레딧 ₩1,900",
+      "30 크레딧 ₩4,900",
+      "100 크레딧 ₩12,900",
+      "AI 분석 추가 사용",
+      "구독과 별도 충전",
     ],
-    cta: "커플로 시작",
+    cta: "크레딧 충전",
   },
 ];
 
-// JSON-LD 용 numeric 가격 — UI string과 동기화 책임은 여기서 시작
 export const PRICING_OFFERS_KRW = [
-  { name: "Free", monthly: 0, yearly: 0 },
-  { name: "Premium", monthly: 3900, yearly: 39000 },
-  { name: "Couple Plus", monthly: 4900, yearly: 49000 },
+  { name: "Free", price: 0, category: "free" },
+  { name: "Premium Monthly", price: 3900, category: "subscription" },
+  { name: "Premium Yearly", price: 35000, category: "subscription" },
+  { name: "10 Credits", price: 1900, category: "one-time" },
+  { name: "30 Credits", price: 4900, category: "one-time" },
+  { name: "100 Credits", price: 12900, category: "one-time" },
 ];

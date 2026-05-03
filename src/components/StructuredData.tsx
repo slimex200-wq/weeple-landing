@@ -25,9 +25,9 @@ const softwareApplication = {
   offers: PRICING_OFFERS_KRW.map((t) => ({
     "@type": "Offer",
     name: t.name,
-    price: t.monthly,
+    price: t.price,
     priceCurrency: "KRW",
-    category: "subscription",
+    category: t.category,
   })),
 };
 

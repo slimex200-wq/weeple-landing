@@ -9,32 +9,41 @@ const geistMono = Geist_Mono({
   weight: ['400', '500', '600', '700'],
 })
 
+const siteUrl = 'https://weeple.app'
+const siteTitle = 'weeple - 둘이 쓰는 돈, 한눈에'
+const siteDescription =
+  '개인부터 커플 공동 예산까지. 자연어 빠른 입력, 영수증 OCR, 실시간 공유, AI 분석이 한 앱에.'
+const shareDescription =
+  '커플 가계부 + AI 분석. 자연어 빠른 입력으로 3초 만에 기록.'
+const ogImageUrl = `${siteUrl}/og-image.png`
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://weeple.app'),
-  title: 'weeple — 둘이 쓰는 돈, 한눈에',
-  description:
-    '개인부터 커플 공동 예산까지. 자연어 빠른 입력, 영수증 OCR, 실시간 공유, AI 분석이 한 앱에.',
+  metadataBase: new URL(siteUrl),
+  title: siteTitle,
+  description: siteDescription,
   openGraph: {
-    title: 'weeple — 둘이 쓰는 돈, 한눈에',
-    description: '커플 가계부 + AI 분석. 자연어 빠른 입력으로 3초 만에 기록.',
+    title: siteTitle,
+    description: shareDescription,
     type: 'website',
-    url: 'https://weeple.app',
+    url: siteUrl,
     siteName: 'weeple',
     locale: 'ko_KR',
     images: [
       {
-        url: '/og-image.png',
+        url: ogImageUrl,
+        secureUrl: ogImageUrl,
+        type: 'image/png',
         width: 1200,
         height: 630,
-        alt: 'weeple — 둘이 쓰는 돈, 한눈에',
+        alt: siteTitle,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'weeple — 둘이 쓰는 돈, 한눈에',
-    description: '커플 가계부 + AI 분석. 자연어 빠른 입력으로 3초 만에 기록.',
-    images: ['/og-image.png'],
+    title: siteTitle,
+    description: shareDescription,
+    images: [ogImageUrl],
   },
   alternates: {
     canonical: '/',
