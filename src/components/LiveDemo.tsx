@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
+import Money from '@/components/Money'
 
 export default function LiveDemo() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null)
@@ -141,29 +142,29 @@ function MobileAppPreview() {
             </div>
 
             <div className="rounded-xl glass p-3 mb-3">
-              <div className="text-[10px] text-fg-muted num mb-0.5">
-                2026-05 · 이번 달 지출
+              <div className="text-[10px] text-fg-muted mb-0.5">
+                <span className="num">2026-05</span> · 이번 달 지출
               </div>
-              <div className="num text-2xl font-extrabold text-fg tracking-tight">
-                ₩1,111,797
+              <div className="text-2xl font-extrabold text-fg tracking-tight">
+                <Money value="₩1,111,797" />
               </div>
               <div className="h-1.5 rounded-full bg-gradient-to-r from-mint to-mint-end my-2" />
-              <div className="text-[10px] text-fg-muted num">
-                예상 ₩1,450,170 · 하루 ₩48,339
+              <div className="text-[10px] text-fg-muted">
+                예상 <Money value="₩1,450,170" /> · 하루 <Money value="₩48,339" />
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-2 mb-3">
               <div className="rounded-xl glass px-3 py-2">
                 <div className="text-[10px] text-fg-muted font-semibold">오늘</div>
-                <div className="num text-base font-extrabold text-fg mt-0.5">
-                  ₩49,800
+                <div className="text-base font-extrabold text-fg mt-0.5">
+                  <Money value="₩49,800" />
                 </div>
               </div>
               <div className="rounded-xl glass px-3 py-2">
                 <div className="text-[10px] text-fg-muted font-semibold">이번 주</div>
-                <div className="num text-base font-extrabold text-fg mt-0.5">
-                  ₩36.4만
+                <div className="text-base font-extrabold text-fg mt-0.5">
+                  <Money value="₩36.4만" />
                 </div>
               </div>
             </div>

@@ -10,6 +10,7 @@
 
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
+import Money from '@/components/Money'
 
 type Mode = {
   id: 'full' | 'partial' | 'contribution'
@@ -182,9 +183,11 @@ export default function Couple() {
                 fill="#1A1A1A"
                 fontSize="13"
                 fontWeight="800"
-                fontFamily="var(--font-mono)"
               >
-                ₩{Math.round(active.overlap * 850).toLocaleString()},000
+                <tspan>₩</tspan>
+                <tspan fontFamily="var(--font-mono)">
+                  {Math.round(active.overlap * 850).toLocaleString()},000
+                </tspan>
               </text>
             </svg>
           </motion.div>
@@ -256,7 +259,9 @@ export default function Couple() {
                 </div>
                 <div className="text-sm text-fg leading-relaxed">
                   파트너가 방금{' '}
-                  <span className="num font-bold text-mint">₩11,500</span>{' '}
+                  <span className="font-bold text-mint">
+                    <Money value="₩11,500" />
+                  </span>{' '}
                   <span className="font-semibold">버거킹</span> 지출을 기록했어요.
                 </div>
                 <div className="mt-2 text-[11px] text-fg-muted num">
