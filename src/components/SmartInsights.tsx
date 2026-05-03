@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'motion/react'
+import Money from '@/components/Money'
 
 type Insight = {
   icon: React.ReactNode
@@ -125,11 +126,11 @@ export default function SmartInsights() {
                   {item.insight}
                 </p>
                 <div className="pt-5 border-t border-divider">
-                  <div className="text-[11px] text-fg-muted uppercase tracking-wider mb-1 num">
+                  <div className="text-[11px] text-fg-muted uppercase tracking-wider mb-1">
                     {item.metric.label}
                   </div>
-                  <div className={`num text-3xl font-extrabold ${colors.text}`}>
-                    {item.metric.value}
+                  <div className={`text-3xl font-extrabold ${colors.text}`}>
+                    <Money value={item.metric.value} />
                   </div>
                 </div>
               </motion.div>

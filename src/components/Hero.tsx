@@ -8,6 +8,7 @@ import {
   useReducedMotion,
   type MotionValue,
 } from 'motion/react'
+import Money from '@/components/Money'
 
 type Chapter = {
   eyebrow: string
@@ -259,10 +260,10 @@ export default function Hero() {
                         {currentCase.category}
                       </span>
                     </div>
-                    <span className="text-[10px] text-fg-muted num">오늘</span>
+                    <span className="text-[10px] text-fg-muted">오늘</span>
                   </div>
-                  <div className="num text-lg sm:text-2xl font-extrabold text-fg tracking-tight">
-                    {currentCase.amount}
+                  <div className="text-lg sm:text-2xl font-extrabold text-fg tracking-tight">
+                    <Money value={currentCase.amount} />
                   </div>
                   <div className="mt-2 sm:mt-3 flex items-center gap-1.5 text-[9px] sm:text-[10px] text-[#0f766e]">
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>

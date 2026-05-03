@@ -11,6 +11,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import TiltCard from "@/components/TiltCard";
+import Money from "@/components/Money";
 import { type Period, type Tier, PRICING_TIERS } from "@/data/pricing";
 
 function cx(...parts: Array<string | false | undefined>) {
@@ -145,22 +146,22 @@ export default function Pricing() {
                   <h3 className="text-sm font-semibold text-fg-muted uppercase tracking-wider mb-3">
                     {tier.name}
                   </h3>
-                  <div className="flex items-baseline gap-2 mb-3">
+                  <div className="flex items-baseline gap-2 mb-3 flex-wrap">
                     <motion.span
                       key={period}
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-                      className="num text-4xl sm:text-5xl font-extrabold tracking-tight text-fg"
+                      className="text-4xl sm:text-5xl font-extrabold tracking-tight text-fg"
                     >
-                      {tier.price[period]}
+                      <Money value={tier.price[period]} />
                     </motion.span>
                     <motion.span
                       key={`period-${period}`}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.4, delay: 0.05 }}
-                      className="text-sm text-fg-muted num"
+                      className="text-sm text-fg-muted"
                     >
                       {tier.period[period]}
                     </motion.span>
