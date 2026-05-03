@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next'
+import { GUIDES } from '@/data/guides'
 
 export const dynamic = 'force-static'
 
@@ -32,5 +33,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly',
       priority: 0.3,
     },
+    ...GUIDES.map((guide) => ({
+      url: `${BASE_URL}/guides/${guide.slug}`,
+      lastModified: new Date(guide.updatedAt),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    })),
   ]
 }

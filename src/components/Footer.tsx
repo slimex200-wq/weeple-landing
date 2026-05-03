@@ -25,6 +25,14 @@ const groups: LinkGroup[] = [
     ],
   },
   {
+    title: '가이드',
+    links: [
+      { label: '커플 가계부 앱', href: '/guides/couple-budget-app' },
+      { label: '공동 예산 관리', href: '/guides/shared-budget' },
+      { label: '자연어 가계부 입력', href: '/guides/natural-language-budget' },
+    ],
+  },
+  {
     title: '법적 고지',
     links: [
       { label: '이용약관', href: '/terms-of-service.html' },
@@ -39,7 +47,7 @@ export default function Footer() {
     <footer className="relative mt-20 border-t border-divider bg-bg">
       <div className="max-w-7xl mx-auto px-6 py-16">
         {/* Main grid */}
-        <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(3,1fr)]">
+        <div className="grid gap-10 lg:grid-cols-[1.5fr_repeat(4,1fr)]">
           {/* Brand column */}
           <div>
             <div className="flex items-center gap-2.5 mb-4">
