@@ -5,6 +5,7 @@ import { motion } from 'motion/react'
 
 export default function LiveDemo() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null)
+  const [activated, setActivated] = useState(false)
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 640)
@@ -56,12 +57,40 @@ export default function LiveDemo() {
             style={{ aspectRatio: '16/10' }}
           >
             {isMobile === false && (
-              <iframe
-                src="/weeple-3d-promo.html"
-                title="weeple 3D 데모"
-                loading="lazy"
-                className="absolute inset-0 w-full h-full border-0"
-              />
+              activated ? (
+                <iframe
+                  src="/weeple-3d-promo.html"
+                  title="weeple 3D 데모"
+                  className="absolute inset-0 w-full h-full border-0"
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setActivated(true)}
+                  className="group absolute inset-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-4 focus-visible:ring-offset-bg"
+                  aria-label="3D 데모 시작 — 클릭하면 인터랙티브 데모를 불러옵니다"
+                >
+                  <img
+                    src="/demo-fallback.png"
+                    alt="weeple 3D 데모 미리보기 — 7개 앱 화면이 회전하는 캐러셀"
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/15 transition-colors duration-300 group-hover:bg-black/25" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="flex items-center gap-2.5 px-6 py-3 rounded-full bg-mint text-white font-semibold text-sm shadow-[0_12px_36px_-8px_rgba(14,165,160,0.6)] transition-transform duration-300 group-hover:scale-[1.04]">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                      3D 데모 체험
+                    </div>
+                  </div>
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[11px] text-white/85 font-medium drop-shadow">
+                    클릭하면 로드됩니다 · 약 700KB
+                  </div>
+                </button>
+              )
             )}
           </motion.div>
         )}
