@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { GUIDES, getGuide } from '@/data/guides'
 
 const SITE_URL = 'https://weeple.app'
+const OG_IMAGE_URL = `${SITE_URL}/og-image.png`
 
 type Props = {
   params: Promise<{ slug: string }>
@@ -39,8 +40,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       locale: 'ko_KR',
       images: [
         {
-          url: `${SITE_URL}/og-image.png`,
-          secureUrl: `${SITE_URL}/og-image.png`,
+          url: OG_IMAGE_URL,
+          secureUrl: OG_IMAGE_URL,
           type: 'image/png',
           width: 1200,
           height: 630,
@@ -52,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: `${guide.title} | weeple`,
       description: guide.description,
-      images: [`${SITE_URL}/og-image.png`],
+      images: [OG_IMAGE_URL],
     },
   }
 }
@@ -76,7 +77,7 @@ export default async function GuidePage({ params }: Props) {
     dateModified: guide.updatedAt,
     datePublished: guide.updatedAt,
     mainEntityOfPage: url,
-    image: `${SITE_URL}/og-image.png`,
+    image: OG_IMAGE_URL,
     author: {
       '@type': 'Organization',
       name: 'weeple',
@@ -87,15 +88,44 @@ export default async function GuidePage({ params }: Props) {
       name: 'weeple',
       logo: {
         '@type': 'ImageObject',
-        url: `${SITE_URL}/og-image.png`,
+        url: OG_IMAGE_URL,
       },
     },
   }
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'weeple',
+        item: SITE_URL,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: '가이드',
+        item: `${SITE_URL}/guides`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: guide.title,
+        item: url,
+      },
+    ],
+  }
+
   return (
     <main className="min-h-screen px-6 py-10 sm:py-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
       <article className="mx-auto max-w-3xl">
