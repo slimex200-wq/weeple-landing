@@ -43,7 +43,7 @@ export const PRICING_TIERS: Tier[] = [
       "AI 멀티모델 분석 월 100회",
       "프리미엄 넛지 전체",
       "실시간 파트너 공유",
-      "결제 알림 자동 인식",
+      "Android 결제 알림 확인 후 저장",
     ],
     cta: "프리미엄 시작",
     highlighted: true,

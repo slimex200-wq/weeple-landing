@@ -256,8 +256,8 @@ export default function Couple() {
                 </div>
                 <div className="text-sm text-fg leading-relaxed">
                   파트너가 방금{' '}
-                  <span className="num font-bold text-mint">₩11,500</span> 을{' '}
-                  <span className="font-semibold">버거킹</span> 에서 사용했어요.
+                  <span className="num font-bold text-mint">₩11,500</span>{' '}
+                  <span className="font-semibold">버거킹</span> 지출을 기록했어요.
                 </div>
                 <div className="mt-2 text-[11px] text-fg-muted num">
                   공동 예산 · 2초 전
