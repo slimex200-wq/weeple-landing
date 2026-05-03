@@ -184,7 +184,7 @@ export default function Hero() {
               <p className="max-w-md text-sm text-fg-secondary leading-relaxed">
                 {CHAPTERS[0].body}
               </p>
-              <div className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full border border-mint/30 bg-mint-bg px-2.5 py-1 text-[10px] font-semibold text-mint">
+              <div className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full border border-mint/30 bg-mint-bg px-3 py-1 text-xs font-semibold text-mint">
                 <span className="h-1.5 w-1.5 rounded-full bg-mint" aria-hidden />
                 Android 우선 출시 · iOS 준비 중
               </div>
@@ -342,7 +342,7 @@ function ChapterBlock({
         {chapter.body}
       </p>
       {index === 0 && (
-        <div className="mb-4 sm:mb-8 inline-flex w-fit items-center gap-1.5 rounded-full border border-mint/30 bg-mint-bg px-2.5 py-1 text-[10px] sm:text-xs font-semibold text-mint">
+        <div className="mb-4 sm:mb-8 inline-flex w-fit items-center gap-1.5 rounded-full border border-mint/30 bg-mint-bg px-3 py-1 text-xs font-semibold text-mint">
           <span className="h-1.5 w-1.5 rounded-full bg-mint" aria-hidden />
           Android 우선 출시 · iOS 준비 중
         </div>
