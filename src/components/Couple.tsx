@@ -31,7 +31,7 @@ const MODES: Mode[] = [
     id: 'partial',
     label: '부분 공동',
     sub: '용돈은 따로, 저축은 같이',
-    detail: '가장 인기 있는 모드. 각자 자유 소비는 숨기고, 공동 지출(월세/식재료/데이트)만 함께.',
+    detail: '신혼·부부·동거 커플에게 가장 인기. 각자 자유 소비는 숨기고, 공동 지출(월세/식재료/데이트)만 함께.',
     overlap: 0.6,
   },
   {
@@ -76,8 +76,8 @@ export default function Couple() {
             <span className="text-fg-muted">용돈은 따로, 저축은 같이.</span>
           </h2>
           <p className="text-base sm:text-lg text-fg-secondary leading-relaxed max-w-2xl">
-            커플마다 돈 관리 방식이 다르죠. weeple 은 3가지 모드 중 하나를
-            선택하고, 언제든 갈아탈 수 있습니다.
+            커플·신혼·부부마다 돈 관리 방식이 다르죠. weeple 공동 가계부는
+            3가지 모드 중 하나를 선택하고, 언제든 갈아탈 수 있습니다.
           </p>
         </motion.div>
 

@@ -41,7 +41,7 @@ const REASONS: Reason[] = [
   },
   {
     title: '혼자 하기 싫어',
-    detail: '커플이라면 더 힘든 이야기. 누가 얼마 냈는지 기억도 안 남.',
+    detail: '커플·신혼·부부라면 더 힘든 이야기. 누가 얼마 냈는지 기억도 안 남.',
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
         <circle cx="9" cy="10" r="3" />
