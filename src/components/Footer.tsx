@@ -27,6 +27,8 @@ const groups: LinkGroup[] = [
   {
     title: '가이드',
     links: [
+      { label: '가계부 앱 추천', href: '/guides/budget-app-recommendation' },
+      { label: '공유 가계부 앱 비교', href: '/guides/shared-budget-app-comparison' },
       { label: '커플 가계부 앱', href: '/guides/couple-budget-app' },
       { label: '공동 예산 관리', href: '/guides/shared-budget' },
       { label: '자연어 가계부 입력', href: '/guides/natural-language-budget' },
