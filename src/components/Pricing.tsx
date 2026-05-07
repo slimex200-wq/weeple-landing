@@ -12,6 +12,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import TiltCard from "@/components/TiltCard";
 import { type Period, type Tier, PRICING_TIERS } from "@/data/pricing";
+import { trackEvent } from "@/lib/analytics";
 
 function cx(...parts: Array<string | false | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -185,6 +186,13 @@ export default function Pricing() {
                 {/* CTA */}
                 <a
                   href="#"
+                  onClick={() =>
+                    trackEvent("cta_click", {
+                      location: "pricing",
+                      label: tier.name,
+                      period,
+                    })
+                  }
                   className={`inline-flex items-center justify-center h-12 rounded-full text-sm font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
                     tier.highlighted
                       ? "bg-mint text-white hover:scale-[1.02] hover:shadow-[0_12px_30px_-6px_rgba(14,165,160,0.6)]"
