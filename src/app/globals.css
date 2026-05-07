@@ -1,4 +1,8 @@
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+/* Pretendard dynamic-subset: unicode-range 별로 분할된 woff2 만 다운로드.
+   기존 static/pretendard.css 는 4 weights × ~800KB(한자 포함) = 약 3.1MB 였음.
+   페이지에 실제 등장하는 글리프(한국어 KS + 라틴) 만 받도록 변경 → 약 95% 절감.
+   font-display: swap 은 CSS 자체에 박혀있어 fallback → Pretendard 전환 즉시. */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css');
 @import "tailwindcss";
 
 :root {
