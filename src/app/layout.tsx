@@ -23,7 +23,9 @@ const siteDescription =
   '커플·부부·동거 커플을 위한 공동 가계부. 생활비 관리부터 데이트 비용 정산까지. 자연어 빠른 입력, 영수증 OCR, Android 결제 알림 확인 후 저장, AI 월간 분석을 한 앱에. iOS 는 준비 중.'
 const shareDescription =
   '커플·부부 공동 가계부 + AI 분석. 자연어 한 줄로 3초 기록, 생활비·데이트 비용 정산까지. Android 우선 출시.'
-const ogImageUrl = `${siteUrl}/og-image.png`
+// og:image 는 src/app/opengraph-image.tsx file convention 이 자동으로 채움.
+// twitter:image 는 file convention 자동 적용 대상이 아니라 동일 PNG 를 명시.
+const ogImageUrl = `${siteUrl}/opengraph-image`
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -36,16 +38,6 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: 'weeple',
     locale: 'ko_KR',
-    images: [
-      {
-        url: ogImageUrl,
-        secureUrl: ogImageUrl,
-        type: 'image/png',
-        width: 1200,
-        height: 630,
-        alt: siteTitle,
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',

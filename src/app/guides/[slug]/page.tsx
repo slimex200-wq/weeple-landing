@@ -4,7 +4,10 @@ import { notFound } from 'next/navigation'
 import { GUIDES, getGuide } from '@/data/guides'
 
 const SITE_URL = 'https://weeple.app'
-const OG_IMAGE_URL = `${SITE_URL}/og-image.png`
+// 가이드별 동적 OG 는 Next.js 16 + static export 조합에서 generateImageMetadata
+// 지원이 불완전해 루트 OG 이미지를 공유. 가이드별 제목이 OG 카드에 들어가는
+// 형태가 필요하면 후처리 스크립트로 PNG 별도 생성하는 후속 PR.
+const OG_IMAGE_URL = `${SITE_URL}/opengraph-image`
 
 type Props = {
   params: Promise<{ slug: string }>
