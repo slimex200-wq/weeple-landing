@@ -9,6 +9,7 @@
 
 import { motion } from 'motion/react'
 import MagneticButton from '@/components/MagneticButton'
+import { trackEvent } from '@/lib/analytics'
 
 export default function FinalCTA() {
   return (
@@ -76,6 +77,12 @@ export default function FinalCTA() {
           <MagneticButton
             as="a"
             href="#"
+            onClick={() =>
+              trackEvent('cta_click', {
+                location: 'final',
+                label: 'android_download',
+              })
+            }
             className="group inline-flex items-center gap-2 px-7 h-14 rounded-full bg-white text-[#0EA5A0] font-semibold text-base transition-all hover:scale-[1.02] hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.3)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0EA5A0]"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>

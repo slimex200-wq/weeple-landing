@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Geist_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
+import Analytics from '@/components/Analytics'
 import ScrollProgress from '@/components/ScrollProgress'
 
 const geistMono = Geist_Mono({
@@ -92,6 +93,7 @@ export default function RootLayout({
   return (
     <html lang="ko" className={`${geistMono.variable} ${pretendard.variable} h-full light`}>
       <body className="min-h-full flex flex-col text-fg">
+        <Analytics />
         <ScrollProgress />
         {children}
       </body>

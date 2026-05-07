@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
+import { trackEvent } from '@/lib/analytics'
 
 export default function StickyCTA() {
   const [visible, setVisible] = useState(false)
@@ -19,6 +20,12 @@ export default function StickyCTA() {
       {visible && (
         <motion.a
           href="#pricing"
+          onClick={() =>
+            trackEvent('cta_click', {
+              location: 'sticky',
+              label: 'pricing_anchor',
+            })
+          }
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
