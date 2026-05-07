@@ -21,7 +21,7 @@ const pretendard = localFont({
 const siteUrl = 'https://weeple.app'
 const siteTitle = 'weeple - 둘이 쓰는 돈, 한눈에'
 const siteDescription =
-  '커플·부부·동거 커플을 위한 공동 가계부. 생활비 관리부터 데이트 비용 정산까지. 자연어 빠른 입력, 영수증 OCR, Android 결제 알림 확인 후 저장, AI 월간 분석을 한 앱에. iOS 는 준비 중.'
+  '커플·부부·동거 가구를 위한 AI 커플 가계부. 공동 지출과 개인 지출을 분리해서 관리하고, 데이트 비용 정산·공동 예산·자연어 빠른 입력·영수증 OCR·Android 결제 알림 자동 기입·AI 월간 분석을 한 앱에. iOS 는 준비 중.'
 const shareDescription =
   '커플·부부 공동 가계부 + AI 분석. 자연어 한 줄로 3초 기록, 생활비·데이트 비용 정산까지. Android 우선 출시.'
 // og:image 는 src/app/opengraph-image.tsx file convention 이 자동으로 채움.
@@ -60,15 +60,18 @@ export const metadata: Metadata = {
     },
   },
   keywords: [
+    'AI 커플 가계부',
     '커플 가계부',
     '부부 가계부',
     '공동 가계부',
+    '공유 가계부 앱',
     '가계부 앱',
     '공동 예산',
     '커플 머니',
+    '커플 정산 앱',
     '생활비 관리',
     '데이트 비용 정산',
-    '동거 커플 가계부',
+    '동거 가계부',
     '자연어 가계부',
     'AI 가계부',
     '영수증 OCR',
