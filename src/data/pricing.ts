@@ -51,8 +51,8 @@ export const PRICING_TIERS: Tier[] = [
   },
   {
     name: "Credits",
-    price: { monthly: "₩1,900부터", yearly: "₩1,900부터" },
-    period: { monthly: "필요할 때", yearly: "필요할 때" },
+    price: { monthly: "₩1,900~", yearly: "₩1,900~" },
+    period: { monthly: "필요할 때 충전", yearly: "필요할 때 충전" },
     description: "구독 없이 AI 분석만 더 쓰고 싶을 때 충전합니다.",
     features: [
       "10 크레딧 ₩1,900",

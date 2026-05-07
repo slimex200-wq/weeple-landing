@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { motion } from 'motion/react'
+import Money from '@/components/Money'
 
 export default function LiveDemo() {
   const [isMobile, setIsMobile] = useState<boolean | null>(null)
+  const [activated, setActivated] = useState(false)
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 640)
@@ -56,12 +58,40 @@ export default function LiveDemo() {
             style={{ aspectRatio: '16/10' }}
           >
             {isMobile === false && (
-              <iframe
-                src="/weeple-3d-promo.html"
-                title="weeple 3D 데모"
-                loading="lazy"
-                className="absolute inset-0 w-full h-full border-0"
-              />
+              activated ? (
+                <iframe
+                  src="/weeple-3d-promo.html"
+                  title="weeple 3D 데모"
+                  className="absolute inset-0 w-full h-full border-0"
+                />
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setActivated(true)}
+                  className="group absolute inset-0 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-4 focus-visible:ring-offset-bg"
+                  aria-label="3D 데모 시작 — 클릭하면 인터랙티브 데모를 불러옵니다"
+                >
+                  <img
+                    src="/demo-fallback.png"
+                    alt="weeple 3D 데모 미리보기 — 7개 앱 화면이 회전하는 캐러셀"
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/15 transition-colors duration-300 group-hover:bg-black/25" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="flex items-center gap-2.5 px-6 py-3 rounded-full bg-mint text-white font-semibold text-sm shadow-[0_12px_36px_-8px_rgba(14,165,160,0.6)] transition-transform duration-300 group-hover:scale-[1.04]">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                      3D 데모 체험
+                    </div>
+                  </div>
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[11px] text-white/85 font-medium drop-shadow">
+                    클릭하면 로드됩니다 · 약 700KB
+                  </div>
+                </button>
+              )
             )}
           </motion.div>
         )}
@@ -79,61 +109,76 @@ function MobileAppPreview() {
       transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
       className="relative mx-auto w-full max-w-[420px]"
     >
-      <div className="relative mx-auto w-full max-w-[300px]">
+      <div className="relative mx-auto w-full max-w-[320px]">
         <div
-          className="relative w-full rounded-[40px] border-[10px] border-[#101417] bg-gradient-to-b from-[#7edaf5] to-[#d5f5e9] overflow-hidden shadow-[0_40px_80px_-20px_rgba(14,165,160,0.35)]"
+          className="relative w-full rounded-[40px] glass p-3 shadow-[0_40px_100px_-20px_rgba(14,165,160,0.2)]"
           style={{ aspectRatio: '9/18.5' }}
         >
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 h-5 w-20 rounded-full bg-[#101417] z-10" />
-          <div className="h-full w-full p-4 pt-9 flex flex-col gap-2.5">
-            <div className="flex items-center justify-between text-[10px] text-[#101417]/70 num">
-              <span>9:41</span>
-              <span className="font-bold">우리 가계부 · D+17</span>
+          <div className="h-full w-full rounded-[32px] overflow-hidden bg-gradient-to-b from-[#F0F4F1] to-[#E5EDE8] flex flex-col p-4 pt-5">
+            <div className="flex items-center justify-between text-[10px] text-fg-muted mb-3">
+              <span className="num">9:41</span>
+              <span className="font-semibold text-fg">우리 가계부 · D+17</span>
             </div>
-            <div className="rounded-2xl bg-white/65 backdrop-blur-sm px-3.5 py-2.5 shadow-sm">
-              <div className="text-[9px] font-bold text-[#07978e] uppercase tracking-wide mb-0.5">
+
+            <div className="rounded-xl border border-mint/40 bg-white/60 px-3 py-2.5 mb-3">
+              <div className="text-[10px] font-semibold text-mint uppercase tracking-wider mb-1">
                 개인 · 카테고리 자동 분류
               </div>
-              <div className="text-[13px] font-semibold text-[#161a1c]">
+              <div className="text-sm font-semibold text-fg">
                 점심 김치찌개 8000원
               </div>
             </div>
-            <div className="grid grid-cols-3 rounded-full bg-white/35 p-1 text-[10px] font-bold text-[#637472] text-center">
-              <span className="rounded-full bg-white/85 text-[#101417] py-1.5">요약</span>
-              <span className="py-1.5">리포트</span>
-              <span className="py-1.5">AI 분석</span>
-            </div>
-            <div className="rounded-2xl bg-white/55 px-3.5 py-3">
-              <div className="text-[9px] text-[#426966] font-bold">
-                2026-05 · 이번 달 지출
-              </div>
-              <div className="num text-[22px] font-extrabold text-[#101417] mt-0.5">
-                ₩1,111,797
-              </div>
-              <div className="h-2 rounded-full bg-gradient-to-r from-mint to-[#ff7f73] my-2" />
-              <div className="text-[9px] text-[#426966]">
-                예상 ₩1,450,170 · 하루 ₩48,339
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="rounded-xl bg-white/65 px-3 py-2">
-                <div className="text-[9px] text-fg-muted font-bold">오늘</div>
-                <div className="num text-[14px] font-extrabold text-[#101417] mt-0.5">
-                  ₩49,800
-                </div>
-              </div>
-              <div className="rounded-xl bg-white/65 px-3 py-2">
-                <div className="text-[9px] text-fg-muted font-bold">이번 주</div>
-                <div className="num text-[14px] font-extrabold text-[#101417] mt-0.5">
-                  ₩36.4만
-                </div>
-              </div>
-            </div>
-            <div className="rounded-xl bg-white/70 px-3 py-2.5 text-[11px] font-bold text-[#263432] leading-snug">
-              이번 달 소비의 85%가 쇼핑에 집중돼요
-              <span className="block text-[10px] text-[#078f86] font-bold mt-0.5">
-                카테고리별 분석 보기
+
+            <div className="grid grid-cols-3 gap-1 rounded-full glass p-1 mb-3">
+              <span className="rounded-full bg-mint text-white text-[11px] font-semibold py-1 text-center">
+                요약
               </span>
+              <span className="text-fg-muted text-[11px] font-semibold py-1 text-center">
+                리포트
+              </span>
+              <span className="text-fg-muted text-[11px] font-semibold py-1 text-center">
+                AI 분석
+              </span>
+            </div>
+
+            <div className="rounded-xl glass p-3 mb-3">
+              <div className="text-[10px] text-fg-muted mb-0.5">
+                <span className="num">2026-05</span> · 이번 달 지출
+              </div>
+              <div className="text-2xl font-extrabold text-fg tracking-tight">
+                <Money value="₩1,111,797" />
+              </div>
+              <div className="h-1.5 rounded-full bg-gradient-to-r from-mint to-mint-end my-2" />
+              <div className="text-[10px] text-fg-muted">
+                예상 <Money value="₩1,450,170" /> · 하루 <Money value="₩48,339" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              <div className="rounded-xl glass px-3 py-2">
+                <div className="text-[10px] text-fg-muted font-semibold">오늘</div>
+                <div className="text-base font-extrabold text-fg mt-0.5">
+                  <Money value="₩49,800" />
+                </div>
+              </div>
+              <div className="rounded-xl glass px-3 py-2">
+                <div className="text-[10px] text-fg-muted font-semibold">이번 주</div>
+                <div className="text-base font-extrabold text-fg mt-0.5">
+                  <Money value="₩36.4만" />
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-xl glass p-3">
+              <div className="text-xs font-semibold text-fg leading-snug">
+                이번 달 소비의 85%가 쇼핑에 집중돼요
+              </div>
+              <div className="text-[10px] text-mint font-semibold mt-1 inline-flex items-center gap-1">
+                카테고리별 분석 보기
+                <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>
+                  <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
