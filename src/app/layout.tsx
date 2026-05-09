@@ -24,9 +24,9 @@ const siteDescription =
   '커플·부부·동거 가구를 위한 AI 커플 가계부. 공동 지출과 개인 지출을 분리해서 관리하고, 데이트 비용 정산·공동 예산·자연어 빠른 입력·영수증 OCR·Android 결제 알림 자동 기입·AI 월간 분석을 한 앱에. iOS 는 준비 중.'
 const shareDescription =
   '커플·부부 공동 가계부 + AI 분석. 자연어 한 줄로 3초 기록, 생활비·데이트 비용 정산까지. Android 우선 출시.'
-// Static share image in public/. KakaoTalk and similar scrapers behave more
-// reliably when og:image has a .png extension.
-const ogImageUrl = `${siteUrl}/opengraph-image.png`
+// Static share image in public/. The dated filename intentionally changes the
+// image URL so KakaoTalk refreshes its separately cached preview image.
+const ogImageUrl = `${siteUrl}/opengraph-image-20260509.png`
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

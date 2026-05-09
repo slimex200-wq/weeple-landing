@@ -8,7 +8,8 @@ const SITE_URL = 'https://weeple.app'
 // 지원이 불완전해 루트 OG 이미지를 공유. 가이드별 제목이 OG 카드에 들어가는
 // 형태가 필요하면 후처리 스크립트로 PNG 별도 생성하는 후속 PR.
 // .png 확장자는 카카오톡 등 스크레이퍼 호환을 위해 유지.
-const OG_IMAGE_URL = `${SITE_URL}/opengraph-image.png`
+// Dated filename bypasses KakaoTalk's separately cached preview image URL.
+const OG_IMAGE_URL = `${SITE_URL}/opengraph-image-20260509.png`
 
 function jsonLd(value: unknown) {
   return JSON.stringify(value).replace(/</g, '\\u003c')

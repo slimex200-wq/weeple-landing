@@ -62,7 +62,7 @@ export default {
       })
     }
 
-    // Static Assets serves /opengraph-image.png directly from public/.
+    // Static Assets serves share images directly from public/.
     // The .png extension lets Cloudflare infer image/png for share crawlers.
     return env.ASSETS.fetch(request)
   },
