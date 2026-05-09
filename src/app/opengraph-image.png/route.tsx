@@ -2,16 +2,17 @@ import { ImageResponse } from 'next/og'
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 
+// 동적 OG 를 file convention (`opengraph-image.tsx`) 대신 route handler 로 노출.
+// file convention 은 og:image meta 를 확장자 없는 URL (`/opengraph-image?<hash>`)
+// 로 자동 주입하는데, 카카오톡 등 스크레이퍼가 og:image URL 의 .png 확장자를
+// 신뢰 신호로 사용하므로 .png 가 붙은 정적 경로를 직접 노출.
 export const dynamic = 'force-static'
-export const alt = 'weeple - 둘이 쓰는 돈, 한눈에'
-export const size = { width: 1200, height: 630 }
-export const contentType = 'image/png'
 
 const fontsDir = path.join(process.cwd(), 'src/fonts')
 const pretendardBold = readFileSync(path.join(fontsDir, 'Pretendard-Bold.woff'))
 const pretendardRegular = readFileSync(path.join(fontsDir, 'Pretendard-Regular.woff'))
 
-export default async function OG() {
+export async function GET() {
   return new ImageResponse(
     (
       <div
@@ -106,7 +107,8 @@ export default async function OG() {
       </div>
     ),
     {
-      ...size,
+      width: 1200,
+      height: 630,
       fonts: [
         {
           name: 'Pretendard',

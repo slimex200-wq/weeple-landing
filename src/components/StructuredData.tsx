@@ -8,7 +8,7 @@ const organization = {
   "@type": "Organization",
   name: "weeple",
   url: SITE_URL,
-  logo: `${SITE_URL}/og-image.png`,
+  logo: `${SITE_URL}/opengraph-image.png`,
   description: "커플과 개인을 위한 가계부 + AI 분석 앱",
   sameAs: [
     "https://github.com/slimex200-wq/",
@@ -25,7 +25,7 @@ const softwareApplication = {
   url: SITE_URL,
   description:
     "개인부터 커플 공동 예산까지. 자연어 빠른 입력, 영수증 OCR, 실시간 공유, AI 분석이 한 앱에.",
-  image: `${SITE_URL}/og-image.png`,
+  image: `${SITE_URL}/opengraph-image.png`,
   offers: PRICING_OFFERS_KRW.map((t) => ({
     "@type": "Offer",
     name: t.name,
