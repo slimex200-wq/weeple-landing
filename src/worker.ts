@@ -62,12 +62,18 @@ export default {
       })
     }
 
-    // Next.js opengraph-image file convention 은 확장자 없는 파일을 출력함.
-    // Cloudflare Workers Static Assets 는 확장자로 Content-Type 을 추론하므로
-    // /opengraph-image 응답을 image/png 로 명시 override 해야 SNS 미리보기가
-    // 정상 동작.
-    if (url.pathname === '/opengraph-image') {
-      const response = await env.ASSETS.fetch(request)
+    // Next.js image metadata file conventions output extensionless files.
+    // Keep .png aliases alive too, because existing crawlers may already have
+    // cached share metadata that points at the extensionful URL.
+    if (
+      url.pathname === '/opengraph-image' ||
+      url.pathname === '/opengraph-image.png' ||
+      url.pathname === '/twitter-image' ||
+      url.pathname === '/twitter-image.png'
+    ) {
+      const assetUrl = new URL(request.url)
+      assetUrl.pathname = url.pathname.replace(/\.png$/, '')
+      const response = await env.ASSETS.fetch(new Request(assetUrl, request))
       const headers = new Headers(response.headers)
       headers.set('Content-Type', 'image/png')
       headers.set('Cache-Control', 'public, max-age=3600, must-revalidate')
