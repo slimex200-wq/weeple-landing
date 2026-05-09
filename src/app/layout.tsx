@@ -19,7 +19,7 @@ const pretendard = localFont({
 })
 
 const siteUrl = 'https://weeple.app'
-const siteTitle = 'weeple - 둘이 쓰는 돈, 한눈에'
+const siteTitle = 'weeple - 커플 가계부 앱, 둘이 쓰는 돈 한눈에'
 const siteDescription =
   '커플·부부·동거 가구를 위한 AI 커플 가계부. 공동 지출과 개인 지출을 분리해서 관리하고, 데이트 비용 정산·공동 예산·자연어 빠른 입력·영수증 OCR·Android 결제 알림 자동 기입·AI 월간 분석을 한 앱에. iOS 는 준비 중.'
 const shareDescription =
@@ -72,9 +72,12 @@ export const metadata: Metadata = {
   keywords: [
     'AI 커플 가계부',
     '커플 가계부',
+    '커플 가계부 앱',
+    '커플 가계부 앱 추천',
     '부부 가계부',
     '공동 가계부',
     '공유 가계부 앱',
+    '공유 가계부 앱 비교',
     '가계부 앱',
     '공동 예산',
     '커플 머니',
