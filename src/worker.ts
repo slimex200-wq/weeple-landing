@@ -62,9 +62,8 @@ export default {
       })
     }
 
-    // /opengraph-image.png 는 src/app/opengraph-image.png/route.tsx route handler
-    // 가 정적으로 생성. Cloudflare Workers Static Assets 가 .png 확장자로 Content-Type
-    // 을 image/png 로 추론하므로 별도 override 불필요.
+    // Static Assets serves /opengraph-image.png directly from public/.
+    // The .png extension lets Cloudflare infer image/png for share crawlers.
     return env.ASSETS.fetch(request)
   },
 }

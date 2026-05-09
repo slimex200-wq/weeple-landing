@@ -14,6 +14,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-03: Added three indexable guide pages for long-tail search intent: couple budget app, shared budget, and natural-language budget input.
 - 2026-05-03: Landing pricing/JSON-LD offers were aligned to the current Android IAP set: Premium monthly/yearly plus 10/30/100 credit packs.
 - 2026-05-03: Added `docs/seo-research-2026-05-03.md` with category-search research and the next SEO page queue.
+- 2026-05-09: Share thumbnail switched from generated text-only OG art to the provided product-phone banner. `public/opengraph-image.png` is the current canonical share image, and `public/og-image.png` was updated for stale crawler compatibility.
 
 ## Next Work Queue
 
@@ -31,6 +32,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-03: Live `https://weeple.app/og-image.png` returned 200 PNG, 1200x630, ~337 KB before the metadata copy fix.
 - 2026-05-03: Local static export includes `/guides/couple-budget-app`, `/guides/shared-budget`, and `/guides/natural-language-budget`.
 - 2026-05-03: Play Store package URL still returns 404 externally while the app is not public, so it was not added to Organization `sameAs`.
+- 2026-05-09: Local generated share image verified at 1200x630 before build.
 - Known gap: browser visual inspection was not run in this harness-only pass.
 
 ## Related Vault Notes
