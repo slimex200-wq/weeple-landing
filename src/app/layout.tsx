@@ -24,11 +24,8 @@ const siteDescription =
   '커플·부부·동거 가구를 위한 AI 커플 가계부. 공동 지출과 개인 지출을 분리해서 관리하고, 데이트 비용 정산·공동 예산·자연어 빠른 입력·영수증 OCR·Android 결제 알림 자동 기입·AI 월간 분석을 한 앱에. iOS 는 준비 중.'
 const shareDescription =
   '커플·부부 공동 가계부 + AI 분석. 자연어 한 줄로 3초 기록, 생활비·데이트 비용 정산까지. Android 우선 출시.'
-// 동적 OG 본체는 src/app/opengraph-image.tsx 가 /opengraph-image (확장자 없음)
-// 으로 출력하지만, 카카오톡 등 일부 스크레이퍼는 og:image URL 의 .png 확장자를
-// 신뢰 신호로 사용하므로 metadata 와 worker.ts 에서 /opengraph-image.png alias
-// 로 노출. file convention 이 자동으로 끼워 넣는 og:image 는 openGraph.images
-// 를 명시하면 override.
+// Static share image in public/. KakaoTalk and similar scrapers behave more
+// reliably when og:image has a .png extension.
 const ogImageUrl = `${siteUrl}/opengraph-image.png`
 
 export const metadata: Metadata = {
