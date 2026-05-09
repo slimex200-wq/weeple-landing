@@ -10,6 +10,10 @@ const SITE_URL = 'https://weeple.app'
 // .png 확장자는 카카오톡 등 스크레이퍼 호환을 위해 유지.
 const OG_IMAGE_URL = `${SITE_URL}/opengraph-image.png`
 
+function jsonLd(value: unknown) {
+  return JSON.stringify(value).replace(/</g, '\\u003c')
+}
+
 type Props = {
   params: Promise<{ slug: string }>
 }
@@ -120,16 +124,32 @@ export default async function GuidePage({ params }: Props) {
       },
     ],
   }
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: guide.faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  }
 
   return (
     <main className="min-h-screen px-6 py-10 sm:py-16">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(articleJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLd(faqJsonLd) }}
       />
 
       <article className="mx-auto max-w-3xl">

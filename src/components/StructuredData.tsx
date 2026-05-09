@@ -21,11 +21,26 @@ const softwareApplication = {
   "@type": "SoftwareApplication",
   name: "weeple",
   applicationCategory: "FinanceApplication",
+  applicationSubCategory: "Couple budget app",
   operatingSystem: "Android",
   url: SITE_URL,
   description:
     "개인부터 커플 공동 예산까지. 자연어 빠른 입력, 영수증 OCR, 실시간 공유, AI 분석이 한 앱에.",
   image: `${SITE_URL}/opengraph-image.png`,
+  keywords:
+    "커플 가계부 앱, 공유 가계부 앱, 부부 가계부 앱, AI 가계부 앱, 안드로이드 가계부 앱",
+  audience: {
+    "@type": "Audience",
+    audienceType: "커플, 부부, 동거 가구, 개인 가계부 사용자",
+  },
+  featureList: [
+    "공동 지출과 개인 지출 분리",
+    "파트너와 함께 보는 공동 예산",
+    "자연어 빠른 입력",
+    "영수증 OCR",
+    "Android 결제 알림 확인 후 저장",
+    "AI 월간 지출 분석",
+  ],
   offers: PRICING_OFFERS_KRW.map((t) => ({
     "@type": "Offer",
     name: t.name,
@@ -34,6 +49,10 @@ const softwareApplication = {
     category: t.category,
   })),
 };
+
+function jsonLd(value: unknown) {
+  return JSON.stringify(value).replace(/</g, "\\u003c");
+}
 
 const faqPage = {
   "@context": "https://schema.org",
@@ -53,17 +72,17 @@ export default function StructuredData() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(organization) }}
       />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(softwareApplication),
+          __html: jsonLd(softwareApplication),
         }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPage) }}
+        dangerouslySetInnerHTML={{ __html: jsonLd(faqPage) }}
       />
     </>
   );

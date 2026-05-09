@@ -15,12 +15,14 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-03: Landing pricing/JSON-LD offers were aligned to the current Android IAP set: Premium monthly/yearly plus 10/30/100 credit packs.
 - 2026-05-03: Added `docs/seo-research-2026-05-03.md` with category-search research and the next SEO page queue.
 - 2026-05-09: Share thumbnail switched from generated text-only OG art to the provided product-phone banner. `public/opengraph-image.png` is the current canonical share image, and `public/og-image.png` was updated for stale crawler compatibility.
+- 2026-05-09: Strengthened category-search copy for `커플 가계부 앱`, `커플 가계부 앱 추천`, and `공유 가계부 앱 비교`; added guide FAQ JSON-LD and a Naver IndexNow notification script/key for post-deploy crawl refresh.
 
 ## Next Work Queue
 
 - Keep copy and visuals aligned with actual app capabilities.
 - Verify landing changes in browser after any layout, animation, or 3D work.
 - Continue SEO Phase 2 work tracked in GitHub issue #12.
+- After the Play Store listing is public, add the public store URL to Organization/SoftwareApplication structured data and use it in launch CTAs where appropriate.
 
 ## Known Blockers
 
