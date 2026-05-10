@@ -27,6 +27,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Converted the product-proof middle section into a scroll-driven product story: text steps now drive a sticky desktop product visual, mobile stacks the same steps with images inline, and Korean headline/callout wrapping preserves whole words.
 - 2026-05-10: Reworked the scroll-driven product story after review: desktop sticky panels now include explicit feature names, one-line explanations, three feature details, non-cropped `object-contain` product images, and secondary preview cards where available; mobile shows the feature details before images.
 - 2026-05-10: Replaced the feature-explainer product story with an image-first scroll sequence: each chapter now shows the category and product image first, fades the image away, then leaves a short explanation before the next chapter repeats the pattern.
+- 2026-05-10: Added a lightweight JPEG share image at `public/opengraph-image-20260510-kakao-mobile.jpg` and pointed OG/Twitter/JSON-LD image metadata to it so KakaoTalk mobile gets a fresh, smaller preview asset instead of the ~987 KB PNG.
 
 ## Next Work Queue
 
@@ -52,6 +53,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Sticky product-story pass verified with `npm.cmd run build`, `npx.cmd tsc --noEmit`, and Playwright screenshots for `#live-demo`, `#couple`, `#insights`, `#budget`, and mobile `#couple` on the local dev server.
 - 2026-05-10: Feature-explainer product-story pass verified with `npm.cmd run build`, `npx.cmd tsc --noEmit`, and Playwright screenshots for `#couple`, `#insights`, `#budget`, and mobile `#couple`.
 - 2026-05-10: Image-first scroll-sequence pass verified with `npm.cmd run build`, `npx.cmd tsc --noEmit`, and Playwright desktop/mobile screenshots for `#couple` and `#insights` image/text phases.
+- 2026-05-10: Lightweight Kakao mobile share image verified locally at 1200x630 and ~75 KB before metadata update.
 
 ## Related Vault Notes
 
