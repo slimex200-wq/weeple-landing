@@ -4,7 +4,7 @@ import { motion } from 'motion/react'
 import MagneticButton from '@/components/MagneticButton'
 import { trackEvent } from '@/lib/analytics'
 
-const notes = ['비개발자 1인 제작', '공동 지출과 개인 지출 분리', 'Android 우선 출시']
+const notes = ['신혼 생활비 관리', '공동 지출과 개인 지출 분리', '비개발자 1인 제작']
 
 export default function Hero() {
   return (
@@ -46,7 +46,7 @@ export default function Hero() {
         >
           <div className="mb-5 inline-flex items-center gap-2 border-y border-[#111513] py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#111513]">
             <span className="h-2 w-2 rounded-full bg-[#f06a4e]" aria-hidden />
-            Built from one uncomfortable money talk
+            Built for newlywed money rules
           </div>
 
           <h1 className="text-6xl font-black leading-[0.9] text-[#111513] sm:text-7xl lg:text-8xl">
@@ -61,7 +61,7 @@ export default function Hero() {
           </p>
 
           <p className="mt-5 max-w-xl border-l-2 border-[#f06a4e] pl-4 text-base leading-7 text-[#5b453d]">
-            돈 이야기가 싸움이 되기 전에, 먼저 정리되는 도구가 필요했습니다.
+            신혼의 돈 관리는 아끼는 의지보다, 둘이 같은 기준을 보는 구조에서 시작합니다.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -105,7 +105,7 @@ export default function Hero() {
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-4 flex justify-center text-xs font-semibold text-[#6a756f]">
-        다음: 돈 얘기가 어려워지는 순간
+        다음: 둘이 쓰는 돈의 기준
       </div>
     </section>
   )

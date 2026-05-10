@@ -28,6 +28,8 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Reworked the scroll-driven product story after review: desktop sticky panels now include explicit feature names, one-line explanations, three feature details, non-cropped `object-contain` product images, and secondary preview cards where available; mobile shows the feature details before images.
 - 2026-05-10: Replaced the feature-explainer product story with an image-first scroll sequence: each chapter now shows the category and product image first, fades the image away, then leaves a short explanation before the next chapter repeats the pattern.
 - 2026-05-10: Added a lightweight JPEG share image at `public/opengraph-image-20260510-kakao-mobile.jpg` and pointed OG/Twitter/JSON-LD image metadata to it so KakaoTalk mobile gets a fresh, smaller preview asset instead of the ~987 KB PNG.
+- 2026-05-10: Reframed the hero, problem, product sequence, and founder story around newlywed couples trying to manage shared money well; the product sequence now follows state check -> shared/personal split -> budget rules -> report/AI.
+- 2026-05-10: Tightened Korean line-break handling in the newlywed story sections and reduced the mobile sticky CTA size so it does not visually dominate content screenshots.
 
 ## Next Work Queue
 
@@ -54,6 +56,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Feature-explainer product-story pass verified with `npm.cmd run build`, `npx.cmd tsc --noEmit`, and Playwright screenshots for `#couple`, `#insights`, `#budget`, and mobile `#couple`.
 - 2026-05-10: Image-first scroll-sequence pass verified with `npm.cmd run build`, `npx.cmd tsc --noEmit`, and Playwright desktop/mobile screenshots for `#couple` and `#insights` image/text phases.
 - 2026-05-10: Lightweight Kakao mobile share image verified locally at 1200x630 and ~75 KB before metadata update.
+- 2026-05-10: Newlywed story polish verified with `npm.cmd run build`, `npx.cmd tsc --noEmit`, and Playwright screenshots for hero, problem, product sequence intro, budget, and founder sections on desktop and mobile. Visual verdict saved under `.omx/state/newlywed-story-polish/ralph-progress.json`.
 
 ## Related Vault Notes
 

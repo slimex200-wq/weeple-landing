@@ -5,34 +5,37 @@ import { motion, useScroll, useTransform } from 'motion/react'
 
 const reasons = [
   {
-    title: '기록은 한 명이 하는데, 돈은 둘이 씁니다',
-    body: '한 사람이 모든 입력을 떠안으면 가계부는 관리 도구가 아니라 숙제가 됩니다.',
+    title: '신혼 생활비는 함께 쓰기 시작했는데, 기준은 아직 각자입니다',
+    body: '생활비, 데이트비, 월세처럼 둘이 책임지는 돈과 각자 남겨둘 돈을 먼저 나눠야 합니다.',
   },
   {
-    title: '정산은 숫자인데, 대화는 감정입니다',
-    body: '누가 더 냈는지보다 더 어려운 건 그 이야기를 꺼내는 순간입니다.',
+    title: '공동 지출과 개인 소비가 섞이면 금방 피곤해집니다',
+    body: '모든 지출을 다 공유하면 부담스럽고, 아무것도 공유하지 않으면 기준이 흐려집니다.',
   },
   {
-    title: '절약은 의지가 아니라 구조입니다',
-    body: '각자 쓴 돈과 함께 쓴 돈이 섞이면 다음 소비를 줄일 기준도 흐려집니다.',
+    title: '예산은 혼자 정하면 오래 지키기 어렵습니다',
+    body: '이번 달 어디까지 같이 쓰고, 어디부터 각자 조정할지 같은 화면에서 확인해야 합니다.',
   },
 ]
+
+const moneyAreas = ['생활비', '데이트비', '고정지출', '각자 소비']
+const flowItems = ['상태 확인', '공동/개인 구분', '예산 기준', '리포트/AI']
 
 const storySteps = [
   {
     id: 'live-demo',
     index: '01',
     eyebrow: 'Home summary',
-    title: ['이번 달 상태를', '한 화면에서'],
+    title: ['이번 달 우리 집 돈을', '한 화면에서'],
     body:
-      '월 지출, 오늘 소비, 이번 주 흐름, 예산 위험 신호를 첫 화면에서 바로 확인합니다. 작은 앱 화면 속 글자를 읽게 만들기보다, 중요한 판단만 크게 꺼내 보여줍니다.',
+      '월 지출, 오늘 소비, 이번 주 흐름, 예산 위험 신호를 첫 화면에서 바로 확인합니다. 신혼의 돈 관리는 숫자를 많이 보는 일보다 둘이 같은 기준을 보는 일에 가깝습니다.',
     image: '/product-proof/home-summary.png',
     alt: 'weeple 홈 요약 화면 목업',
     specs: ['월 지출 추적', '예산 위험 표시', '카테고리 TOP', '예상 지출 흐름'],
-    callout: '오늘 얼마 썼고, 이번 달 위험 신호가 어디인지 먼저 보입니다.',
+    callout: '이번 달 우리 집 돈 상태를 둘이 같은 화면에서 봅니다.',
     featureTitle: '홈 요약',
     featureLead:
-      '앱을 열자마자 월 지출, 오늘 소비, 예산 위험, 카테고리 흐름을 먼저 보여줍니다.',
+      '앱을 열자마자 생활비와 데이트비가 어디까지 왔는지, 이번 달 예산 위험이 있는지 먼저 확인합니다.',
     imageCaption: '홈 요약 화면',
     highlights: [
       {
@@ -52,33 +55,33 @@ const storySteps = [
   {
     id: 'couple',
     index: '02',
-    eyebrow: 'Record flow',
-    title: ['찾고, 나누고,', '빠르게 기록'],
+    eyebrow: 'Shared boundary',
+    title: ['같이 쓴 돈과', '각자 쓴 돈을 나눕니다'],
     body:
-      '소비내역은 날짜와 카테고리로 찾고, 입력은 키보드·음성·영수증 흐름으로 짧게 끝냅니다. 개인 지출과 커플 지출은 기록 단계부터 분리합니다.',
+      '생활비와 데이트 비용은 함께 보고, 개인 약속이나 취미 비용은 각자의 영역으로 남깁니다. 입력은 짧게 끝내되, 공동 지출과 개인 지출은 처음부터 분리합니다.',
     image: '/product-proof/transaction-history.png',
     alt: 'weeple 소비내역 필터 화면 목업',
     secondaryImage: '/product-proof/quick-input.png',
     secondaryAlt: 'weeple 빠른 입력 화면 목업',
-    specs: ['날짜 캘린더', '카테고리 필터', '개인/커플 입력', '영수증 기록'],
-    callout: '입력은 짧게, 구분은 처음부터 명확하게.',
-    featureTitle: '지출 기록과 필터',
+    specs: ['공동 지출', '개인 소비', '날짜 캘린더', '카테고리 필터'],
+    callout: '생활비는 같이 보고, 개인 소비는 각자의 영역으로 남깁니다.',
+    featureTitle: '공동/개인 구분',
     featureLead:
-      '지출 내역은 날짜와 카테고리로 찾고, 입력할 때부터 개인 지출과 커플 지출을 나눕니다.',
-    imageCaption: '소비내역 필터',
+      '지출을 입력할 때부터 공동 지출과 개인 소비를 나눠서, 공유할 돈과 남겨둘 돈의 경계를 흐리지 않습니다.',
+    imageCaption: '공동/개인 지출',
     secondaryCaption: '빠른 입력',
     highlights: [
       {
-        title: '날짜 캘린더',
-        body: '월별 기록에서 원하는 날짜로 빠르게 이동합니다.',
+        title: '공동 지출',
+        body: '월세, 식비, 데이트 비용처럼 같이 책임지는 돈을 함께 봅니다.',
       },
       {
-        title: '카테고리 필터',
-        body: '식비, 교통, 쇼핑처럼 보고 싶은 지출만 좁혀 봅니다.',
+        title: '개인 소비',
+        body: '취미, 약속, 선물처럼 혼자 쓰는 돈은 각자의 영역으로 남깁니다.',
       },
       {
-        title: '개인/커플 구분',
-        body: '기록 단계에서부터 내 지출과 공동 지출을 분리합니다.',
+        title: '빠른 기록',
+        body: '날짜와 카테고리로 찾고, 입력은 짧게 끝내 관리 부담을 줄입니다.',
       },
     ],
   },
@@ -149,10 +152,17 @@ const storySteps = [
 
 type StoryStep = (typeof storySteps)[number]
 
+const storySequence: StoryStep[] = [
+  storySteps[0],
+  storySteps[1],
+  { ...storySteps[3], index: '03' },
+  { ...storySteps[2], index: '04' },
+]
+
 const founderPrinciples = [
-  '공동 지출은 같이 보고, 개인 소비는 침범하지 않기',
-  '입력은 짧게, 확인은 사람이 마지막에 하기',
-  'AI는 판단자가 아니라 대화의 시작점으로 쓰기',
+  '생활비와 데이트 비용은 같이 보고, 개인 소비는 침범하지 않기',
+  '예산은 혼자 정하지 않고, 둘이 같은 화면에서 확인하기',
+  'AI는 판단자가 아니라 다음 조정 포인트를 찾는 도구로 쓰기',
 ]
 
 function Eyebrow({ children, dark = false }: { children: string; dark?: boolean }) {
@@ -270,20 +280,32 @@ function ScrollSequenceProductStory() {
       />
 
       <div className="mx-auto max-w-7xl">
-        <Eyebrow>product sequence</Eyebrow>
+        <Eyebrow>함께 관리하는 흐름</Eyebrow>
         <div className="grid gap-6 lg:grid-cols-[0.82fr_1fr] lg:items-end">
           <h2 className="max-w-3xl text-4xl font-black leading-[1.03] text-[#111513] [word-break:keep-all] sm:text-5xl">
-            먼저 화면이 올라오고, 설명은 짧게 남습니다.
+            위플은 신혼 돈 관리를 네 단계로 정리합니다.
           </h2>
-          <p className="max-w-2xl text-base leading-8 text-[#52645b] [word-break:keep-all] sm:text-lg">
-            기능마다 카테고리와 앱 화면을 먼저 보여준 뒤, 화면이 사라지는 순간 핵심만 읽게 합니다.
-            다음 스크롤에서는 다시 새 화면이 올라옵니다.
-          </p>
+          <div>
+            <p className="max-w-2xl text-base leading-8 text-[#52645b] [word-break:keep-all] sm:text-lg">
+              이번 달 상태를 함께 보고, 공동 지출과 개인 소비를 나누고,
+              예산 기준을 세운 뒤 리포트로 다음 조정 포인트를 확인합니다.
+            </p>
+            <div className="mt-6 grid gap-px overflow-hidden border-y border-[#111513]/14 bg-[#111513]/14 sm:grid-cols-4">
+              {flowItems.map((item, index) => (
+                <div key={item} className="bg-[#f8fbf8]/92 px-4 py-3">
+                  <span className="num text-xs font-black text-[#f06a4e]">0{index + 1}</span>
+                  <span className="ml-3 text-sm font-black text-[#111513] [word-break:keep-all]">
+                    {item}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="mx-auto mt-10 max-w-7xl sm:mt-16">
-        {storySteps.map((step, index) => (
+        {storySequence.map((step, index) => (
           <TimelineChapter key={step.id} step={step} index={index} />
         ))}
       </div>
@@ -308,14 +330,24 @@ export default function ProductProofSections() {
             className="lg:sticky lg:top-28"
           >
             <div className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-[#0f9f8f]">
-              The real problem
+              신혼의 첫 돈 기준
             </div>
-            <h2 className="max-w-xl text-4xl font-black leading-[1.03] text-[#111513] sm:text-6xl">
-              돈 얘기는 계산보다 먼저 분위기를 망칩니다.
+            <h2 className="max-w-xl text-4xl font-black leading-[1.03] text-[#111513] [word-break:keep-all] sm:text-6xl">
+              신혼 생활비는 함께 쓰기 시작했는데, 기준은 아직 각자입니다.
             </h2>
-            <p className="mt-6 max-w-md text-base leading-7 text-[#52645b] sm:text-lg sm:leading-8">
-              그래서 weeple은 더 많은 차트보다, 둘이 덜 피곤해지는 구조를 먼저 봅니다.
+            <p className="mt-6 max-w-md text-base leading-7 text-[#52645b] [word-break:keep-all] sm:text-lg sm:leading-8">
+              weeple은 덜 싸우기 위한 앱보다, 생활비와 개인 소비의 기준을 함께 맞추기 위한 앱에 가깝습니다.
             </p>
+            <div className="mt-8 flex max-w-md flex-wrap gap-2">
+              {moneyAreas.map((item) => (
+                <span
+                  key={item}
+                  className="border border-[#111513]/14 bg-white/52 px-3 py-2 text-sm font-bold text-[#33423b]"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
           </motion.div>
 
           <div className="border-t border-[#111513]">
@@ -330,10 +362,10 @@ export default function ProductProofSections() {
               >
                 <div className="num text-sm font-bold text-[#f06a4e]">0{index + 1}</div>
                 <div>
-                  <h3 className="text-2xl font-extrabold leading-tight text-[#111513]">
+                  <h3 className="text-2xl font-extrabold leading-tight text-[#111513] [word-break:keep-all]">
                     {reason.title}
                   </h3>
-                  <p className="mt-4 max-w-2xl text-base leading-8 text-[#52645b]">
+                  <p className="mt-4 max-w-2xl text-base leading-8 text-[#52645b] [word-break:keep-all]">
                     {reason.body}
                   </p>
                 </div>
@@ -354,8 +386,8 @@ export default function ProductProofSections() {
             transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
           >
             <Eyebrow dark>founder note</Eyebrow>
-            <h2 className="text-4xl font-black leading-[1.03] sm:text-5xl xl:text-6xl">
-              비개발자 1인이, 돈 얘기 하나 때문에 만들기 시작했습니다.
+            <h2 className="text-4xl font-black leading-[1.03] [word-break:keep-all] sm:text-5xl xl:text-6xl">
+              신혼부부 돈 관리를 잘하고 싶어서, 비개발자 1인이 만들기 시작했습니다.
             </h2>
           </motion.div>
 
@@ -366,13 +398,14 @@ export default function ProductProofSections() {
             transition={{ duration: 0.7, delay: 0.08, ease: [0.2, 0.8, 0.2, 1] }}
             className="space-y-7"
           >
-            <div className="max-w-2xl space-y-5 text-lg leading-9 text-white/76">
+            <div className="max-w-2xl space-y-5 text-lg leading-9 text-white/76 [word-break:keep-all]">
               <p>
-                시작은 멋진 금융 서비스를 만들겠다는 계획이 아니었습니다. 둘이 같이 쓰는 돈을 이야기할 때마다,
-                숫자보다 먼저 표정이 굳는 순간이 싫었습니다.
+                시작은 멋진 금융 서비스를 만들겠다는 계획이 아니었습니다. 신혼 생활을 시작하면
+                생활비, 데이트 비용, 고정 지출을 둘이 같은 기준으로 잘 관리하고 싶어집니다.
               </p>
               <p>
-                그래서 weeple은 화려한 금융 기능보다 먼저, 둘 사이의 경계를 덜 다치게 하는 구조에서 시작했습니다.
+                그런데 기존 가계부는 혼자 쓰기에는 충분해도 둘이 쓰기에는 경계가 흐렸습니다.
+                그래서 weeple은 누가 더 냈는지를 따지기보다, 같이 볼 돈과 각자 둘 돈을 먼저 나누는 구조에서 시작했습니다.
               </p>
             </div>
 
@@ -380,7 +413,7 @@ export default function ProductProofSections() {
               {founderPrinciples.map((item, index) => (
                 <div key={item} className="grid gap-4 bg-[#111513] py-5 sm:grid-cols-[4rem_1fr]">
                   <div className="num text-sm font-bold text-[#f06a4e]">0{index + 1}</div>
-                  <p className="text-base font-semibold leading-7 text-white/90">{item}</p>
+                  <p className="text-base font-semibold leading-7 text-white/90 [word-break:keep-all]">{item}</p>
                 </div>
               ))}
             </div>
