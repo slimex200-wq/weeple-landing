@@ -30,6 +30,24 @@ const storySteps = [
     alt: 'weeple 홈 요약 화면 목업',
     specs: ['월 지출 추적', '예산 위험 표시', '카테고리 TOP', '예상 지출 흐름'],
     callout: '오늘 얼마 썼고, 이번 달 위험 신호가 어디인지 먼저 보입니다.',
+    featureTitle: '홈 요약',
+    featureLead:
+      '앱을 열자마자 월 지출, 오늘 소비, 예산 위험, 카테고리 흐름을 먼저 보여줍니다.',
+    imageCaption: '홈 요약 화면',
+    highlights: [
+      {
+        title: '월 지출과 예산 비교',
+        body: '이번 달 지출이 예산 대비 어디까지 왔는지 먼저 확인합니다.',
+      },
+      {
+        title: '오늘 소비와 예상 흐름',
+        body: '오늘 쓴 돈과 이번 달 예상 지출을 한 화면에서 같이 봅니다.',
+      },
+      {
+        title: '카테고리 TOP',
+        body: '어느 항목이 지출을 끌어올리는지 바로 찾습니다.',
+      },
+    ],
   },
   {
     id: 'couple',
@@ -44,6 +62,25 @@ const storySteps = [
     secondaryAlt: 'weeple 빠른 입력 화면 목업',
     specs: ['날짜 캘린더', '카테고리 필터', '개인/커플 입력', '영수증 기록'],
     callout: '입력은 짧게, 구분은 처음부터 명확하게.',
+    featureTitle: '지출 기록과 필터',
+    featureLead:
+      '지출 내역은 날짜와 카테고리로 찾고, 입력할 때부터 개인 지출과 커플 지출을 나눕니다.',
+    imageCaption: '소비내역 필터',
+    secondaryCaption: '빠른 입력',
+    highlights: [
+      {
+        title: '날짜 캘린더',
+        body: '월별 기록에서 원하는 날짜로 빠르게 이동합니다.',
+      },
+      {
+        title: '카테고리 필터',
+        body: '식비, 교통, 쇼핑처럼 보고 싶은 지출만 좁혀 봅니다.',
+      },
+      {
+        title: '개인/커플 구분',
+        body: '기록 단계에서부터 내 지출과 공동 지출을 분리합니다.',
+      },
+    ],
   },
   {
     id: 'insights',
@@ -58,6 +95,25 @@ const storySteps = [
     secondaryAlt: 'weeple AI 분석 화면 목업',
     specs: ['카테고리 비중', '공동 지출 흐름', 'AI 패턴 포착', '절약 권장'],
     callout: '분석 결과는 잔소리가 아니라 다음 대화를 여는 문장입니다.',
+    featureTitle: '리포트와 AI 인사이트',
+    featureLead:
+      '카테고리 비중과 공동 지출 흐름을 근거로, AI가 대화에 쓸 수 있는 짧은 신호를 정리합니다.',
+    imageCaption: '리포트 화면',
+    secondaryCaption: 'AI 분석 화면',
+    highlights: [
+      {
+        title: '카테고리 비중',
+        body: '어떤 항목이 지출의 대부분을 차지하는지 비율로 봅니다.',
+      },
+      {
+        title: '공동 지출 흐름',
+        body: '둘이 같이 쓴 돈과 개인 소비를 구분해서 확인합니다.',
+      },
+      {
+        title: 'AI 패턴 포착',
+        body: '주의할 소비 패턴과 긍정 신호를 짧은 문장으로 받습니다.',
+      },
+    ],
   },
   {
     id: 'budget',
@@ -70,6 +126,24 @@ const storySteps = [
     alt: 'weeple 예산 설정 화면 목업',
     specs: ['월 예산', '월 수입', '고정 지출', '카테고리 한도'],
     callout: '이번 달 돈이 어디에서 샐지보다, 어디를 조정할지 보이게 합니다.',
+    featureTitle: '예산 설정',
+    featureLead:
+      '월 예산과 수입, 고정 지출, 카테고리별 한도를 한 화면에서 잡아 다음 소비 기준을 만듭니다.',
+    imageCaption: '예산 설정 화면',
+    highlights: [
+      {
+        title: '월 예산과 수입',
+        body: '이번 달 쓸 수 있는 기준 금액을 먼저 정합니다.',
+      },
+      {
+        title: '고정 지출 관리',
+        body: '매달 빠지는 비용을 따로 묶어 예산 착시를 줄입니다.',
+      },
+      {
+        title: '카테고리 한도',
+        body: '교통, 주거, 교육처럼 항목별 한도를 직접 조정합니다.',
+      },
+    ],
   },
 ]
 
@@ -126,6 +200,41 @@ function StoryTitle({ lines, dark = false }: { lines: string[]; dark?: boolean }
         </span>
       ))}
     </h2>
+  )
+}
+
+function FeatureHighlights({
+  items,
+  compact = false,
+}: {
+  items: Array<{ title: string; body: string }>
+  compact?: boolean
+}) {
+  return (
+    <div className={compact ? 'mt-5 grid gap-2' : 'mt-6 grid gap-3'}>
+      {items.map((item, index) => (
+        <div
+          key={item.title}
+          className={`grid gap-3 border-t border-[#111513]/12 ${
+            compact ? 'grid-cols-[1.6rem_1fr] pt-3' : 'grid-cols-[2rem_1fr] pt-4'
+          }`}
+        >
+          <span className="num text-sm font-black text-[#0f9f8f]">{index + 1}</span>
+          <div>
+            <p className="text-sm font-black leading-5 text-[#111513] [word-break:keep-all]">
+              {item.title}
+            </p>
+            <p
+              className={`mt-1 text-[#52645b] [word-break:keep-all] ${
+                compact ? 'text-sm leading-6' : 'text-[15px] leading-6'
+              }`}
+            >
+              {item.body}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
   )
 }
 
@@ -211,7 +320,7 @@ function StickyProductStory() {
       </div>
 
       <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.82fr_1.18fr] lg:gap-12">
-        <div className="space-y-10 lg:space-y-0 lg:pb-[32vh]">
+        <div className="space-y-10 lg:space-y-0 lg:pb-[48vh]">
           {storySteps.map((step, index) => (
             <article
               key={step.id}
@@ -242,6 +351,9 @@ function StickyProductStory() {
                 <div className="mt-7 border-l-2 border-[#f06a4e] pl-4 text-lg font-bold leading-8 text-[#33423b] [word-break:keep-all]">
                   {step.callout}
                 </div>
+                <div className="lg:hidden">
+                  <FeatureHighlights items={step.highlights} compact />
+                </div>
                 <div className="mt-7 overflow-hidden rounded-lg border border-[#111513]/10 bg-white/72 shadow-[0_22px_70px_rgba(17,21,19,0.12)] lg:hidden">
                   <ProductImage src={step.image} alt={step.alt} className="shadow-none" />
                 </div>
@@ -250,71 +362,114 @@ function StickyProductStory() {
                     <ProductImage src={step.secondaryImage} alt={step.secondaryAlt ?? ''} className="shadow-none" />
                   </div>
                 )}
-                <Specs items={step.specs} />
+                <div className="hidden lg:block">
+                  <Specs items={step.specs} />
+                </div>
               </motion.div>
             </article>
           ))}
         </div>
 
-        <aside className="sticky top-20 flex h-[calc(100svh-5rem)] items-center">
-          <div className="relative w-full">
-            <div className="relative overflow-hidden rounded-lg border border-[#111513]/10 bg-white/68 shadow-[0_42px_140px_rgba(17,21,19,0.16)]">
-              <div className="absolute left-5 top-5 z-10 flex items-center gap-2 rounded-full bg-white/72 px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#0f9f8f] shadow-[0_8px_30px_rgba(17,21,19,0.08)] backdrop-blur">
-                <span className="num">{activeStep.index}</span>
-                {activeStep.eyebrow}
-              </div>
-              <div className="relative aspect-[16/10]">
-                {storySteps.map((step, index) => (
-                  <img
-                    key={step.id}
-                    src={step.image}
-                    alt={step.alt}
-                    loading={index === 0 ? 'eager' : 'lazy'}
-                    decoding="async"
-                    className={`absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out ${
-                      activeIndex === index
-                        ? 'scale-100 opacity-100 blur-0'
-                        : 'scale-[1.025] opacity-0 blur-[2px]'
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="mt-5 grid gap-5 xl:grid-cols-[1fr_0.72fr]">
-              <div className="border-y border-[#111513]/16 py-5">
-                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#0f9f8f]">
-                  What to notice
+        <aside className="sticky top-20 hidden h-[calc(100svh-5rem)] items-center lg:flex">
+          <div className="w-full overflow-hidden rounded-lg border border-[#111513]/10 bg-white/78 shadow-[0_42px_140px_rgba(17,21,19,0.14)] backdrop-blur">
+            <div className="grid xl:grid-cols-[0.44fr_0.56fr]">
+              <div className="flex min-h-[35rem] flex-col border-b border-[#111513]/10 p-5 xl:border-b-0 xl:border-r">
+                <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#e6f8f4] px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#0f9f8f]">
+                  <span className="num">{activeStep.index}</span>
+                  기능 설명
+                </div>
+                <h3 className="mt-5 text-3xl font-black leading-[1.05] text-[#111513] [word-break:keep-all]">
+                  {activeStep.featureTitle}
+                </h3>
+                <p className="mt-3 text-base leading-7 text-[#52645b] [word-break:keep-all]">
+                  {activeStep.featureLead}
                 </p>
-                <p className="mt-2 text-2xl font-black leading-tight text-[#111513] [word-break:keep-all]">
-                  {activeStep.callout}
-                </p>
+                <FeatureHighlights items={activeStep.highlights} compact />
+                <div className="mt-auto pt-6">
+                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#0f9f8f]">
+                    핵심 한 줄
+                  </p>
+                  <p className="mt-2 border-l-2 border-[#f06a4e] pl-3 text-lg font-black leading-7 text-[#111513] [word-break:keep-all]">
+                    {activeStep.callout}
+                  </p>
+                </div>
               </div>
 
-              <div className="grid gap-px overflow-hidden border-y border-[#111513]/15 bg-[#111513]/15">
-                {activeStep.specs.slice(0, 2).map((item) => (
-                  <span key={item} className="bg-[#f7faf7] px-4 py-3 text-sm font-bold text-[#33423b]">
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
+              <div className="bg-[#edf8f5] p-4">
+                <div className="relative overflow-hidden rounded-lg border border-[#111513]/10 bg-white shadow-[0_24px_80px_rgba(17,21,19,0.11)]">
+                  <div className="absolute left-4 top-4 z-10 rounded-full bg-white/82 px-3 py-2 text-[11px] font-black uppercase tracking-[0.14em] text-[#0f9f8f] shadow-[0_10px_28px_rgba(17,21,19,0.08)] backdrop-blur">
+                    {activeStep.imageCaption}
+                  </div>
+                  <div className="relative aspect-[16/9]">
+                    {storySteps.map((step, index) => (
+                      <img
+                        key={step.id}
+                        src={step.image}
+                        alt={step.alt}
+                        loading={index === 0 ? 'eager' : 'lazy'}
+                        decoding="async"
+                        className={`absolute inset-0 h-full w-full object-contain p-3 transition-all duration-700 ease-out ${
+                          activeIndex === index
+                            ? 'scale-100 opacity-100 blur-0'
+                            : 'scale-[0.985] opacity-0 blur-[2px]'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
 
-            <div className="mt-5 flex gap-2">
-              {storySteps.map((step, index) => (
-                <button
-                  key={step.id}
-                  type="button"
-                  onClick={() => {
-                    stepRefs.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                  }}
-                  aria-label={`${step.eyebrow} 화면으로 이동`}
-                  aria-current={activeIndex === index}
-                  className={`h-1.5 flex-1 rounded-full transition-colors ${
-                    activeIndex === index ? 'bg-[#0f9f8f]' : 'bg-[#111513]/14'
-                  }`}
-                />
-              ))}
+                {activeStep.secondaryImage ? (
+                  <div className="mt-3 grid grid-cols-[0.88fr_1.12fr] gap-3">
+                    <div className="rounded-lg border border-[#111513]/10 bg-white/74 p-4">
+                      <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#0f9f8f]">
+                        이어서 보는 화면
+                      </p>
+                      <p className="mt-2 text-xl font-black leading-tight text-[#111513] [word-break:keep-all]">
+                        {activeStep.secondaryCaption}
+                      </p>
+                      <p className="mt-2 text-sm leading-6 text-[#52645b] [word-break:keep-all]">
+                        같은 흐름에서 다음 행동까지 이어집니다.
+                      </p>
+                    </div>
+                    <div className="relative overflow-hidden rounded-lg border border-[#111513]/10 bg-white">
+                      <div className="relative aspect-[16/9]">
+                        <img
+                          src={activeStep.secondaryImage}
+                          alt={activeStep.secondaryAlt ?? ''}
+                          loading="lazy"
+                          decoding="async"
+                          className="h-full w-full object-contain p-2"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-3 grid gap-px overflow-hidden rounded-lg border border-[#111513]/10 bg-[#111513]/12 sm:grid-cols-2">
+                    {activeStep.specs.slice(0, 4).map((item) => (
+                      <span key={item} className="bg-white/78 px-4 py-3 text-sm font-bold text-[#33423b]">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <div className="mt-4 flex gap-2">
+                  {storySteps.map((step, index) => (
+                    <button
+                      key={step.id}
+                      type="button"
+                      onClick={() => {
+                        stepRefs.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                      }}
+                      aria-label={`${step.eyebrow} 화면으로 이동`}
+                      aria-current={activeIndex === index}
+                      className={`h-1.5 flex-1 rounded-full transition-colors ${
+                        activeIndex === index ? 'bg-[#0f9f8f]' : 'bg-[#111513]/14'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </aside>
