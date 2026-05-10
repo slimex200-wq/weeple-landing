@@ -26,7 +26,7 @@ const shareDescription =
   '커플·부부 공동 가계부 + AI 분석. 자연어 한 줄로 3초 기록, 생활비·데이트 비용 정산까지. Android 우선 출시.'
 // Static share image in public/. The dated filename intentionally changes the
 // image URL so KakaoTalk refreshes its separately cached preview image.
-const ogImageUrl = `${siteUrl}/opengraph-image-20260510.png`
+const ogImageUrl = `${siteUrl}/opengraph-image-20260510-text-banner.png`
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
