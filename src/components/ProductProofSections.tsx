@@ -19,7 +19,7 @@ const reasons = [
 ]
 
 const moneyAreas = ['공동 생활비', '데이트비', '월세·고정지출', '각자 소비']
-const flowItems = ['알림 후보', '상태 확인', '공동/개인 구분', '예산 기준', '리포트/AI']
+const flowItems = ['알림 후보', '상태 확인', '공동·개인', '예산 기준', '리포트·AI']
 const notificationSteps = [
   {
     title: '알림 감지',
@@ -32,6 +32,24 @@ const notificationSteps = [
   {
     title: '확인 후 저장',
     body: '자동 저장이 아니라 사용자가 확인한 거래만 가계부에 남깁니다.',
+  },
+]
+
+const notificationPreview = [
+  {
+    label: '알림',
+    title: '카드 결제 49,800원',
+    body: '카페 · 오늘 12:30',
+  },
+  {
+    label: '후보',
+    title: '지출 후보 생성',
+    body: '카테고리와 공동/개인 여부를 확인',
+  },
+  {
+    label: '저장',
+    title: '확인 후 가계부에 저장',
+    body: '자동 저장이 아니라 필요한 거래만 남김',
   },
 ]
 
@@ -79,7 +97,7 @@ const storySteps = [
     secondaryAlt: 'weeple 빠른 입력 화면 목업',
     specs: ['공동 지출', '개인 소비', '날짜 캘린더', '카테고리 필터'],
     callout: '생활비는 같이 보고, 개인 소비는 각자의 영역으로 남깁니다.',
-    featureTitle: '공동/개인 구분',
+    featureTitle: '공동·개인 구분',
     featureLead:
       '지출을 입력할 때부터 공동 지출과 개인 소비를 나눠서, 공유할 돈과 남겨둘 돈의 경계를 흐리지 않습니다.',
     imageCaption: '공동/개인 지출',
@@ -208,8 +226,8 @@ function TimelineChapter({ step, index }: { step: StoryStep; index: number }) {
   return (
     <article
       ref={ref}
-      id={index === 0 ? undefined : step.id}
-      className="relative min-h-[178svh] scroll-mt-20 border-t border-[#111513]/10 first:border-t-0"
+      id={index === 0 ? 'product-home-screen' : step.id}
+      className="relative min-h-[132svh] scroll-mt-24 border-t border-[#111513]/10 first:border-t-0 sm:min-h-[148svh]"
     >
       <div className="sticky top-14 flex min-h-[calc(100svh-3.5rem)] items-center py-6 sm:top-16 sm:min-h-[calc(100svh-4rem)] sm:py-10">
         <div className="relative mx-auto w-full max-w-6xl">
@@ -219,7 +237,7 @@ function TimelineChapter({ step, index }: { step: StoryStep; index: number }) {
           >
             <div className="mb-4 flex flex-wrap items-center gap-3 border-y border-[#111513]/12 py-3 sm:mb-6">
               <span className="num text-sm font-black text-[#0f9f8f]">{step.index}</span>
-              <span className="rounded-full bg-[#dff8f3] px-4 py-2 text-xs font-black tracking-[0.12em] text-[#0f9f8f]">
+              <span className="rounded-full bg-[#dff8f3] px-4 py-2 text-xs font-black tracking-normal text-[#0f9f8f]">
                 {step.featureTitle}
               </span>
               <span className="text-xs font-black uppercase tracking-[0.16em] text-[#52645b]">
@@ -247,7 +265,7 @@ function TimelineChapter({ step, index }: { step: StoryStep; index: number }) {
             <div className="mx-auto w-full max-w-5xl">
               <div className="flex items-center gap-3">
                 <span className="num text-sm font-black text-[#f06a4e]">{step.index}</span>
-                <span className="rounded-full bg-[#111513] px-4 py-2 text-xs font-black tracking-[0.12em] text-white">
+                <span className="rounded-full bg-[#111513] px-4 py-2 text-xs font-black tracking-normal text-white">
                   {step.featureTitle}
                 </span>
               </div>
@@ -297,7 +315,7 @@ function ScrollSequenceProductStory() {
         <Eyebrow>함께 관리하는 흐름</Eyebrow>
         <div className="grid gap-6 lg:grid-cols-[0.82fr_1fr] lg:items-end">
           <h2 className="max-w-3xl text-4xl font-black leading-[1.03] text-[#111513] [word-break:keep-all] sm:text-5xl">
-            위플은 둘의 돈 관리를 이 흐름으로 정리합니다.
+            위플은 함께 쓰는 돈을 순서대로 정리합니다.
           </h2>
           <div>
             <p className="max-w-2xl text-base leading-8 text-[#52645b] [word-break:keep-all] sm:text-lg">
@@ -308,7 +326,7 @@ function ScrollSequenceProductStory() {
               {flowItems.map((item, index) => (
                 <div key={item} className="bg-[#f8fbf8]/92 px-4 py-3">
                   <span className="num text-xs font-black text-[#f06a4e]">0{index + 1}</span>
-                  <span className="ml-3 text-sm font-black text-[#111513] [word-break:keep-all]">
+                  <span className="ml-3 text-sm font-black text-[#111513] [word-break:keep-all] lg:whitespace-nowrap">
                     {item}
                   </span>
                 </div>
@@ -334,7 +352,7 @@ function NotificationProof() {
       className="relative border-b border-[#111513]/10 bg-[#111513] px-5 py-20 text-white sm:px-8 sm:py-24 lg:px-10"
       aria-label="Android 알림 기반 기록"
     >
-      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -370,6 +388,30 @@ function NotificationProof() {
                 </p>
               </div>
             ))}
+          </div>
+          <div className="mt-7 overflow-hidden rounded-2xl border border-white/16 bg-white/[0.06] p-4 shadow-[0_34px_90px_rgba(0,0,0,0.22)]">
+            <div className="mb-4 flex items-center justify-between border-b border-white/12 pb-3">
+              <span className="text-xs font-black text-white/60">Android 알림 기록 예시</span>
+              <span className="rounded-full bg-[#0f9f8f] px-3 py-1 text-[11px] font-black text-white">
+                확인 필요
+              </span>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {notificationPreview.map((item, index) => (
+                <div key={item.label} className="rounded-xl bg-white/[0.08] p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="num text-xs font-black text-[#f06a4e]">0{index + 1}</span>
+                    <span className="text-xs font-black text-white/58">{item.label}</span>
+                  </div>
+                  <p className="mt-3 text-base font-black leading-6 text-white [word-break:keep-all]">
+                    {item.title}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-white/62 [word-break:keep-all]">
+                    {item.body}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>

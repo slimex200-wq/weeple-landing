@@ -68,10 +68,10 @@ export default function StickyNav() {
         </div>
 
         <a
-          href="#pricing"
+          href="#final-cta"
           className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-mint text-white text-sm font-semibold transition-all hover:scale-[1.03] hover:shadow-[0_8px_20px_-6px_rgba(14,165,160,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2"
         >
-            공개 테스트
+            Android 공개 테스트
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>
             <path d="M5 12h14M13 5l7 7-7 7" />
           </svg>

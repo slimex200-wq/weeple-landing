@@ -55,12 +55,12 @@ export default function Hero() {
             <span className="mt-2 block text-[#0f9f8f]">weeple</span>
           </h1>
 
-          <p className="mt-7 max-w-xl text-lg leading-8 text-[#33423b] sm:text-xl sm:leading-9">
+          <p className="mt-7 max-w-xl text-lg leading-8 text-[#33423b] [word-break:keep-all] sm:text-xl sm:leading-9">
             각자 통장은 따로, 가계부는 같이. 생활비와 데이트 비용은 한곳에서 보고,
             개인 소비는 각자의 영역으로 남겨둡니다.
           </p>
 
-          <p className="mt-5 max-w-xl border-l-2 border-[#f06a4e] pl-4 text-base leading-7 text-[#5b453d]">
+          <p className="mt-5 max-w-xl border-l-2 border-[#f06a4e] pl-4 text-base leading-7 text-[#5b453d] [word-break:keep-all]">
             커플·부부의 돈 관리는 아끼는 의지보다, 둘이 같은 기준을 보는 구조에서 시작합니다.
           </p>
 
@@ -72,22 +72,22 @@ export default function Hero() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <MagneticButton
               as="a"
-              href="#about"
+              href="#final-cta"
               onClick={() =>
                 trackEvent('cta_click', {
                   location: 'hero',
-                  label: 'founder_story',
+                  label: 'android_public_test',
                 })
               }
               className="inline-flex h-[52px] items-center justify-center gap-2 rounded-full bg-[#111513] px-6 text-sm font-bold text-white transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111513] focus-visible:ring-offset-2"
             >
-              왜 만들었는지 보기
+              Android 공개 테스트 참여
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
                 <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </MagneticButton>
             <a
-              href="#live-demo"
+              href="#product-home-screen"
               className="inline-flex h-[52px] items-center justify-center rounded-full border border-[#111513]/20 bg-white/60 px-6 text-sm font-bold text-[#111513] transition-colors hover:border-[#0f9f8f] hover:text-[#0f9f8f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f9f8f] focus-visible:ring-offset-2"
             >
               앱 화면 보기
