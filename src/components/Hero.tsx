@@ -23,7 +23,7 @@ export default function Hero() {
         }}
       >
         <img
-          src="/opengraph-image-20260509.png"
+          src="/opengraph-image-20260510.png"
           alt=""
           className="h-full w-full object-cover object-right opacity-58"
         />
