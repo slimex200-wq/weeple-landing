@@ -23,6 +23,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Replaced the share/hero banner with a phone-only product image and pointed OG metadata, JSON-LD, guide metadata, and the hero background at `public/opengraph-image-20260510.png`; `public/opengraph-image.png` and `public/og-image.png` were kept in sync for stale crawler compatibility.
 - 2026-05-10: Increased desktop hero product-phone visibility by widening the background image layer, raising image opacity, and reducing the white overlay on the right side while preserving the mobile text-only hero.
 - 2026-05-10: Moved the product-proof mockup sections into the production landing below the existing hero, using public `/product-proof/*` app-screen images and replacing the older 3D/demo/trust/voices middle sections while keeping pricing, FAQ, and final CTA.
+- 2026-05-10: Converted the product-proof middle section into a scroll-driven product story: text steps now drive a sticky desktop product visual, mobile stacks the same steps with images inline, and Korean headline/callout wrapping preserves whole words.
 
 ## Next Work Queue
 
@@ -45,6 +46,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-09: Local generated share image verified at 1200x630 before build.
 - 2026-05-10: Hero background crop checked with desktop and mobile screenshots; `npm.cmd run build` and `npx.cmd tsc --noEmit` passed. Browser plugin backend was unavailable, so Playwright screenshot evidence was used instead.
 - 2026-05-10: Korean line-break pass checked locally at mobile, tablet, and desktop widths with Playwright screenshots.
+- 2026-05-10: Sticky product-story pass verified with `npm.cmd run build`, `npx.cmd tsc --noEmit`, and Playwright screenshots for `#live-demo`, `#couple`, `#insights`, `#budget`, and mobile `#couple` on the local dev server.
 
 ## Related Vault Notes
 
