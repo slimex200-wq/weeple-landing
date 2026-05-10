@@ -10,26 +10,30 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="relative py-16 sm:py-20 px-6"
+      className="relative border-b border-[#111513]/10 bg-[#eef6f2] px-5 py-20 sm:px-8 sm:py-28 lg:px-10"
       aria-label="자주 묻는 질문"
     >
-      <div className="max-w-3xl mx-auto">
+      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-center mb-12"
+          className="lg:sticky lg:top-28"
         >
-          <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
+          <div className="mb-5 inline-flex items-center gap-2 border-y border-[#111513] py-2 text-[11px] font-black uppercase tracking-[0.18em] text-[#111513]">
+            <span className="h-2 w-2 rounded-full bg-[#f06a4e]" aria-hidden />
             FAQ
           </div>
-          <h2 className="text-3xl sm:text-5xl font-bold leading-tight tracking-tight">
-            자주 묻는 질문
+          <h2 className="max-w-lg text-4xl font-black leading-[1.03] text-[#111513] [word-break:keep-all] sm:text-6xl">
+            쓰기 전에 걸리는 것들을 먼저 답합니다.
           </h2>
+          <p className="mt-6 max-w-md text-base leading-8 text-[#52645b] [word-break:keep-all] sm:text-lg">
+            공유 범위, 알림 기록, AI 분석, iOS 지원처럼 실제로 망설이게 되는 질문만 남겼습니다.
+          </p>
         </motion.div>
 
-        <div className="space-y-3">
+        <div className="border-t border-[#111513]">
           {FAQ_ITEMS.map((item, i) => {
             const isOpen = open === i;
             return (
@@ -43,22 +47,25 @@ export default function FAQ() {
                   delay: 0.04 * i,
                   ease: [0.2, 0.8, 0.2, 1],
                 }}
-                className="glass rounded-xl overflow-hidden"
+                className="border-b border-[#111513]/15"
               >
                 <button
                   type="button"
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
                   aria-controls={`faq-panel-${i}`}
-                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left hover:bg-mint-bg/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
+                  className="grid w-full grid-cols-[2.5rem_1fr_auto] items-center gap-4 py-6 text-left transition-colors hover:bg-white/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg sm:grid-cols-[4rem_1fr_auto] sm:py-7"
                 >
-                  <span className="text-base sm:text-lg font-semibold text-fg">
+                  <span className="num text-sm font-black text-[#f06a4e]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-lg font-black leading-snug text-[#111513] [word-break:keep-all] sm:text-2xl">
                     {item.q}
                   </span>
                   <motion.span
                     animate={{ rotate: isOpen ? 45 : 0 }}
                     transition={{ duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }}
-                    className="shrink-0 text-mint"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#111513]/15 bg-white/55 text-[#0f9f8f]"
                     aria-hidden
                   >
                     <svg
@@ -86,7 +93,7 @@ export default function FAQ() {
                       transition={{ duration: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
                       className="overflow-hidden"
                     >
-                      <div className="px-5 pb-4 text-sm sm:text-base text-fg-secondary leading-relaxed">
+                      <div className="pb-7 pl-[2.5rem] pr-2 text-base leading-8 text-[#52645b] [word-break:keep-all] sm:pl-[4rem]">
                         {item.a}
                       </div>
                     </motion.div>

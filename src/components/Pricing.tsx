@@ -1,18 +1,9 @@
 "use client";
 
-/**
- * Pricing — weeple 3단 가격 구조.
- *
- * 21st 패턴: 3D tilt 카드 + 추천 카드 translateZ 로 앞으로 튀어나옴.
- * 월/연간 토글 — period 변경 시 price motion.span re-mount 애니메이션.
- * 연간 = 월간 × 10 (2개월 무료, 17% 할인).
- */
-
 import { useState } from "react";
 import { motion } from "motion/react";
-import TiltCard from "@/components/TiltCard";
 import Money from "@/components/Money";
-import { type Period, type Tier, PRICING_TIERS } from "@/data/pricing";
+import { type Period, PRICING_TIERS } from "@/data/pricing";
 import { trackEvent } from "@/lib/analytics";
 
 function cx(...parts: Array<string | false | undefined>) {
@@ -38,55 +29,73 @@ function Check() {
   );
 }
 
+const pricingNotes = [
+  "무료로 시작하고, AI 분석이 더 필요할 때만 업그레이드",
+  "구독 없이 크레딧만 따로 충전 가능",
+  "현재 Android 결제 기준, iOS는 준비 중",
+];
+
 export default function Pricing() {
   const [period, setPeriod] = useState<Period>("monthly");
 
   return (
     <section
       id="pricing"
-      className="relative py-20 sm:py-32 px-6"
-      style={{ perspective: "1200px" }}
+      className="relative border-b border-[#111513]/10 bg-[#f8fbf8] px-5 py-20 sm:px-8 sm:py-28 lg:px-10"
       aria-label="가격"
     >
-      <div className="max-w-6xl mx-auto">
-        {/* 헤더 */}
+      <div className="mx-auto max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-center max-w-2xl mx-auto mb-10"
+          className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end"
         >
-          <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
-            Pricing
+          <div>
+            <div className="mb-5 inline-flex items-center gap-2 border-y border-[#111513] py-2 text-[11px] font-black uppercase tracking-[0.18em] text-[#111513]">
+              <span className="h-2 w-2 rounded-full bg-[#f06a4e]" aria-hidden />
+              Pricing
+            </div>
+            <h2 className="max-w-2xl text-4xl font-black leading-[1.03] text-[#111513] [word-break:keep-all] sm:text-6xl">
+              필요한 만큼만 쓰고, 필요해질 때 바꿉니다.
+            </h2>
           </div>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-5">
-            필요한 만큼만,
-            <br />
-            <span className="text-fg-muted">단순하게.</span>
-          </h2>
-          <p className="text-base sm:text-lg text-fg-secondary leading-relaxed">
-            언제든 업그레이드, 언제든 해지. 숨은 비용 없음.
-          </p>
+
+          <div className="max-w-2xl">
+            <p className="text-base leading-8 text-[#52645b] [word-break:keep-all] sm:text-lg">
+              신혼 돈 관리는 처음부터 큰 구독을 고르는 일이 아닙니다.
+              기본 기능으로 시작하고, AI 분석이나 공유 한도가 더 필요할 때만 넓히면 됩니다.
+            </p>
+            <div className="mt-6 grid gap-px overflow-hidden border-y border-[#111513]/14 bg-[#111513]/14 sm:grid-cols-3">
+              {pricingNotes.map((note) => (
+                <div
+                  key={note}
+                  className="bg-[#f8fbf8]/95 px-4 py-3 text-sm font-bold leading-6 text-[#33423b] [word-break:keep-all]"
+                >
+                  {note}
+                </div>
+              ))}
+            </div>
+          </div>
         </motion.div>
 
-        {/* 빌링 주기 토글 */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6, delay: 0.15, ease: [0.2, 0.8, 0.2, 1] }}
-          className="flex items-center justify-center gap-3 mb-10 sm:mb-16"
+          className="mt-12 flex flex-wrap items-center gap-2 border-y border-[#111513]/15 py-3"
         >
           <button
             type="button"
             onClick={() => setPeriod("monthly")}
             aria-pressed={period === "monthly"}
             className={cx(
-              "inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+              "inline-flex h-10 items-center gap-2 rounded-full px-5 text-sm font-black transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
               period === "monthly"
-                ? "bg-mint text-white shadow-[0_8px_24px_-8px_rgba(14,165,160,0.5)]"
-                : "glass text-fg-muted border border-border-app hover:text-fg",
+                ? "bg-[#111513] text-white"
+                : "border border-[#111513]/14 bg-white/55 text-[#52645b] hover:text-[#111513]",
             )}
           >
             <span className="h-2 w-2 rounded-full bg-current" />
@@ -97,10 +106,10 @@ export default function Pricing() {
             onClick={() => setPeriod("yearly")}
             aria-pressed={period === "yearly"}
             className={cx(
-              "inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
+              "inline-flex h-10 items-center gap-2 rounded-full px-5 text-sm font-black transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
               period === "yearly"
-                ? "bg-mint text-white shadow-[0_8px_24px_-8px_rgba(14,165,160,0.5)]"
-                : "glass text-fg-muted border border-border-app hover:text-fg",
+                ? "bg-[#111513] text-white"
+                : "border border-[#111513]/14 bg-white/55 text-[#52645b] hover:text-[#111513]",
             )}
           >
             <span className="h-2 w-2 rounded-full bg-current" />
@@ -108,8 +117,7 @@ export default function Pricing() {
           </button>
         </motion.div>
 
-        {/* 카드 */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
+        <div className="mt-8 grid gap-4 lg:grid-cols-3">
           {PRICING_TIERS.map((tier, i) => (
             <motion.div
               key={tier.name}
@@ -121,93 +129,97 @@ export default function Pricing() {
                 delay: i * 0.1,
                 ease: [0.2, 0.8, 0.2, 1],
               }}
-              style={{
-                transformStyle: "preserve-3d",
-                transform: tier.highlighted
-                  ? "translateZ(40px) scale(1.04)"
-                  : "translateZ(0)",
-                zIndex: tier.highlighted ? 10 : 1,
-              }}
+              className={cx(
+                "relative flex min-h-full flex-col rounded-[8px] border p-5 sm:p-6",
+                tier.highlighted
+                  ? "border-[#111513] bg-[#111513] text-white shadow-[0_34px_100px_rgba(17,21,19,0.18)]"
+                  : "border-[#111513]/12 bg-white/68 text-[#111513]",
+              )}
             >
-              <TiltCard
-                className={`relative flex flex-col h-full rounded-3xl p-6 sm:p-8 ${
-                  tier.highlighted
-                    ? "bg-gradient-to-b from-mint-bg to-bg-surface border border-mint/40 shadow-[0_60px_120px_-30px_rgba(14,165,160,0.5)]"
-                    : "glass border border-border-app hover:border-mint/30 transition-colors duration-300"
-                }`}
-              >
-                {tier.badge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-mint text-white text-[11px] font-bold tracking-wide uppercase shadow-[0_8px_20px_-4px_rgba(14,165,160,0.6)]">
-                    {tier.badge}
-                  </div>
-                )}
-
-                {/* 이름 + 가격 */}
-                <div className="mb-6">
-                  <h3 className="text-sm font-semibold text-fg-muted uppercase tracking-wider mb-3">
-                    {tier.name}
-                  </h3>
-                  <div className="flex items-baseline gap-2 mb-3 flex-wrap">
-                    <motion.span
-                      key={period}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-                      className="text-4xl sm:text-5xl font-extrabold tracking-tight text-fg"
-                    >
-                      <Money value={tier.price[period]} />
-                    </motion.span>
-                    <motion.span
-                      key={`period-${period}`}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.4, delay: 0.05 }}
-                      className="text-sm text-fg-muted"
-                    >
-                      {tier.period[period]}
-                    </motion.span>
-                  </div>
-                  <p className="text-sm text-fg-secondary leading-relaxed">
-                    {tier.description}
-                  </p>
+              {tier.badge && (
+                <div className="mb-4 inline-flex w-fit rounded-full bg-[#dff8f3] px-3 py-1 text-[11px] font-black uppercase tracking-[0.12em] text-[#0f9f8f]">
+                  {tier.badge}
                 </div>
+              )}
 
-                {/* 기능 */}
-                <ul className="flex-1 space-y-3 mb-8">
-                  {tier.features.map((f) => (
-                    <li key={f} className="flex items-start gap-3 text-sm">
-                      <Check />
-                      <span className="text-fg-secondary leading-relaxed">
-                        {f}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA */}
-                <a
-                  href="#"
-                  onClick={() =>
-                    trackEvent("cta_click", {
-                      location: "pricing",
-                      label: tier.name,
-                      period,
-                    })
-                  }
-                  className={`inline-flex items-center justify-center h-12 rounded-full text-sm font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 focus-visible:ring-offset-bg ${
-                    tier.highlighted
-                      ? "bg-mint text-white hover:scale-[1.02] hover:shadow-[0_12px_30px_-6px_rgba(14,165,160,0.6)]"
-                      : "border border-mint/40 text-mint bg-mint-bg hover:bg-mint-bg-strong hover:border-mint"
-                  }`}
+              <div className="border-y border-current/15 py-5">
+                <h3
+                  className={cx(
+                    "text-xs font-black uppercase tracking-[0.18em]",
+                    tier.highlighted ? "text-white/70" : "text-[#52645b]",
+                  )}
                 >
-                  {tier.cta}
-                </a>
-              </TiltCard>
+                  {tier.name}
+                </h3>
+                <div className="mt-4 flex flex-wrap items-baseline gap-2">
+                  <motion.span
+                    key={period}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
+                    className="text-4xl font-black tracking-normal sm:text-5xl"
+                  >
+                    <Money value={tier.price[period]} />
+                  </motion.span>
+                  <motion.span
+                    key={`period-${period}`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.05 }}
+                    className={cx("text-sm", tier.highlighted ? "text-white/62" : "text-[#607169]")}
+                  >
+                    {tier.period[period]}
+                  </motion.span>
+                </div>
+                <p
+                  className={cx(
+                    "mt-4 text-sm leading-7 [word-break:keep-all]",
+                    tier.highlighted ? "text-white/74" : "text-[#52645b]",
+                  )}
+                >
+                  {tier.description}
+                </p>
+              </div>
+
+              <ul className="flex-1 space-y-3 py-6">
+                {tier.features.map((f) => (
+                  <li key={f} className="flex items-start gap-3 text-sm">
+                    <Check />
+                    <span
+                      className={cx(
+                        "leading-6 [word-break:keep-all]",
+                        tier.highlighted ? "text-white/80" : "text-[#33423b]",
+                      )}
+                    >
+                      {f}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+
+              <a
+                href="#final-cta"
+                onClick={() =>
+                  trackEvent("cta_click", {
+                    location: "pricing",
+                    label: tier.name,
+                    period,
+                  })
+                }
+                className={cx(
+                  "inline-flex h-12 items-center justify-center rounded-full px-5 text-sm font-black transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2",
+                  tier.highlighted
+                    ? "bg-[#0f9f8f] text-white focus-visible:ring-offset-[#111513]"
+                    : "border border-[#111513]/18 bg-white/70 text-[#111513] hover:border-[#0f9f8f] hover:text-[#0f9f8f] focus-visible:ring-offset-bg",
+                )}
+              >
+                {tier.cta}
+              </a>
             </motion.div>
           ))}
         </div>
 
-        <p className="mt-12 text-center text-xs text-fg-muted">
+        <p className="mt-8 text-sm leading-6 text-[#607169] [word-break:keep-all]">
           모든 가격은 부가세 포함. 현재 Android 결제 기준이며, iOS 는 준비 중입니다.
         </p>
       </div>
