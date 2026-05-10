@@ -31,6 +31,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Reframed the hero, problem, product sequence, and founder story around newlywed couples trying to manage shared money well; the product sequence now follows state check -> shared/personal split -> budget rules -> report/AI.
 - 2026-05-10: Tightened Korean line-break handling in the newlywed story sections and reduced the mobile sticky CTA size so it does not visually dominate content screenshots.
 - 2026-05-10: Polished the lower landing sections so Pricing, FAQ, and FinalCTA match the newer editorial product-story direction; removed the older glassy/rounded SaaS treatment and replaced the gradient final CTA with a dark product-backed close.
+- 2026-05-10: Elevated Android notification-based candidate transaction recording into the hero and product flow, broadened primary positioning from newlyweds to couples/couples-married/shared households, corrected the annual discount to 25%, and aligned Premium benefits around OCR, AI, premium categories, and ad-free use.
 
 ## Next Work Queue
 
@@ -38,7 +39,6 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - Verify landing changes in browser after any layout, animation, or 3D work.
 - Continue SEO Phase 2 work tracked in GitHub issue #12.
 - After the Play Store listing is public, add the public store URL to Organization/SoftwareApplication structured data and use it in launch CTAs where appropriate.
-- Continue the visual cleanup below the new founder section: pricing, FAQ, and final CTA still carry more of the older rounded/glassy SaaS treatment.
 
 ## Known Blockers
 
@@ -59,6 +59,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Lightweight Kakao mobile share image verified locally at 1200x630 and ~75 KB before metadata update.
 - 2026-05-10: Newlywed story polish verified with `npm.cmd run build`, `npx.cmd tsc --noEmit`, and Playwright screenshots for hero, problem, product sequence intro, budget, and founder sections on desktop and mobile. Visual verdict saved under `.omx/state/newlywed-story-polish/ralph-progress.json`.
 - 2026-05-10: Lower landing polish verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, and Playwright screenshots for `#pricing`, `#faq`, and `#final-cta` on desktop and mobile. Visual verdict saved under `.omx/state/lower-landing-polish/ralph-progress.json`.
+- 2026-05-10: Notification/positioning/pricing fix verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, stale-copy `rg` checks for old-discount/partner-sharing/newlywed-main strings, and Playwright screenshots for hero, notification recording, pricing, and FAQ on desktop/mobile. Visual verdict saved under `.omx/state/notification-positioning-pricing-fix/ralph-progress.json`.
 
 ## Related Vault Notes
 

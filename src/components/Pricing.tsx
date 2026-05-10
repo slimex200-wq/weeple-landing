@@ -64,8 +64,8 @@ export default function Pricing() {
 
           <div className="max-w-2xl">
             <p className="text-base leading-8 text-[#52645b] [word-break:keep-all] sm:text-lg">
-              신혼 돈 관리는 처음부터 큰 구독을 고르는 일이 아닙니다.
-              기본 기능으로 시작하고, AI 분석이나 공유 한도가 더 필요할 때만 넓히면 됩니다.
+              커플·부부 돈 관리는 처음부터 큰 구독을 고르는 일이 아닙니다.
+              기본 기능으로 시작하고, AI 분석과 OCR 한도가 더 필요할 때만 넓히면 됩니다.
             </p>
             <div className="mt-6 grid gap-px overflow-hidden border-y border-[#111513]/14 bg-[#111513]/14 sm:grid-cols-3">
               {pricingNotes.map((note) => (
@@ -113,7 +113,7 @@ export default function Pricing() {
             )}
           >
             <span className="h-2 w-2 rounded-full bg-current" />
-            연간 <span className="text-xs opacity-80 ml-1">17% 할인</span>
+            연간 <span className="text-xs opacity-80 ml-1">25% 할인</span>
           </button>
         </motion.div>
 
