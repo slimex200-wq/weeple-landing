@@ -1,184 +1,88 @@
 'use client'
 
-/**
- * Problem — "왜 가계부는 3개월 안에 버려지는가" 섹션.
- *
- * 21st 패턴: 거대 숫자 카운트업 + 단어별 reveal (whileInView stagger).
- * 코드는 통으로 가져오지 않고 motion/react 로 직접 작성.
- */
+import { motion } from 'motion/react'
 
-import { useEffect, useRef, useState } from 'react'
-import { motion, useInView, useReducedMotion, animate } from 'motion/react'
-
-const HEADLINE_WORDS = ['왜', '가계부는', '3개월', '안에', '버려지는가']
-
-type Reason = {
-  title: string
-  detail: string
-  icon: React.ReactNode
-}
-
-const REASONS: Reason[] = [
+const reasons = [
   {
-    title: '너무 복잡해',
-    detail: '카테고리 분류만 5분. 입력 폼이 영수증보다 길다.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-        <path d="M4 6h16M4 12h16M4 18h10" strokeLinecap="round" />
-        <circle cx="20" cy="18" r="2" />
-      </svg>
-    ),
+    title: '기록은 한 명이 하는데, 돈은 둘이 씁니다',
+    body: '한 사람이 더 꼼꼼하다는 이유로 모든 입력을 떠안으면 가계부는 관리 도구가 아니라 숙제가 됩니다.',
   },
   {
-    title: '너무 귀찮아',
-    detail: '영수증 한 장 찾는 데 1분. 일주일 모이면 30분.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-        <circle cx="12" cy="12" r="9" />
-        <path d="M12 7v5l3 2" strokeLinecap="round" />
-      </svg>
-    ),
+    title: '정산은 숫자인데, 대화는 감정입니다',
+    body: '누가 더 냈는지보다 더 어려운 건 그 이야기를 꺼내는 순간입니다. 돈 얘기는 쉽게 방어적으로 변합니다.',
   },
   {
-    title: '혼자 하기 싫어',
-    detail: '커플이라면 더 힘든 이야기. 누가 얼마 냈는지 기억도 안 남.',
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-        <circle cx="9" cy="10" r="3" />
-        <circle cx="16" cy="10" r="3" />
-        <path d="M4 20c0-2.8 2.2-5 5-5M12 20c0-2.8 2.2-5 5-5" strokeLinecap="round" />
-      </svg>
-    ),
+    title: '절약은 의지가 아니라 구조입니다',
+    body: '각자 쓴 돈과 함께 쓴 돈이 섞이면 다음 소비를 줄일 기준도 흐려집니다. 먼저 보여야 할 것은 잔소리가 아니라 흐름입니다.',
   },
 ]
-
-function CountUp({ target }: { target: number }) {
-  const prefersReducedMotion = useReducedMotion()
-  const ref = useRef<HTMLSpanElement>(null)
-  const inView = useInView(ref, { once: true, margin: '-80px' })
-  const [value, setValue] = useState(prefersReducedMotion ? target : 0)
-
-  useEffect(() => {
-    if (!inView) return
-    if (prefersReducedMotion) {
-      setValue(target)
-      return
-    }
-    const controls = animate(0, target, {
-      duration: 2,
-      ease: [0.2, 0.8, 0.2, 1],
-      onUpdate: (v) => setValue(Math.round(v)),
-    })
-    return () => controls.stop()
-  }, [inView, target, prefersReducedMotion])
-
-  return <span ref={ref}>{value}</span>
-}
 
 export default function Problem() {
   return (
     <section
       id="problem"
-      className="relative py-20 sm:py-28 px-6 overflow-hidden"
+      className="relative border-y border-[#111513]/10 bg-[#eef6f2] px-5 py-20 sm:px-8 sm:py-28 lg:px-10"
       aria-label="문제 인식"
     >
-      <div className="max-w-6xl mx-auto">
-        {/* eyebrow */}
+      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-xs font-semibold tracking-wider text-mint uppercase mb-6 text-center"
+          transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+          className="lg:sticky lg:top-28"
         >
-          The Problem
+          <div className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-[#0f9f8f]">
+            The real problem
+          </div>
+          <h2 className="max-w-xl text-4xl font-black leading-[1.02] text-[#111513] sm:text-6xl">
+            돈 얘기는
+            <br />
+            계산보다 먼저
+            <br />
+            분위기를 망칩니다.
+          </h2>
+          <p className="mt-6 max-w-md text-base leading-7 text-[#52645b] sm:text-lg sm:leading-8">
+            그래서 weeple은 더 많은 차트보다, 둘이 덜 피곤해지는 구조를 먼저 봅니다.
+          </p>
         </motion.div>
 
-        {/* 단어별 reveal 헤드라인 */}
-        <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight text-center mb-10 sm:mb-20">
-          {HEADLINE_WORDS.map((w, i) => (
-            <motion.span
-              key={i}
-              initial={{ opacity: 0, y: 30 }}
+        <div className="border-t border-[#111513]">
+          {reasons.map((reason, index) => (
+            <motion.article
+              key={reason.title}
+              initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
-              transition={{
-                duration: 0.7,
-                delay: 0.08 * i,
-                ease: [0.2, 0.8, 0.2, 1],
-              }}
-              className="inline-block mr-[0.25em]"
+              transition={{ duration: 0.65, delay: index * 0.08, ease: [0.2, 0.8, 0.2, 1] }}
+              className="grid gap-5 border-b border-[#111513]/15 py-8 sm:grid-cols-[7rem_1fr]"
             >
-              {w}
-            </motion.span>
+              <div className="num text-sm font-bold text-[#f06a4e]">
+                0{index + 1}
+              </div>
+              <div>
+                <h3 className="text-2xl font-extrabold leading-tight text-[#111513]">
+                  {reason.title}
+                </h3>
+                <p className="mt-4 max-w-2xl text-base leading-8 text-[#52645b]">
+                  {reason.body}
+                </p>
+              </div>
+            </motion.article>
           ))}
-        </h2>
 
-        {/* 거대 숫자 */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-center mb-4"
-        >
-          <div
-            className="num font-extrabold tracking-[-0.05em] leading-[0.85]"
-            style={{
-              fontSize: 'clamp(6rem, 22vw, 22rem)',
-              background:
-                'linear-gradient(180deg, #0EA5A0 0%, #5EEAD4 60%, rgba(94,234,212,0.3) 100%)',
-              WebkitBackgroundClip: 'text',
-              backgroundClip: 'text',
-              color: 'transparent',
-            }}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.65, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
+            className="py-10"
           >
-            <CountUp target={93} />
-            <span className="text-[0.4em] align-top ml-2">%</span>
-          </div>
-        </motion.div>
-
-        {/* 출처 설명 */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7, delay: 0.3, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-center text-sm sm:text-base text-fg-muted mb-12 sm:mb-28 max-w-xl mx-auto leading-relaxed"
-        >
-          통계청 가계금융복지조사 · 2024 — 가계부 시작 후 90일 내 포기 비율
-        </motion.p>
-
-        {/* 3가지 이유 */}
-        <div className="grid gap-6 sm:grid-cols-3">
-          {REASONS.map((reason, i) => (
-            <motion.div
-              key={reason.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{
-                duration: 0.7,
-                delay: 0.1 * i,
-                ease: [0.2, 0.8, 0.2, 1],
-              }}
-              className="relative rounded-2xl p-8 glass hover:border-mint/30 transition-colors duration-300"
-            >
-              <div className="w-12 h-12 rounded-xl bg-mint-bg flex items-center justify-center text-mint mb-5">
-                <div className="w-6 h-6">{reason.icon}</div>
-              </div>
-              <h3 className="text-xl font-bold text-fg mb-3">{reason.title}</h3>
-              <p className="text-sm text-fg-secondary leading-relaxed">
-                {reason.detail}
-              </p>
-              <div
-                className="num absolute top-6 right-6 text-xs text-fg-muted"
-                aria-hidden
-              >
-                0{i + 1}
-              </div>
-            </motion.div>
-          ))}
+            <p className="max-w-3xl text-2xl font-black leading-snug text-[#111513] sm:text-4xl">
+              좋은 가계부는 소비를 혼내는 앱이 아니라, 말하기 어려운 돈의 흐름을
+              먼저 정리해 주는 앱이어야 합니다.
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>

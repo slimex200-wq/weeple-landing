@@ -1,33 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  --bg-base-from: #F0F4F1;
-  --bg-base-to:   #E5EDE8;
-  --bg-surface:   rgba(255,255,255,0.55);
-  --bg-surface-2: rgba(255,255,255,0.35);
-  --bg-input:     rgba(255,255,255,0.7);
+  --bg-base-from: #F7FAF7;
+  --bg-base-to:   #EEF6F2;
+  --bg-surface:   rgba(255,255,255,0.72);
+  --bg-surface-2: rgba(255,255,255,0.48);
+  --bg-input:     rgba(255,255,255,0.82);
 
-  --fg:           #1A1A1A;
-  --fg-secondary: #4a5a50;
-  --fg-muted:     #5f6f65;
+  --fg:           #111513;
+  --fg-secondary: #33423b;
+  --fg-muted:     #607169;
 
   --border:       rgba(255,255,255,0.9);
   --border-subtle: rgba(255,255,255,0.5);
   --divider:      rgba(0,0,0,0.06);
 
-  --mint:         #0EA5A0;
-  --mint-end:     #5EEAD4;
-  --mint-bg:      rgba(14,165,160,0.08);
-  --mint-bg-strong: rgba(14,165,160,0.15);
-  --mint-glow:    rgba(14,165,160,0.3);
+  --mint:         #0F9F8F;
+  --mint-end:     #36C7B4;
+  --mint-bg:      rgba(15,159,143,0.08);
+  --mint-bg-strong: rgba(15,159,143,0.15);
+  --mint-glow:    rgba(15,159,143,0.28);
 
   --positive:     #0EA5A0;
   --negative:     #E5484D;
-  --violet:       #818cf8;
-  --sky:          #7DD3FC;
+  --violet:       #445B9A;
+  --sky:          #72B6D9;
+  --coral:        #F06A4E;
 
-  --glass-shadow: 0 10px 40px rgba(30,20,40,0.08);
-  --amt-grad:     linear-gradient(135deg, #1a1a1a, #0EA5A0);
+  --glass-shadow: 0 18px 50px rgba(17,21,19,0.08);
+  --amt-grad:     linear-gradient(135deg, #111513, #0F9F8F);
 }
 
 @theme inline {
@@ -67,7 +68,9 @@ html {
 }
 
 body {
-  background: linear-gradient(180deg, var(--bg-base-from) 0%, var(--bg-base-to) 100%);
+  background:
+    linear-gradient(180deg, var(--bg-base-from) 0%, var(--bg-base-to) 100%),
+    repeating-linear-gradient(90deg, rgba(17,21,19,0.035) 0 1px, transparent 1px 96px);
   background-attachment: fixed;
   color: var(--fg);
   font-family: var(--font-sans);
@@ -85,14 +88,13 @@ body {
 @layer utilities {
   .glass {
     background: var(--bg-surface);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    backdrop-filter: blur(24px) saturate(160%);
-    border: 1px solid var(--border);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+    backdrop-filter: blur(18px) saturate(130%);
+    border: 1px solid rgba(17,21,19,0.08);
     box-shadow: var(--glass-shadow);
   }
 }
 
-/* Decorative colored blobs behind main content — give backdrop-filter something to blur */
 body::before {
   content: '';
   position: fixed;
@@ -100,10 +102,13 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 50% 40% at 12% 18%, rgba(14,165,160,0.18), transparent 60%),
-    radial-gradient(ellipse 45% 35% at 88% 28%, rgba(125,211,252,0.14), transparent 60%),
-    radial-gradient(ellipse 55% 40% at 20% 62%, rgba(94,234,212,0.12), transparent 60%),
-    radial-gradient(ellipse 45% 35% at 85% 78%, rgba(14,165,160,0.1), transparent 60%);
+    linear-gradient(90deg, rgba(15,159,143,0.08), transparent 34%, rgba(240,106,78,0.06) 72%, transparent),
+    repeating-linear-gradient(0deg, rgba(17,21,19,0.025) 0 1px, transparent 1px 112px);
+  opacity: 0.8;
+}
+
+::selection {
+  background: rgba(240,106,78,0.24);
 }
 
 @media (prefers-reduced-motion: reduce) {
