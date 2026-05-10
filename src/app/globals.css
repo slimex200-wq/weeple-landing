@@ -93,6 +93,21 @@ body {
     border: 1px solid rgba(17,21,19,0.08);
     box-shadow: var(--glass-shadow);
   }
+
+  .ko-keep {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    line-break: strict;
+  }
+
+  .ko-keep :where(h1, h2, h3, h4) {
+    text-wrap: balance;
+    letter-spacing: 0;
+  }
+
+  .ko-keep :where(p, li) {
+    text-wrap: pretty;
+  }
 }
 
 body::before {
