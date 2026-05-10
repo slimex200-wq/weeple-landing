@@ -9,7 +9,7 @@ const SITE_URL = 'https://weeple.app'
 // 형태가 필요하면 후처리 스크립트로 PNG 별도 생성하는 후속 PR.
 // .png 확장자는 카카오톡 등 스크레이퍼 호환을 위해 유지.
 // Dated filename bypasses KakaoTalk's separately cached preview image URL.
-const OG_IMAGE_URL = `${SITE_URL}/opengraph-image-20260509.png`
+const OG_IMAGE_URL = `${SITE_URL}/opengraph-image-20260510.png`
 
 function jsonLd(value: unknown) {
   return JSON.stringify(value).replace(/</g, '\\u003c')
