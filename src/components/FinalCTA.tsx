@@ -46,7 +46,7 @@ export default function FinalCTA() {
           </h2>
           <p className="mt-7 max-w-2xl text-lg leading-9 text-white/74 [word-break:keep-all]">
             생활비와 데이트 비용은 함께 보고, 개인 소비는 각자의 영역으로 남깁니다.
-            위플은 신혼의 돈 관리를 더 빨리 정리하기 위한 작은 시작점입니다.
+            위플은 커플·부부의 돈 관리를 더 빨리 정리하기 위한 작은 시작점입니다.
           </p>
         </motion.div>
 
@@ -58,7 +58,7 @@ export default function FinalCTA() {
           className="border-y border-white/20 py-6"
         >
           <div className="grid gap-px overflow-hidden bg-white/16">
-            {['Android 공개 테스트', '공동/개인 지출 분리', '카드 등록 없이 시작'].map((item, index) => (
+            {['Android 알림 확인 후 저장', '공동/개인 지출 분리', '카드 등록 없이 시작'].map((item, index) => (
               <div key={item} className="grid grid-cols-[3rem_1fr] gap-4 bg-[#111513]/86 py-4">
                 <span className="num text-sm font-black text-[#f06a4e]">0{index + 1}</span>
                 <span className="text-base font-black leading-7 text-white/90 [word-break:keep-all]">

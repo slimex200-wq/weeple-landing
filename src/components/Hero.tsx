@@ -4,7 +4,7 @@ import { motion } from 'motion/react'
 import MagneticButton from '@/components/MagneticButton'
 import { trackEvent } from '@/lib/analytics'
 
-const notes = ['신혼 생활비 관리', '공동 지출과 개인 지출 분리', '비개발자 1인 제작']
+const notes = ['Android 알림 확인 후 저장', '공동 지출과 개인 지출 분리', '커플·부부 생활비 관리']
 
 export default function Hero() {
   return (
@@ -46,7 +46,7 @@ export default function Hero() {
         >
           <div className="mb-5 inline-flex items-center gap-2 border-y border-[#111513] py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#111513]">
             <span className="h-2 w-2 rounded-full bg-[#f06a4e]" aria-hidden />
-            Built for newlywed money rules
+            Built for shared money rules
           </div>
 
           <h1 className="text-6xl font-black leading-[0.9] text-[#111513] sm:text-7xl lg:text-8xl">
@@ -61,7 +61,12 @@ export default function Hero() {
           </p>
 
           <p className="mt-5 max-w-xl border-l-2 border-[#f06a4e] pl-4 text-base leading-7 text-[#5b453d]">
-            신혼의 돈 관리는 아끼는 의지보다, 둘이 같은 기준을 보는 구조에서 시작합니다.
+            커플·부부의 돈 관리는 아끼는 의지보다, 둘이 같은 기준을 보는 구조에서 시작합니다.
+          </p>
+
+          <p className="mt-5 max-w-xl border-y border-[#111513]/15 py-4 text-base font-semibold leading-7 text-[#33423b] [word-break:keep-all]">
+            <span className="mr-2 text-[#0f9f8f]">Android 알림 기록</span>
+            카드·계좌·페이 알림을 감지해 거래 후보를 만들고, 사용자가 확인 후 저장할 수 있어요.
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">

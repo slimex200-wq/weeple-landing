@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from 'motion/react'
 
 const reasons = [
   {
-    title: '신혼 생활비는 함께 쓰기 시작했는데, 기준은 아직 각자입니다',
+    title: '둘이 쓰는 생활비는 생겼는데, 기준은 아직 각자입니다',
     body: '생활비, 데이트비, 월세처럼 둘이 책임지는 돈과 각자 남겨둘 돈을 먼저 나눠야 합니다.',
   },
   {
@@ -18,8 +18,22 @@ const reasons = [
   },
 ]
 
-const moneyAreas = ['생활비', '데이트비', '고정지출', '각자 소비']
-const flowItems = ['상태 확인', '공동/개인 구분', '예산 기준', '리포트/AI']
+const moneyAreas = ['공동 생활비', '데이트비', '월세·고정지출', '각자 소비']
+const flowItems = ['알림 후보', '상태 확인', '공동/개인 구분', '예산 기준', '리포트/AI']
+const notificationSteps = [
+  {
+    title: '알림 감지',
+    body: 'Android에서 카드·계좌·페이 알림을 감지합니다.',
+  },
+  {
+    title: '후보 거래',
+    body: '결제·출금은 지출 후보로, 입금·송금받음은 수입 후보로 분류합니다.',
+  },
+  {
+    title: '확인 후 저장',
+    body: '자동 저장이 아니라 사용자가 확인한 거래만 가계부에 남깁니다.',
+  },
+]
 
 const storySteps = [
   {
@@ -28,7 +42,7 @@ const storySteps = [
     eyebrow: 'Home summary',
     title: ['이번 달 우리 집 돈을', '한 화면에서'],
     body:
-      '월 지출, 오늘 소비, 이번 주 흐름, 예산 위험 신호를 첫 화면에서 바로 확인합니다. 신혼의 돈 관리는 숫자를 많이 보는 일보다 둘이 같은 기준을 보는 일에 가깝습니다.',
+      '월 지출, 오늘 소비, 이번 주 흐름, 예산 위험 신호를 첫 화면에서 바로 확인합니다. 커플·부부 돈 관리는 숫자를 많이 보는 일보다 둘이 같은 기준을 보는 일에 가깝습니다.',
     image: '/product-proof/home-summary.png',
     alt: 'weeple 홈 요약 화면 목업',
     specs: ['월 지출 추적', '예산 위험 표시', '카테고리 TOP', '예상 지출 흐름'],
@@ -283,14 +297,14 @@ function ScrollSequenceProductStory() {
         <Eyebrow>함께 관리하는 흐름</Eyebrow>
         <div className="grid gap-6 lg:grid-cols-[0.82fr_1fr] lg:items-end">
           <h2 className="max-w-3xl text-4xl font-black leading-[1.03] text-[#111513] [word-break:keep-all] sm:text-5xl">
-            위플은 신혼 돈 관리를 네 단계로 정리합니다.
+            위플은 둘의 돈 관리를 이 흐름으로 정리합니다.
           </h2>
           <div>
             <p className="max-w-2xl text-base leading-8 text-[#52645b] [word-break:keep-all] sm:text-lg">
-              이번 달 상태를 함께 보고, 공동 지출과 개인 소비를 나누고,
+              Android 알림으로 거래 후보를 만들고, 이번 달 상태를 함께 보고, 공동 지출과 개인 소비를 나누고,
               예산 기준을 세운 뒤 리포트로 다음 조정 포인트를 확인합니다.
             </p>
-            <div className="mt-6 grid gap-px overflow-hidden border-y border-[#111513]/14 bg-[#111513]/14 sm:grid-cols-4">
+            <div className="mt-6 grid gap-px overflow-hidden border-y border-[#111513]/14 bg-[#111513]/14 sm:grid-cols-5">
               {flowItems.map((item, index) => (
                 <div key={item} className="bg-[#f8fbf8]/92 px-4 py-3">
                   <span className="num text-xs font-black text-[#f06a4e]">0{index + 1}</span>
@@ -313,6 +327,56 @@ function ScrollSequenceProductStory() {
   )
 }
 
+function NotificationProof() {
+  return (
+    <section
+      id="notification-recording"
+      className="relative border-b border-[#111513]/10 bg-[#111513] px-5 py-20 text-white sm:px-8 sm:py-24 lg:px-10"
+      aria-label="Android 알림 기반 기록"
+    >
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+        >
+          <Eyebrow dark>Android notification</Eyebrow>
+          <h2 className="max-w-3xl text-4xl font-black leading-[1.03] [word-break:keep-all] sm:text-6xl">
+            기록은 자동 후보로 시작하고, 저장은 직접 확인합니다.
+          </h2>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, delay: 0.08, ease: [0.2, 0.8, 0.2, 1] }}
+        >
+          <p className="max-w-2xl text-lg leading-9 text-white/74 [word-break:keep-all]">
+            Android에서는 카드·계좌·페이 알림을 감지해 거래 후보를 만들고,
+            사용자가 확인 후 저장할 수 있어요. 카드나 계좌에 직접 연결하는 방식이 아니라,
+            알림 권한을 켜고 필요한 거래만 남기는 흐름입니다.
+          </p>
+          <div className="mt-7 grid gap-px overflow-hidden border-y border-white/20 bg-white/20 sm:grid-cols-3">
+            {notificationSteps.map((step, index) => (
+              <div key={step.title} className="bg-[#111513] p-5">
+                <span className="num text-sm font-black text-[#f06a4e]">0{index + 1}</span>
+                <h3 className="mt-4 text-xl font-black text-white [word-break:keep-all]">
+                  {step.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-white/68 [word-break:keep-all]">
+                  {step.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
 export default function ProductProofSections() {
   return (
     <>
@@ -330,13 +394,13 @@ export default function ProductProofSections() {
             className="lg:sticky lg:top-28"
           >
             <div className="mb-5 text-xs font-bold uppercase tracking-[0.18em] text-[#0f9f8f]">
-              신혼의 첫 돈 기준
+              커플·부부의 첫 돈 기준
             </div>
             <h2 className="max-w-xl text-4xl font-black leading-[1.03] text-[#111513] [word-break:keep-all] sm:text-6xl">
-              신혼 생활비는 함께 쓰기 시작했는데, 기준은 아직 각자입니다.
+              둘이 쓰는 생활비는 생겼는데, 기준은 아직 각자입니다.
             </h2>
             <p className="mt-6 max-w-md text-base leading-7 text-[#52645b] [word-break:keep-all] sm:text-lg sm:leading-8">
-              weeple은 덜 싸우기 위한 앱보다, 생활비와 개인 소비의 기준을 함께 맞추기 위한 앱에 가깝습니다.
+              weeple은 커플·부부가 생활비와 개인 소비의 기준을 함께 맞추기 위한 앱에 가깝습니다.
             </p>
             <div className="mt-8 flex max-w-md flex-wrap gap-2">
               {moneyAreas.map((item) => (
@@ -374,6 +438,8 @@ export default function ProductProofSections() {
           </div>
         </div>
       </section>
+
+      <NotificationProof />
 
       <ScrollSequenceProductStory />
 
