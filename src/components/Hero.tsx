@@ -50,7 +50,8 @@ export default function Hero() {
           </div>
 
           <h1 className="text-6xl font-black leading-[0.9] text-[#111513] sm:text-7xl lg:text-8xl">
-            커플 가계부 앱,
+            커플{' '}
+            <span className="whitespace-nowrap">가계부 앱,</span>
             <span className="mt-2 block text-[#0f9f8f]">weeple</span>
           </h1>
 

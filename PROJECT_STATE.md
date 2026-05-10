@@ -19,6 +19,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-09: Added `public/opengraph-image-20260509.png` and pointed `og:image` to that dated URL to bypass KakaoTalk's separately cached image preview.
 - 2026-05-10: Started a less generic landing redesign pass: replaced the glassy scroll hero with an editorial product-image hero, moved the founder/about story directly after the problem section, and reframed the story around a non-developer solo founder without adding ungrounded product claims.
 - 2026-05-10: Clipped the hero background image to the desktop product area and removed it from mobile so the embedded OG banner text cannot sit behind the landing headline.
+- 2026-05-10: Added Korean line-break rules for the landing and grouped the hero headline so short Korean words do not fall alone onto a new line.
 
 ## Next Work Queue
 
@@ -40,6 +41,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-03: Play Store package URL still returns 404 externally while the app is not public, so it was not added to Organization `sameAs`.
 - 2026-05-09: Local generated share image verified at 1200x630 before build.
 - 2026-05-10: Hero background crop checked with desktop and mobile screenshots; `npm.cmd run build` and `npx.cmd tsc --noEmit` passed. Browser plugin backend was unavailable, so Playwright screenshot evidence was used instead.
+- 2026-05-10: Korean line-break pass checked locally at mobile, tablet, and desktop widths with Playwright screenshots.
 
 ## Related Vault Notes
 

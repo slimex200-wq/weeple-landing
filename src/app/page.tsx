@@ -19,7 +19,7 @@ export default function Home() {
     <>
       <StructuredData />
       <StickyNav />
-      <main className="flex-1">
+      <main className="ko-keep flex-1">
         <Hero />
         <Problem />
         <About />
