@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { motion } from 'motion/react'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'motion/react'
 
 const reasons = [
   {
@@ -147,6 +147,8 @@ const storySteps = [
   },
 ]
 
+type StoryStep = (typeof storySteps)[number]
+
 const founderPrinciples = [
   '공동 지출은 같이 보고, 개인 소비는 침범하지 않기',
   '입력은 짧게, 확인은 사람이 마지막에 하기',
@@ -166,135 +168,96 @@ function Eyebrow({ children, dark = false }: { children: string; dark?: boolean 
   )
 }
 
-function Specs({ items, dark = false }: { items: string[]; dark?: boolean }) {
-  return (
-    <div
-      className={`mt-8 grid gap-px overflow-hidden border-y ${
-        dark ? 'border-white/20 bg-white/20' : 'border-[#111513]/15 bg-[#111513]/15'
-      } sm:grid-cols-2`}
-    >
-      {items.map((item) => (
-        <span
-          key={item}
-          className={`px-4 py-3 text-sm font-bold ${
-            dark ? 'bg-[#111513] text-white/82' : 'bg-[#f7faf7] text-[#33423b]'
-          }`}
-        >
-          {item}
-        </span>
-      ))}
-    </div>
-  )
-}
+function TimelineChapter({ step, index }: { step: StoryStep; index: number }) {
+  const ref = useRef<HTMLElement | null>(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start 72%', 'end 18%'],
+  })
+  const imageOpacity = useTransform(scrollYProgress, [0, 0.52, 0.64], [1, 1, 0])
+  const imageY = useTransform(scrollYProgress, [0, 0.42, 0.64], [72, 0, -96])
+  const imageScale = useTransform(scrollYProgress, [0, 0.42, 0.64], [0.97, 1, 0.97])
+  const textOpacity = useTransform(scrollYProgress, [0.56, 0.68, 0.94], [0, 1, 1])
+  const textY = useTransform(scrollYProgress, [0.56, 0.72, 0.94], [56, 0, -8])
+  const textScale = useTransform(scrollYProgress, [0.56, 0.72], [0.98, 1])
 
-function StoryTitle({ lines, dark = false }: { lines: string[]; dark?: boolean }) {
   return (
-    <h2
-      className={`mt-4 max-w-xl text-4xl font-black leading-[1.03] [word-break:keep-all] sm:text-6xl ${
-        dark ? 'text-white' : 'text-[#111513]'
-      }`}
+    <article
+      ref={ref}
+      id={index === 0 ? undefined : step.id}
+      className="relative min-h-[178svh] scroll-mt-20 border-t border-[#111513]/10 first:border-t-0"
     >
-      {lines.map((line) => (
-        <span key={line} className="block">
-          {line}
-        </span>
-      ))}
-    </h2>
-  )
-}
+      <div className="sticky top-14 flex min-h-[calc(100svh-3.5rem)] items-center py-6 sm:top-16 sm:min-h-[calc(100svh-4rem)] sm:py-10">
+        <div className="relative mx-auto w-full max-w-6xl">
+          <motion.div
+            style={{ opacity: imageOpacity, y: imageY, scale: imageScale }}
+            className="relative z-10"
+          >
+            <div className="mb-4 flex flex-wrap items-center gap-3 border-y border-[#111513]/12 py-3 sm:mb-6">
+              <span className="num text-sm font-black text-[#0f9f8f]">{step.index}</span>
+              <span className="rounded-full bg-[#dff8f3] px-4 py-2 text-xs font-black tracking-[0.12em] text-[#0f9f8f]">
+                {step.featureTitle}
+              </span>
+              <span className="text-xs font-black uppercase tracking-[0.16em] text-[#52645b]">
+                {step.eyebrow}
+              </span>
+            </div>
 
-function FeatureHighlights({
-  items,
-  compact = false,
-}: {
-  items: Array<{ title: string; body: string }>
-  compact?: boolean
-}) {
-  return (
-    <div className={compact ? 'mt-5 grid gap-2' : 'mt-6 grid gap-3'}>
-      {items.map((item, index) => (
-        <div
-          key={item.title}
-          className={`grid gap-3 border-t border-[#111513]/12 ${
-            compact ? 'grid-cols-[1.6rem_1fr] pt-3' : 'grid-cols-[2rem_1fr] pt-4'
-          }`}
-        >
-          <span className="num text-sm font-black text-[#0f9f8f]">{index + 1}</span>
-          <div>
-            <p className="text-sm font-black leading-5 text-[#111513] [word-break:keep-all]">
-              {item.title}
-            </p>
-            <p
-              className={`mt-1 text-[#52645b] [word-break:keep-all] ${
-                compact ? 'text-sm leading-6' : 'text-[15px] leading-6'
-              }`}
-            >
-              {item.body}
-            </p>
-          </div>
+            <div className="overflow-hidden rounded-lg border border-[#111513]/10 bg-white/90 p-2 shadow-[0_42px_140px_rgba(17,21,19,0.14)] sm:p-4">
+              <div className="relative aspect-[16/12] rounded-md bg-[#edf8f5] sm:aspect-[16/9]">
+                <img
+                  src={step.image}
+                  alt={step.alt}
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  className="h-full w-full object-contain p-1 sm:p-3"
+                />
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            style={{ opacity: textOpacity, y: textY, scale: textScale }}
+            className="pointer-events-none absolute inset-0 z-20 flex items-center"
+          >
+            <div className="mx-auto w-full max-w-5xl">
+              <div className="flex items-center gap-3">
+                <span className="num text-sm font-black text-[#f06a4e]">{step.index}</span>
+                <span className="rounded-full bg-[#111513] px-4 py-2 text-xs font-black tracking-[0.12em] text-white">
+                  {step.featureTitle}
+                </span>
+              </div>
+              <h3 className="mt-5 max-w-4xl text-4xl font-black leading-[1.04] text-[#111513] [word-break:keep-all] sm:mt-6 sm:text-6xl sm:leading-[1.02]">
+                {step.callout}
+              </h3>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-[#52645b] [word-break:keep-all] sm:text-xl sm:leading-9">
+                {step.featureLead}
+              </p>
+              <div className="mt-7 grid gap-0 border-y border-[#111513]/15 sm:grid-cols-3">
+                {step.highlights.map((item) => (
+                  <div key={item.title} className="border-b border-[#111513]/10 py-4 last:border-b-0 sm:border-b-0 sm:border-r sm:px-5 sm:last:border-r-0">
+                    <p className="text-base font-black text-[#111513] [word-break:keep-all]">
+                      {item.title}
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-[#52645b] [word-break:keep-all]">
+                      {item.body}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
         </div>
-      ))}
-    </div>
+      </div>
+    </article>
   )
 }
 
-function ProductImage({
-  src,
-  alt,
-  className = '',
-}: {
-  src: string
-  alt: string
-  className?: string
-}) {
-  return (
-    <img
-      src={src}
-      alt={alt}
-      loading="lazy"
-      decoding="async"
-      className={`w-full rounded-lg shadow-[0_28px_80px_rgba(17,21,19,0.12)] ${className}`}
-    />
-  )
-}
-
-function StickyProductStory() {
-  const [activeIndex, setActiveIndex] = useState(0)
-  const stepRefs = useRef<Array<HTMLElement | null>>([])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-
-        if (visible) {
-          const nextIndex = Number((visible.target as HTMLElement).dataset.stepIndex)
-          if (!Number.isNaN(nextIndex)) {
-            setActiveIndex(nextIndex)
-          }
-        }
-      },
-      {
-        rootMargin: '-24% 0px -42% 0px',
-        threshold: [0.18, 0.35, 0.55, 0.75],
-      },
-    )
-
-    stepRefs.current.forEach((node) => {
-      if (node) observer.observe(node)
-    })
-
-    return () => observer.disconnect()
-  }, [])
-
-  const activeStep = storySteps[activeIndex]
-
+function ScrollSequenceProductStory() {
   return (
     <section
       id="live-demo"
-      className="relative border-b border-[#111513]/10 bg-[#f8fbf8] px-5 py-20 sm:px-8 sm:py-28 lg:px-10"
+      className="relative border-b border-[#111513]/10 bg-[#f8fbf8] px-5 py-16 sm:px-8 sm:py-24 lg:px-10"
       aria-label="스크롤로 보는 weeple 앱 화면"
     >
       <div
@@ -306,173 +269,23 @@ function StickyProductStory() {
         }}
       />
 
-      <div className="mx-auto mb-14 max-w-7xl">
-        <Eyebrow>product story</Eyebrow>
-        <div className="grid gap-6 lg:grid-cols-[0.72fr_1fr] lg:items-end">
-          <h2 className="max-w-2xl text-4xl font-black leading-[1.03] text-[#111513] sm:text-6xl">
-            스크롤할수록, 앱 화면이 설명이 됩니다.
+      <div className="mx-auto max-w-7xl">
+        <Eyebrow>product sequence</Eyebrow>
+        <div className="grid gap-6 lg:grid-cols-[0.82fr_1fr] lg:items-end">
+          <h2 className="max-w-3xl text-4xl font-black leading-[1.03] text-[#111513] [word-break:keep-all] sm:text-5xl">
+            먼저 화면이 올라오고, 설명은 짧게 남습니다.
           </h2>
-          <p className="max-w-2xl text-base leading-8 text-[#52645b] sm:text-lg">
-            작은 스크린샷을 읽으라고 던지지 않습니다. 한 화면을 크게 붙잡아 두고,
-            지금 봐야 하는 판단만 옆에서 큰 문장으로 꺼냅니다.
+          <p className="max-w-2xl text-base leading-8 text-[#52645b] [word-break:keep-all] sm:text-lg">
+            기능마다 카테고리와 앱 화면을 먼저 보여준 뒤, 화면이 사라지는 순간 핵심만 읽게 합니다.
+            다음 스크롤에서는 다시 새 화면이 올라옵니다.
           </p>
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.82fr_1.18fr] lg:gap-12">
-        <div className="space-y-10 lg:space-y-0 lg:pb-[48vh]">
-          {storySteps.map((step, index) => (
-            <article
-              key={step.id}
-              id={index === 0 ? undefined : step.id}
-              ref={(node) => {
-                stepRefs.current[index] = node
-              }}
-              data-step-index={index}
-              className="scroll-mt-24 py-12 lg:flex lg:min-h-[72vh] lg:items-center lg:py-16"
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 26 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-120px' }}
-                transition={{ duration: 0.65, ease: [0.2, 0.8, 0.2, 1] }}
-                className={`w-full transition-opacity duration-300 ${
-                  activeIndex === index ? 'opacity-100' : 'opacity-42'
-                }`}
-              >
-                <span className="num text-sm font-black text-[#0f9f8f]">{step.index}</span>
-                <div className="mt-2 text-xs font-black uppercase tracking-[0.18em] text-[#0f9f8f]">
-                  {step.eyebrow}
-                </div>
-                <StoryTitle lines={step.title} />
-                <p className="mt-6 max-w-xl text-base leading-8 text-[#52645b] sm:text-lg">
-                  {step.body}
-                </p>
-                <div className="mt-7 border-l-2 border-[#f06a4e] pl-4 text-lg font-bold leading-8 text-[#33423b] [word-break:keep-all]">
-                  {step.callout}
-                </div>
-                <div className="lg:hidden">
-                  <FeatureHighlights items={step.highlights} compact />
-                </div>
-                <div className="mt-7 overflow-hidden rounded-lg border border-[#111513]/10 bg-white/72 shadow-[0_22px_70px_rgba(17,21,19,0.12)] lg:hidden">
-                  <ProductImage src={step.image} alt={step.alt} className="shadow-none" />
-                </div>
-                {step.secondaryImage && (
-                  <div className="mt-4 overflow-hidden rounded-lg border border-[#111513]/10 bg-white/72 shadow-[0_22px_70px_rgba(17,21,19,0.12)] lg:hidden">
-                    <ProductImage src={step.secondaryImage} alt={step.secondaryAlt ?? ''} className="shadow-none" />
-                  </div>
-                )}
-                <div className="hidden lg:block">
-                  <Specs items={step.specs} />
-                </div>
-              </motion.div>
-            </article>
-          ))}
-        </div>
-
-        <aside className="sticky top-20 hidden h-[calc(100svh-5rem)] items-center lg:flex">
-          <div className="w-full overflow-hidden rounded-lg border border-[#111513]/10 bg-white/78 shadow-[0_42px_140px_rgba(17,21,19,0.14)] backdrop-blur">
-            <div className="grid xl:grid-cols-[0.44fr_0.56fr]">
-              <div className="flex min-h-[35rem] flex-col border-b border-[#111513]/10 p-5 xl:border-b-0 xl:border-r">
-                <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#e6f8f4] px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#0f9f8f]">
-                  <span className="num">{activeStep.index}</span>
-                  기능 설명
-                </div>
-                <h3 className="mt-5 text-3xl font-black leading-[1.05] text-[#111513] [word-break:keep-all]">
-                  {activeStep.featureTitle}
-                </h3>
-                <p className="mt-3 text-base leading-7 text-[#52645b] [word-break:keep-all]">
-                  {activeStep.featureLead}
-                </p>
-                <FeatureHighlights items={activeStep.highlights} compact />
-                <div className="mt-auto pt-6">
-                  <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#0f9f8f]">
-                    핵심 한 줄
-                  </p>
-                  <p className="mt-2 border-l-2 border-[#f06a4e] pl-3 text-lg font-black leading-7 text-[#111513] [word-break:keep-all]">
-                    {activeStep.callout}
-                  </p>
-                </div>
-              </div>
-
-              <div className="bg-[#edf8f5] p-4">
-                <div className="relative overflow-hidden rounded-lg border border-[#111513]/10 bg-white shadow-[0_24px_80px_rgba(17,21,19,0.11)]">
-                  <div className="absolute left-4 top-4 z-10 rounded-full bg-white/82 px-3 py-2 text-[11px] font-black uppercase tracking-[0.14em] text-[#0f9f8f] shadow-[0_10px_28px_rgba(17,21,19,0.08)] backdrop-blur">
-                    {activeStep.imageCaption}
-                  </div>
-                  <div className="relative aspect-[16/9]">
-                    {storySteps.map((step, index) => (
-                      <img
-                        key={step.id}
-                        src={step.image}
-                        alt={step.alt}
-                        loading={index === 0 ? 'eager' : 'lazy'}
-                        decoding="async"
-                        className={`absolute inset-0 h-full w-full object-contain p-3 transition-all duration-700 ease-out ${
-                          activeIndex === index
-                            ? 'scale-100 opacity-100 blur-0'
-                            : 'scale-[0.985] opacity-0 blur-[2px]'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {activeStep.secondaryImage ? (
-                  <div className="mt-3 grid grid-cols-[0.88fr_1.12fr] gap-3">
-                    <div className="rounded-lg border border-[#111513]/10 bg-white/74 p-4">
-                      <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#0f9f8f]">
-                        이어서 보는 화면
-                      </p>
-                      <p className="mt-2 text-xl font-black leading-tight text-[#111513] [word-break:keep-all]">
-                        {activeStep.secondaryCaption}
-                      </p>
-                      <p className="mt-2 text-sm leading-6 text-[#52645b] [word-break:keep-all]">
-                        같은 흐름에서 다음 행동까지 이어집니다.
-                      </p>
-                    </div>
-                    <div className="relative overflow-hidden rounded-lg border border-[#111513]/10 bg-white">
-                      <div className="relative aspect-[16/9]">
-                        <img
-                          src={activeStep.secondaryImage}
-                          alt={activeStep.secondaryAlt ?? ''}
-                          loading="lazy"
-                          decoding="async"
-                          className="h-full w-full object-contain p-2"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="mt-3 grid gap-px overflow-hidden rounded-lg border border-[#111513]/10 bg-[#111513]/12 sm:grid-cols-2">
-                    {activeStep.specs.slice(0, 4).map((item) => (
-                      <span key={item} className="bg-white/78 px-4 py-3 text-sm font-bold text-[#33423b]">
-                        {item}
-                      </span>
-                    ))}
-                  </div>
-                )}
-
-                <div className="mt-4 flex gap-2">
-                  {storySteps.map((step, index) => (
-                    <button
-                      key={step.id}
-                      type="button"
-                      onClick={() => {
-                        stepRefs.current[index]?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                      }}
-                      aria-label={`${step.eyebrow} 화면으로 이동`}
-                      aria-current={activeIndex === index}
-                      className={`h-1.5 flex-1 rounded-full transition-colors ${
-                        activeIndex === index ? 'bg-[#0f9f8f]' : 'bg-[#111513]/14'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </aside>
+      <div className="mx-auto mt-10 max-w-7xl sm:mt-16">
+        {storySteps.map((step, index) => (
+          <TimelineChapter key={step.id} step={step} index={index} />
+        ))}
       </div>
     </section>
   )
@@ -530,7 +343,7 @@ export default function ProductProofSections() {
         </div>
       </section>
 
-      <StickyProductStory />
+      <ScrollSequenceProductStory />
 
       <section id="about" className="relative bg-[#111513] px-5 py-20 text-white sm:px-8 sm:py-28 lg:px-10" aria-label="weeple을 만든 이유">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1.15fr]">
