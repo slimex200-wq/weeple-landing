@@ -21,6 +21,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Clipped the hero background image to the desktop product area and removed it from mobile so the embedded OG banner text cannot sit behind the landing headline.
 - 2026-05-10: Added Korean line-break rules for the landing and grouped the hero headline so short Korean words do not fall alone onto a new line.
 - 2026-05-10: Replaced the share/hero banner with a phone-only product image and pointed OG metadata, JSON-LD, guide metadata, and the hero background at `public/opengraph-image-20260510.png`; `public/opengraph-image.png` and `public/og-image.png` were kept in sync for stale crawler compatibility.
+- 2026-05-10: Increased desktop hero product-phone visibility by widening the background image layer, raising image opacity, and reducing the white overlay on the right side while preserving the mobile text-only hero.
 
 ## Next Work Queue
 

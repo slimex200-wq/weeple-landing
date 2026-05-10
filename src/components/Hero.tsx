@@ -16,21 +16,21 @@ export default function Hero() {
       <div className="absolute inset-0 -z-20 bg-[#f7faf7]" />
       <div
         aria-hidden
-        className="absolute inset-y-0 right-0 -z-10 hidden w-[46%] overflow-hidden md:block"
+        className="absolute inset-y-0 right-0 -z-10 hidden w-[56%] overflow-hidden md:block"
         style={{
-          WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, black 16%)',
-          maskImage: 'linear-gradient(90deg, transparent 0%, black 16%)',
+          WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, black 10%)',
+          maskImage: 'linear-gradient(90deg, transparent 0%, black 10%)',
         }}
       >
         <img
           src="/opengraph-image-20260510.png"
           alt=""
-          className="h-full w-full object-cover object-right opacity-58"
+          className="h-full w-full object-cover object-right opacity-85"
         />
       </div>
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#f7faf7_0%,rgba(247,250,247,0.97)_28%,rgba(247,250,247,0.7)_56%,rgba(247,250,247,0.16)_100%)]"
+        className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#f7faf7_0%,rgba(247,250,247,0.97)_34%,rgba(247,250,247,0.48)_56%,rgba(247,250,247,0.12)_74%,rgba(247,250,247,0.02)_100%)]"
       />
       <div
         aria-hidden
