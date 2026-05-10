@@ -2,7 +2,7 @@ import { FAQ_ITEMS } from "@/data/faq";
 import { PRICING_OFFERS_KRW } from "@/data/pricing";
 
 const SITE_URL = "https://weeple.app";
-const SHARE_IMAGE_URL = `${SITE_URL}/opengraph-image-20260510-text-banner.png`;
+const SHARE_IMAGE_URL = `${SITE_URL}/opengraph-image-20260510-kakao-mobile.jpg`;
 
 const organization = {
   "@context": "https://schema.org",

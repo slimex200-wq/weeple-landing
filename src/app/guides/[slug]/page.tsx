@@ -7,9 +7,9 @@ const SITE_URL = 'https://weeple.app'
 // 가이드별 동적 OG 는 Next.js 16 + static export 조합에서 generateImageMetadata
 // 지원이 불완전해 루트 OG 이미지를 공유. 가이드별 제목이 OG 카드에 들어가는
 // 형태가 필요하면 후처리 스크립트로 PNG 별도 생성하는 후속 PR.
-// .png 확장자는 카카오톡 등 스크레이퍼 호환을 위해 유지.
 // Dated filename bypasses KakaoTalk's separately cached preview image URL.
-const OG_IMAGE_URL = `${SITE_URL}/opengraph-image-20260510-text-banner.png`
+// Keep the share image lightweight so mobile preview crawlers do not fail image fetches.
+const OG_IMAGE_URL = `${SITE_URL}/opengraph-image-20260510-kakao-mobile.jpg`
 
 function jsonLd(value: unknown) {
   return JSON.stringify(value).replace(/</g, '\\u003c')
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         {
           url: OG_IMAGE_URL,
           secureUrl: OG_IMAGE_URL,
-          type: 'image/png',
+          type: 'image/jpeg',
           width: 1200,
           height: 630,
           alt: guide.title,

@@ -63,7 +63,7 @@ export default {
     }
 
     // Static Assets serves share images directly from public/.
-    // The .png extension lets Cloudflare infer image/png for share crawlers.
+    // File extensions let Cloudflare infer image content types for share crawlers.
     return env.ASSETS.fetch(request)
   },
 }
