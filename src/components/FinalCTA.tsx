@@ -1,12 +1,5 @@
 'use client'
 
-/**
- * FinalCTA — 마지막 푸쉬.
- *
- * 거대 coral→violet 그라디언트 배경 + 흰색 거대 타이포.
- * 섹션 전환의 클라이맥스. 다운로드 버튼은 흰 배경으로 반전해 최대 대비.
- */
-
 import { motion } from 'motion/react'
 import MagneticButton from '@/components/MagneticButton'
 import { trackEvent } from '@/lib/analytics'
@@ -15,118 +8,90 @@ export default function FinalCTA() {
   return (
     <section
       id="final-cta"
-      className="relative min-h-[70vh] flex items-center justify-center py-16 sm:py-24 px-6 overflow-hidden bg-gradient-to-br from-[#0EA5A0] via-[#5EEAD4] to-[#7DD3FC]"
+      className="relative overflow-hidden bg-[#111513] px-5 py-20 text-white sm:px-8 sm:py-28 lg:px-10"
       aria-label="앱 다운로드"
     >
-      <div className="max-w-5xl w-full text-center">
+      <div
+        aria-hidden
+        className="absolute inset-y-0 right-0 hidden w-1/2 opacity-[0.34] lg:block"
+        style={{
+          WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, black 28%, black 100%)',
+          maskImage: 'linear-gradient(90deg, transparent 0%, black 28%, black 100%)',
+        }}
+      >
+        <img
+          src="/opengraph-image-20260510.png"
+          alt=""
+          className="h-full w-full object-cover object-right"
+        />
+      </div>
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[linear-gradient(90deg,#111513_0%,rgba(17,21,19,0.96)_42%,rgba(17,21,19,0.74)_72%,rgba(17,21,19,0.58)_100%)]"
+      />
+
+      <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.92fr_0.78fr] lg:items-end">
         <motion.div
-          initial={{ opacity: 0, y: -10 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
-          className="text-xs font-semibold tracking-wider text-white/90 uppercase mb-5 sm:mb-8"
+          transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
         >
-          Start today
+          <div className="mb-5 inline-flex items-center gap-2 border-y border-white/70 py-2 text-[11px] font-black uppercase tracking-[0.18em] text-white">
+            <span className="h-2 w-2 rounded-full bg-[#f06a4e]" aria-hidden />
+            Start with one month
+          </div>
+          <h2 className="max-w-4xl text-5xl font-black leading-[0.98] text-white [word-break:keep-all] sm:text-7xl">
+            둘이 같은 기준을 보는 첫 달부터.
+          </h2>
+          <p className="mt-7 max-w-2xl text-lg leading-9 text-white/74 [word-break:keep-all]">
+            생활비와 데이트 비용은 함께 보고, 개인 소비는 각자의 영역으로 남깁니다.
+            위플은 신혼의 돈 관리를 더 빨리 정리하기 위한 작은 시작점입니다.
+          </p>
         </motion.div>
 
-        {/* 거대 타이포 */}
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.9, ease: [0.2, 0.8, 0.2, 1] }}
-          className="font-extrabold leading-[0.92] tracking-[-0.04em] mb-4 text-white"
-          style={{ fontSize: 'clamp(2rem, 10vw, 10rem)' }}
-        >
-          오늘 입력한
-          <br />
-          한 줄이
-        </motion.h2>
-
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.9, delay: 0.15, ease: [0.2, 0.8, 0.2, 1] }}
-          className="font-extrabold leading-[0.92] tracking-[-0.04em] mb-8 sm:mb-12 text-white/80"
-          style={{ fontSize: 'clamp(2rem, 10vw, 10rem)' }}
-        >
-          내일의 예산이
-          <br />
-          됩니다.
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="max-w-xl mx-auto text-sm sm:text-lg text-white/90 leading-relaxed mb-8 sm:mb-12"
-        >
-          회원가입 30초. 첫 거래 3초. 그게 전부입니다.
-        </motion.p>
-
-        {/* 듀얼 버튼 — 흰 배경으로 반전해 그라디언트 위에서 최대 대비 */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-10"
+          transition={{ duration: 0.7, delay: 0.08, ease: [0.2, 0.8, 0.2, 1] }}
+          className="border-y border-white/20 py-6"
         >
-          <MagneticButton
-            as="a"
-            href="#"
-            onClick={() =>
-              trackEvent('cta_click', {
-                location: 'final',
-                label: 'android_download',
-              })
-            }
-            className="group inline-flex items-center gap-2 px-7 h-14 rounded-full bg-white text-[#0EA5A0] font-semibold text-base transition-all hover:scale-[1.02] hover:shadow-[0_12px_40px_-8px_rgba(0,0,0,0.3)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0EA5A0]"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-              <path d="M3 20.5V3.5c0-.6.3-1.1.8-1.4l12.3 9.9L3.8 21.9c-.5-.3-.8-.8-.8-1.4zm14.2-7.3l2.5-2-2.5-2 .1-.1 3.5 2-.1.1-3.5 2zM5.2 1.7l11.1 8.9-2.1 1.9L5.2 1.7zm0 20.6l9-10.8 2.1 1.9L5.2 22.3z" />
-            </svg>
-            Android 앱 다운로드
-          </MagneticButton>
-          <span
-            aria-disabled="true"
-            className="group inline-flex items-center gap-2 px-7 h-14 rounded-full border border-white/40 bg-white/5 text-white/70 font-semibold text-base backdrop-blur-sm cursor-not-allowed"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-              <path d="M17.05 12.04c-.02-2.42 1.98-3.58 2.07-3.64-1.13-1.66-2.89-1.88-3.52-1.91-1.5-.15-2.93.88-3.7.88-.76 0-1.95-.86-3.2-.84-1.64.03-3.16.96-4 2.44-1.71 2.96-.44 7.33 1.22 9.73.81 1.17 1.77 2.48 3.03 2.44 1.22-.05 1.68-.79 3.15-.79 1.47 0 1.89.79 3.18.76 1.32-.02 2.15-1.18 2.95-2.36.93-1.35 1.31-2.67 1.33-2.74-.03-.01-2.55-.98-2.57-3.89zM14.66 4.79c.66-.8 1.12-1.91.99-3.02-.96.04-2.12.64-2.81 1.44-.62.71-1.16 1.85-1.02 2.94 1.07.08 2.17-.55 2.84-1.36z" />
-            </svg>
-            iOS 준비 중
-          </span>
-        </motion.div>
+          <div className="grid gap-px overflow-hidden bg-white/16">
+            {['Android 공개 테스트', '공동/개인 지출 분리', '카드 등록 없이 시작'].map((item, index) => (
+              <div key={item} className="grid grid-cols-[3rem_1fr] gap-4 bg-[#111513]/86 py-4">
+                <span className="num text-sm font-black text-[#f06a4e]">0{index + 1}</span>
+                <span className="text-base font-black leading-7 text-white/90 [word-break:keep-all]">
+                  {item}
+                </span>
+              </div>
+            ))}
+          </div>
 
-        {/* 신뢰 지표 */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-white/80"
-        >
-          <span className="inline-flex items-center gap-1.5">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>
-              <path d="M20 6 9 17l-5-5" strokeLinecap="round" />
-            </svg>
-            회원가입 30초
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>
-              <path d="M20 6 9 17l-5-5" strokeLinecap="round" />
-            </svg>
-            카드 등록 불필요
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>
-              <path d="M20 6 9 17l-5-5" strokeLinecap="round" />
-            </svg>
-            언제든 해지
-          </span>
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+            <MagneticButton
+              as="a"
+              href="#pricing"
+              onClick={() =>
+                trackEvent('cta_click', {
+                  location: 'final',
+                  label: 'android_public_test',
+                })
+              }
+              className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-[#0f9f8f] px-6 text-base font-black text-white transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f9f8f] focus-visible:ring-offset-2 focus-visible:ring-offset-[#111513]"
+            >
+              Android 공개 테스트
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
+                <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </MagneticButton>
+            <span
+              aria-disabled="true"
+              className="inline-flex h-14 cursor-not-allowed items-center justify-center rounded-full border border-white/24 px-6 text-base font-black text-white/62"
+            >
+              iOS 준비 중
+            </span>
+          </div>
         </motion.div>
       </div>
     </section>
