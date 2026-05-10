@@ -14,12 +14,20 @@ export default function Hero() {
       className="relative isolate min-h-[92svh] overflow-hidden px-5 pt-24 pb-14 sm:px-8 lg:px-10"
     >
       <div className="absolute inset-0 -z-20 bg-[#f7faf7]" />
-      <img
-        src="/opengraph-image-20260509.png"
-        alt=""
+      <div
         aria-hidden
-        className="absolute inset-y-0 right-[-42%] -z-10 h-full w-[115%] object-cover object-center opacity-55 sm:right-[-28%] sm:w-[88%] sm:opacity-60 md:right-[-18%] lg:right-[-8%] lg:w-[72%]"
-      />
+        className="absolute inset-y-0 right-0 -z-10 hidden w-[46%] overflow-hidden md:block"
+        style={{
+          WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, black 16%)',
+          maskImage: 'linear-gradient(90deg, transparent 0%, black 16%)',
+        }}
+      >
+        <img
+          src="/opengraph-image-20260509.png"
+          alt=""
+          className="h-full w-full object-cover object-right opacity-58"
+        />
+      </div>
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,#f7faf7_0%,rgba(247,250,247,0.97)_28%,rgba(247,250,247,0.7)_56%,rgba(247,250,247,0.16)_100%)]"

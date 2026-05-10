@@ -18,6 +18,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-09: Strengthened category-search copy for `커플 가계부 앱`, `커플 가계부 앱 추천`, and `공유 가계부 앱 비교`; added guide FAQ JSON-LD and a Naver IndexNow notification script/key for post-deploy crawl refresh.
 - 2026-05-09: Added `public/opengraph-image-20260509.png` and pointed `og:image` to that dated URL to bypass KakaoTalk's separately cached image preview.
 - 2026-05-10: Started a less generic landing redesign pass: replaced the glassy scroll hero with an editorial product-image hero, moved the founder/about story directly after the problem section, and reframed the story around a non-developer solo founder without adding ungrounded product claims.
+- 2026-05-10: Clipped the hero background image to the desktop product area and removed it from mobile so the embedded OG banner text cannot sit behind the landing headline.
 
 ## Next Work Queue
 
@@ -38,7 +39,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-03: Local static export includes `/guides/couple-budget-app`, `/guides/shared-budget`, and `/guides/natural-language-budget`.
 - 2026-05-03: Play Store package URL still returns 404 externally while the app is not public, so it was not added to Organization `sameAs`.
 - 2026-05-09: Local generated share image verified at 1200x630 before build.
-- Known gap: browser visual inspection was not run in this harness-only pass.
+- 2026-05-10: Hero background crop checked with desktop and mobile screenshots; `npm.cmd run build` and `npx.cmd tsc --noEmit` passed. Browser plugin backend was unavailable, so Playwright screenshot evidence was used instead.
 
 ## Related Vault Notes
 
