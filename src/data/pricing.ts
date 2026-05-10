@@ -31,7 +31,7 @@ export const PRICING_TIERS: Tier[] = [
       "공동 지출 관리",
       "기본 넛지",
     ],
-    cta: "앱 다운로드",
+    cta: "Android 공개 테스트 참여",
   },
   {
     name: "Premium",
@@ -46,7 +46,7 @@ export const PRICING_TIERS: Tier[] = [
       "프리미엄 카테고리 분석",
       "광고 없는 사용 경험",
     ],
-    cta: "프리미엄 시작",
+    cta: "Android 공개 테스트 참여",
     highlighted: true,
     badge: "가장 인기",
   },
@@ -62,7 +62,7 @@ export const PRICING_TIERS: Tier[] = [
       "AI 분석 추가 사용",
       "구독과 별도 충전",
     ],
-    cta: "크레딧 충전",
+    cta: "Android 공개 테스트 참여",
   },
 ];
 

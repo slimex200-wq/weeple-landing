@@ -32,6 +32,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Tightened Korean line-break handling in the newlywed story sections and reduced the mobile sticky CTA size so it does not visually dominate content screenshots.
 - 2026-05-10: Polished the lower landing sections so Pricing, FAQ, and FinalCTA match the newer editorial product-story direction; removed the older glassy/rounded SaaS treatment and replaced the gradient final CTA with a dark product-backed close.
 - 2026-05-10: Elevated Android notification-based candidate transaction recording into the hero and product flow, broadened primary positioning from newlyweds to couples/couples-married/shared households, corrected the annual discount to 25%, and aligned Premium benefits around OCR, AI, premium categories, and ad-free use.
+- 2026-05-10: Restored the softer pre-editorial Pricing card treatment while keeping corrected 25% yearly discount and Premium benefit policy; tightened review findings around hero CTA priority, product-screen anchor behavior, Android notification visual proof, Korean line breaks, and mobile sticky CTA overlap.
 
 ## Next Work Queue
 
@@ -60,6 +61,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Newlywed story polish verified with `npm.cmd run build`, `npx.cmd tsc --noEmit`, and Playwright screenshots for hero, problem, product sequence intro, budget, and founder sections on desktop and mobile. Visual verdict saved under `.omx/state/newlywed-story-polish/ralph-progress.json`.
 - 2026-05-10: Lower landing polish verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, and Playwright screenshots for `#pricing`, `#faq`, and `#final-cta` on desktop and mobile. Visual verdict saved under `.omx/state/lower-landing-polish/ralph-progress.json`.
 - 2026-05-10: Notification/positioning/pricing fix verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, stale-copy `rg` checks for old-discount/partner-sharing/newlywed-main strings, and Playwright screenshots for hero, notification recording, pricing, and FAQ on desktop/mobile. Visual verdict saved under `.omx/state/notification-positioning-pricing-fix/ralph-progress.json`.
+- 2026-05-10: Review-fix pass verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, stale-copy `rg` checks, and Playwright screenshots for hero, product screen anchor, notification proof, pricing, FAQ, and final CTA on desktop/mobile. Visual verdict saved under `.omx/state/review-fixes-pricing-restore/ralph-progress.json`.
 
 ## Related Vault Notes
 
