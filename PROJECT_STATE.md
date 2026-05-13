@@ -34,6 +34,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Elevated Android notification-based candidate transaction recording into the hero and product flow, broadened primary positioning from newlyweds to couples/couples-married/shared households, corrected the annual discount to 25%, and aligned Premium benefits around OCR, AI, premium categories, and ad-free use.
 - 2026-05-10: Restored the softer pre-editorial Pricing card treatment while keeping corrected 25% yearly discount and Premium benefit policy; tightened review findings around hero CTA priority, product-screen anchor behavior, Android notification visual proof, Korean line breaks, and mobile sticky CTA overlap.
 - 2026-05-13: Android launch CTA wiring moved from public-test/mail/internal anchors to the public Google Play listing `https://play.google.com/store/apps/details?id=com.weeple.app&hl=ko&gl=KR`; the URL is centralized in `src/lib/links.ts` and added to Organization/SoftwareApplication structured data.
+- 2026-05-13: Legal pages were updated for release compliance: `privacy-policy.html` now reflects Supabase Australia/Sydney cross-border processing and Android notification-based recording limits; `terms-of-service.html` now names the current IAP products/prices, store refund flow, and pending Korean mail-order sales notice field.
 
 ## Next Work Queue
 
@@ -63,6 +64,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Notification/positioning/pricing fix verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, stale-copy `rg` checks for old-discount/partner-sharing/newlywed-main strings, and Playwright screenshots for hero, notification recording, pricing, and FAQ on desktop/mobile. Visual verdict saved under `.omx/state/notification-positioning-pricing-fix/ralph-progress.json`.
 - 2026-05-10: Review-fix pass verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, stale-copy `rg` checks, and Playwright screenshots for hero, product screen anchor, notification proof, pricing, FAQ, and final CTA on desktop/mobile. Visual verdict saved under `.omx/state/review-fixes-pricing-restore/ralph-progress.json`.
 - 2026-05-13: Google Play launch CTA pass verified with direct Play Store HTTP 200, `npx.cmd tsc --noEmit`, `npm.cmd run build`, Playwright screenshots, anchor href inspection, and JSON-LD inspection. Visual verdict saved under `.omx/state/play-store-launch-cta/ralph-progress.json`.
+- 2026-05-13: Release legal-page update verified with `npx.cmd tsc --noEmit` and `npm.cmd run build`; no visual/browser pass was required because only static legal copy changed.
 
 ## Related Vault Notes
 

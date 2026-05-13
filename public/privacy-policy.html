@@ -47,7 +47,7 @@
 <body>
 
 <h1>weeple 개인정보처리방침</h1>
-<p class="date">시행일: 2026년 3월 23일 (v1.0)</p>
+<p class="date">시행일: 2026년 5월 13일 (v1.1)</p>
 
 <p>weeple(이하 "앱")은 「개인정보 보호법」 및 관련 법령을 준수하며, 이용자의 개인정보를 소중히 보호하기 위해 노력합니다. 본 방침은 앱이 수집·이용·위탁·이전하는 개인정보의 범위와 처리 방법, 이용자의 권리를 설명합니다.</p>
 
@@ -123,7 +123,7 @@
     <tr><th>이전받는 자</th><th>국가</th><th>이전 항목</th><th>목적</th><th>이전 시점·방법</th><th>보유기간</th><th>연락처</th></tr>
   </thead>
   <tbody>
-    <tr><td>Supabase, Inc.</td><td>미국(US), 싱가포르(SG)</td><td>계정 정보, 거래 데이터, 업로드된 사진</td><td>DB·인증·Storage 운영</td><td>서비스 이용 시 실시간 API 호출</td><td>회원 탈퇴 후 30일 이내 파기</td><td>privacy@supabase.io</td></tr>
+    <tr><td>Supabase, Inc.</td><td>호주(AU, Sydney region)</td><td>계정 정보, 로그인·인증 정보, 거래 데이터, 예산·카테고리 데이터, 커플 연동 정보, 업로드된 사진</td><td>DB·인증·Storage·Edge Functions 운영</td><td>서비스 이용 시 네트워크를 통한 실시간 전송</td><td>회원 탈퇴 후 30일 이내 파기. 단, 법정 보유 대상은 제4조 기간 동안 분리 보관</td><td>privacy@supabase.io</td></tr>
     <tr><td>Anthropic, PBC</td><td>미국(US)</td><td>거래 description, 지출 요약</td><td>AI 분석</td><td>AI 기능 이용 시 실시간</td><td>Anthropic 정책에 따름</td><td>privacy@anthropic.com</td></tr>
     <tr><td>Google LLC</td><td>미국(US)</td><td>거래 description, 결제 영수증, 푸시 토큰</td><td>Gemini AI 분석, Google Play IAP 검증, FCM 푸시 전송</td><td>해당 기능 이용 시 실시간</td><td>Google 정책에 따름</td><td>support.google.com</td></tr>
     <tr><td>Expo, Inc.</td><td>미국(US)</td><td>푸시 토큰, 크래시 스택트레이스</td><td>푸시 알림, 크래시 모니터링</td><td>앱 실행 및 크래시 발생 시</td><td>Expo·Sentry 정책에 따름</td><td>secure@expo.dev</td></tr>
@@ -143,6 +143,7 @@
   <li><strong>결제 알림 파싱(Android):</strong> 알림 접근 권한은 기술적으로 기기의 모든 알림 payload에 일시적 접근이 가능하나, 앱은 카드사·간편결제 앱 화이트리스트와 매칭된 알림에서만 가맹점명·결제금액·결제일시를 추출·저장합니다. 그 외 알림 내용은 파싱 직후 메모리에서 즉시 폐기되며 서버로 전송되지 않습니다. 본 기능은 선택적이며 언제든 비활성화할 수 있습니다.</li>
   <li><strong>AI 분석:</strong> 이용자의 거래 description 텍스트가 Anthropic·Google 서버로 전송됩니다. 이메일·이름·전화번호 등 직접 식별정보는 전송되지 않으나 description 자체에 식별 가능성이 존재할 수 있으므로, 카드번호·주민등록번호·계좌번호 등 민감정보를 description에 입력하지 않을 것을 권고합니다.</li>
   <li><strong>기념일 사진 업로드:</strong> 이미지는 Supabase Storage의 couple_memory 버킷에 저장되며 연동된 파트너에게 공유됩니다. 계정 삭제 시 해당 사진도 함께 삭제됩니다.</li>
+  <li><strong>계좌·카드 직접 연동 아님:</strong> weeple은 은행·카드사 계좌에 직접 접속하거나 잔액을 조회하지 않습니다. Android 알림 기반 기록은 기기 알림에서 후보 거래를 만들고, 사용자가 확인한 항목만 저장하는 방식입니다.</li>
 </ul>
 
 <h2>10. 이용자 및 법정대리인의 권리와 행사 방법</h2>
@@ -177,7 +178,7 @@
 
 <h2>13. 개인정보 보호책임자</h2>
 <ul>
-  <li><strong>성명:</strong> [서비스 운영자] <!-- TODO: 대표자 확정 시 실명 교체 --></li>
+  <li><strong>성명:</strong> 정성훈</li>
   <li><strong>직책:</strong> 개인정보 보호책임자</li>
   <li><strong>연락처:</strong> support@weeple.app</li>
 </ul>
@@ -193,6 +194,7 @@
 </ul>
 
 <h2>15. 개정 이력</h2>
+<p>v1.1 (시행일: 2026년 5월 13일) — Supabase 운영 리전을 호주 Sydney 기준으로 정정하고, 국외 이전 항목·목적·보유기간 및 Android 알림 기반 기록 설명을 구체화했습니다.</p>
 <p>v1.0 (시행일: 2026년 3월 23일) — 최초 제정. 본 방침이 개정되는 경우 시행일 최소 7일 전(이용자에게 불리한 변경은 30일 전)에 앱 내 공지사항을 통해 고지합니다.</p>
 
 <h2>16. 연락처</h2>
@@ -201,7 +203,7 @@
 <hr>
 
 <h1>weeple Privacy Policy</h1>
-<p class="date">Effective: March 23, 2026 (v1.0)</p>
+<p class="date">Effective: May 13, 2026 (v1.1)</p>
 
 <p>weeple ("the App") complies with the Personal Information Protection Act (PIPA) and related laws of the Republic of Korea, and is committed to protecting your personal information. This policy explains what information we collect, use, entrust, and transfer, as well as your rights as a data subject.</p>
 
@@ -277,7 +279,7 @@
     <tr><th>Recipient</th><th>Country</th><th>Items</th><th>Purpose</th><th>Time / Method</th><th>Retention</th><th>Contact</th></tr>
   </thead>
   <tbody>
-    <tr><td>Supabase, Inc.</td><td>United States (US), Singapore (SG)</td><td>Account info, transaction data, uploaded photos</td><td>DB, auth, storage operations</td><td>Real-time API calls during service use</td><td>Deleted within 30 days after withdrawal</td><td>privacy@supabase.io</td></tr>
+    <tr><td>Supabase, Inc.</td><td>Australia (AU, Sydney region)</td><td>Account information, login/authentication data, transaction records, budget/category data, couple-linking data, uploaded photos</td><td>DB, authentication, storage, and Edge Functions operations</td><td>Real-time network transfer during service use</td><td>Deleted within 30 days after account withdrawal. Data subject to statutory retention is stored separately for the periods in Section 4.</td><td>privacy@supabase.io</td></tr>
     <tr><td>Anthropic, PBC</td><td>United States (US)</td><td>Transaction descriptions, spending summaries</td><td>AI analysis</td><td>Real-time when using AI features</td><td>Per Anthropic policy</td><td>privacy@anthropic.com</td></tr>
     <tr><td>Google LLC</td><td>United States (US)</td><td>Transaction descriptions, payment receipts, push tokens</td><td>Gemini AI, Google Play IAP verification, FCM push delivery</td><td>Real-time during use</td><td>Per Google policy</td><td>support.google.com</td></tr>
     <tr><td>Expo, Inc.</td><td>United States (US)</td><td>Push tokens, crash stack traces</td><td>Push notifications, crash monitoring</td><td>On app launch and crash events</td><td>Per Expo / Sentry policy</td><td>secure@expo.dev</td></tr>
@@ -297,6 +299,7 @@
   <li><strong>Payment notification parsing (Android):</strong> Notification access technically allows transient access to all notification payloads on the device; however, the App extracts and stores only merchant, amount, and timestamp from notifications matching the card/pay-app whitelist. All other notification content is discarded from memory immediately after parsing and is never transmitted to servers. This feature is optional and can be disabled at any time.</li>
   <li><strong>AI analysis:</strong> Your transaction description text is transmitted to Anthropic and Google servers. Direct identifiers such as email, name, and phone number are NOT transmitted, but the description itself may contain identifying elements; we recommend not entering sensitive information (card numbers, national ID numbers, bank account numbers, etc.) in descriptions.</li>
   <li><strong>Anniversary photo upload:</strong> Images are stored in the couple_memory bucket of Supabase Storage and shared with the linked partner. Upon account deletion, these photos are also deleted.</li>
+  <li><strong>No direct bank/card account connection:</strong> weeple does not connect directly to banks or card issuers and does not read account balances. Android notification-based recording creates candidate transactions from device notifications, and only user-confirmed items are saved.</li>
 </ul>
 
 <h2>10. Rights of Data Subjects and Legal Representatives</h2>
@@ -331,7 +334,7 @@
 
 <h2>13. Personal Information Protection Officer</h2>
 <ul>
-  <li><strong>Name:</strong> [Service Operator] <!-- TODO: replace with actual name once representative confirmed --></li>
+  <li><strong>Name:</strong> Seonghoon Jung</li>
   <li><strong>Role:</strong> Personal Information Protection Officer</li>
   <li><strong>Contact:</strong> support@weeple.app</li>
 </ul>
@@ -347,6 +350,7 @@
 </ul>
 
 <h2>15. Revision History</h2>
+<p>v1.1 (Effective: May 13, 2026) — Corrected the Supabase operating region to Australia/Sydney and clarified cross-border transfer items, purposes, retention, and Android notification-based recording.</p>
 <p>v1.0 (Effective: March 23, 2026) — Initial version. When this policy is revised, we will provide notice in the App at least 7 days before the effective date (30 days for changes disadvantageous to users).</p>
 
 <h2>16. Contact</h2>
