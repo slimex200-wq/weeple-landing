@@ -35,6 +35,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Restored the softer pre-editorial Pricing card treatment while keeping corrected 25% yearly discount and Premium benefit policy; tightened review findings around hero CTA priority, product-screen anchor behavior, Android notification visual proof, Korean line breaks, and mobile sticky CTA overlap.
 - 2026-05-13: Android launch CTA wiring moved from public-test/mail/internal anchors to the public Google Play listing `https://play.google.com/store/apps/details?id=com.weeple.app&hl=ko&gl=KR`; the URL is centralized in `src/lib/links.ts` and added to Organization/SoftwareApplication structured data.
 - 2026-05-13: Legal pages were updated for release compliance: `privacy-policy.html` now reflects Supabase Australia/Sydney cross-border processing and Android notification-based recording limits; `terms-of-service.html` now names the current IAP products/prices, store refund flow, and pending Korean mail-order sales notice field.
+- 2026-05-13: Legal-page follow-up fixed compressed privacy-policy tables with horizontal scroll containers and added Weeple business registration details to the footer, terms, and privacy pages using the mp3 Suno repo's latest legal/footer pattern as reference.
 
 ## Next Work Queue
 
@@ -65,6 +66,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Review-fix pass verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, stale-copy `rg` checks, and Playwright screenshots for hero, product screen anchor, notification proof, pricing, FAQ, and final CTA on desktop/mobile. Visual verdict saved under `.omx/state/review-fixes-pricing-restore/ralph-progress.json`.
 - 2026-05-13: Google Play launch CTA pass verified with direct Play Store HTTP 200, `npx.cmd tsc --noEmit`, `npm.cmd run build`, Playwright screenshots, anchor href inspection, and JSON-LD inspection. Visual verdict saved under `.omx/state/play-store-launch-cta/ralph-progress.json`.
 - 2026-05-13: Release legal-page update verified with `npx.cmd tsc --noEmit` and `npm.cmd run build`; no visual/browser pass was required because only static legal copy changed.
+- 2026-05-13: Legal table/business-info follow-up verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, static HTML checks for table wrappers/business info, and Playwright screenshots of privacy/terms/footer on desktop and mobile.
 
 ## Related Vault Notes
 
