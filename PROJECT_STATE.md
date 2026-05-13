@@ -33,13 +33,13 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Polished the lower landing sections so Pricing, FAQ, and FinalCTA match the newer editorial product-story direction; removed the older glassy/rounded SaaS treatment and replaced the gradient final CTA with a dark product-backed close.
 - 2026-05-10: Elevated Android notification-based candidate transaction recording into the hero and product flow, broadened primary positioning from newlyweds to couples/couples-married/shared households, corrected the annual discount to 25%, and aligned Premium benefits around OCR, AI, premium categories, and ad-free use.
 - 2026-05-10: Restored the softer pre-editorial Pricing card treatment while keeping corrected 25% yearly discount and Premium benefit policy; tightened review findings around hero CTA priority, product-screen anchor behavior, Android notification visual proof, Korean line breaks, and mobile sticky CTA overlap.
+- 2026-05-13: Android launch CTA wiring moved from public-test/mail/internal anchors to the public Google Play listing `https://play.google.com/store/apps/details?id=com.weeple.app&hl=ko&gl=KR`; the URL is centralized in `src/lib/links.ts` and added to Organization/SoftwareApplication structured data.
 
 ## Next Work Queue
 
 - Keep copy and visuals aligned with actual app capabilities.
 - Verify landing changes in browser after any layout, animation, or 3D work.
 - Continue SEO Phase 2 work tracked in GitHub issue #12.
-- After the Play Store listing is public, add the public store URL to Organization/SoftwareApplication structured data and use it in launch CTAs where appropriate.
 
 ## Known Blockers
 
@@ -62,6 +62,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-10: Lower landing polish verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, and Playwright screenshots for `#pricing`, `#faq`, and `#final-cta` on desktop and mobile. Visual verdict saved under `.omx/state/lower-landing-polish/ralph-progress.json`.
 - 2026-05-10: Notification/positioning/pricing fix verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, stale-copy `rg` checks for old-discount/partner-sharing/newlywed-main strings, and Playwright screenshots for hero, notification recording, pricing, and FAQ on desktop/mobile. Visual verdict saved under `.omx/state/notification-positioning-pricing-fix/ralph-progress.json`.
 - 2026-05-10: Review-fix pass verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, stale-copy `rg` checks, and Playwright screenshots for hero, product screen anchor, notification proof, pricing, FAQ, and final CTA on desktop/mobile. Visual verdict saved under `.omx/state/review-fixes-pricing-restore/ralph-progress.json`.
+- 2026-05-13: Google Play launch CTA pass verified with direct Play Store HTTP 200, `npx.cmd tsc --noEmit`, `npm.cmd run build`, Playwright screenshots, anchor href inspection, and JSON-LD inspection. Visual verdict saved under `.omx/state/play-store-launch-cta/ralph-progress.json`.
 
 ## Related Vault Notes
 

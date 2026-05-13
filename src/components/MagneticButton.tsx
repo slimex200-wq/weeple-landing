@@ -7,6 +7,8 @@ type MagneticButtonProps = {
   children: ReactNode
   as?: 'a' | 'button'
   href?: string
+  target?: string
+  rel?: string
   className?: string
   onClick?: () => void
 }
@@ -19,6 +21,8 @@ export default function MagneticButton({
   children,
   as = 'a',
   href,
+  target,
+  rel,
   className,
   onClick,
 }: MagneticButtonProps) {
@@ -49,7 +53,7 @@ export default function MagneticButton({
   if (prefersReducedMotion) {
     if (as === 'a') {
       return (
-        <a href={href} className={className}>
+        <a href={href} target={target} rel={rel} className={className} onClick={onClick}>
           {children}
         </a>
       )
@@ -71,7 +75,13 @@ export default function MagneticButton({
       style={{ display: 'inline-flex' }}
     >
       <motion.div style={{ x, y }}>
-        <Tag href={as === 'a' ? href : undefined} className={className} onClick={onClick}>
+        <Tag
+          href={as === 'a' ? href : undefined}
+          target={as === 'a' ? target : undefined}
+          rel={as === 'a' ? rel : undefined}
+          className={className}
+          onClick={onClick}
+        >
           {children}
         </Tag>
       </motion.div>

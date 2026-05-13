@@ -6,6 +6,7 @@ import TiltCard from "@/components/TiltCard";
 import Money from "@/components/Money";
 import { type Period, PRICING_TIERS } from "@/data/pricing";
 import { trackEvent } from "@/lib/analytics";
+import { PLAY_STORE_URL } from "@/lib/links";
 
 function cx(...parts: Array<string | false | undefined>) {
   return parts.filter(Boolean).join(" ");
@@ -202,7 +203,9 @@ export default function Pricing() {
                   </ul>
 
                   <a
-                    href="#final-cta"
+                    href={PLAY_STORE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={() =>
                       trackEvent("cta_click", {
                         location: "pricing",
