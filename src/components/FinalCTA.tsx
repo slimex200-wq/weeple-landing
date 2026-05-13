@@ -3,6 +3,7 @@
 import { motion } from 'motion/react'
 import MagneticButton from '@/components/MagneticButton'
 import { trackEvent } from '@/lib/analytics'
+import { PLAY_STORE_URL } from '@/lib/links'
 
 export default function FinalCTA() {
   return (
@@ -71,16 +72,18 @@ export default function FinalCTA() {
           <div className="mt-7 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
             <MagneticButton
               as="a"
-              href="mailto:support@weeple.app?subject=weeple%20Android%20%EA%B3%B5%EA%B0%9C%20%ED%85%8C%EC%8A%A4%ED%8A%B8%20%EC%B0%B8%EC%97%AC"
+              href={PLAY_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() =>
                 trackEvent('cta_click', {
                   location: 'final',
-                  label: 'android_public_test',
+                  label: 'google_play',
                 })
               }
               className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-[#0f9f8f] px-6 text-base font-black text-white transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f9f8f] focus-visible:ring-offset-2 focus-visible:ring-offset-[#111513]"
             >
-              Android 공개 테스트 참여
+              Google Play에서 받기
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
                 <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
               </svg>

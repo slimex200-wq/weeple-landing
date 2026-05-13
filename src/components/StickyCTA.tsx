@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import { trackEvent } from '@/lib/analytics'
+import { PLAY_STORE_URL } from '@/lib/links'
 
 export default function StickyCTA() {
   const [visible, setVisible] = useState(false)
@@ -27,11 +28,13 @@ export default function StickyCTA() {
     <AnimatePresence>
       {visible && (
         <motion.a
-          href="#final-cta"
+          href={PLAY_STORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           onClick={() =>
             trackEvent('cta_click', {
               location: 'sticky',
-              label: 'android_public_test',
+              label: 'google_play',
             })
           }
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -44,7 +47,7 @@ export default function StickyCTA() {
             <path d="M5 12h14" />
             <path d="m13 5 7 7-7 7" />
           </svg>
-          Android 공개 테스트
+          Google Play
         </motion.a>
       )}
     </AnimatePresence>

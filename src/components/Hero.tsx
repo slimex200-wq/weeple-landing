@@ -3,6 +3,7 @@
 import { motion } from 'motion/react'
 import MagneticButton from '@/components/MagneticButton'
 import { trackEvent } from '@/lib/analytics'
+import { PLAY_STORE_URL } from '@/lib/links'
 
 const notes = ['Android 알림 확인 후 저장', '공동 지출과 개인 지출 분리', '커플·부부 생활비 관리']
 
@@ -72,16 +73,18 @@ export default function Hero() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <MagneticButton
               as="a"
-              href="#final-cta"
+              href={PLAY_STORE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() =>
                 trackEvent('cta_click', {
                   location: 'hero',
-                  label: 'android_public_test',
+                  label: 'google_play',
                 })
               }
               className="inline-flex h-[52px] items-center justify-center gap-2 rounded-full bg-[#111513] px-6 text-sm font-bold text-white transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111513] focus-visible:ring-offset-2"
             >
-              Android 공개 테스트 참여
+              Google Play에서 받기
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
                 <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
               </svg>

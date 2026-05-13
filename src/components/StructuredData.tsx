@@ -1,5 +1,6 @@
 import { FAQ_ITEMS } from "@/data/faq";
 import { PRICING_OFFERS_KRW } from "@/data/pricing";
+import { PLAY_STORE_URL } from "@/lib/links";
 
 const SITE_URL = "https://weeple.app";
 const SHARE_IMAGE_URL = `${SITE_URL}/opengraph-image-20260510-kakao-mobile.jpg`;
@@ -14,6 +15,7 @@ const organization = {
   sameAs: [
     "https://github.com/slimex200-wq/",
     "https://www.threads.net/@hype.boyo",
+    PLAY_STORE_URL,
   ],
 };
 
@@ -24,7 +26,10 @@ const softwareApplication = {
   applicationCategory: "FinanceApplication",
   applicationSubCategory: "Couple budget app",
   operatingSystem: "Android",
-  url: SITE_URL,
+  url: PLAY_STORE_URL,
+  downloadUrl: PLAY_STORE_URL,
+  installUrl: PLAY_STORE_URL,
+  identifier: "com.weeple.app",
   description:
     "개인부터 커플 공동 예산까지. 자연어 빠른 입력, 영수증 OCR, 실시간 공유, AI 분석이 한 앱에.",
   image: SHARE_IMAGE_URL,

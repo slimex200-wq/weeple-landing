@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import WeepleLogo from './WeepleLogo'
+import { PLAY_STORE_URL } from '@/lib/links'
 
 const NAV_LINKS = [
   { label: '문제', href: '#problem' },
@@ -68,10 +69,12 @@ export default function StickyNav() {
         </div>
 
         <a
-          href="#final-cta"
+          href={PLAY_STORE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-mint text-white text-sm font-semibold transition-all hover:scale-[1.03] hover:shadow-[0_8px_20px_-6px_rgba(14,165,160,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2"
         >
-            Android 공개 테스트
+            Google Play
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>
             <path d="M5 12h14M13 5l7 7-7 7" />
           </svg>
