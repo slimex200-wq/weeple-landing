@@ -20,7 +20,7 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       line-height: 1.7;
       color: #1a1a1a;
-      max-width: 720px;
+      max-width: 860px;
       margin: 40px auto;
       padding: 40px 36px;
       background: rgba(255, 255, 255, 0.6);
@@ -33,12 +33,46 @@
     h1 { font-size: 1.5rem; margin-bottom: 8px; }
     h2 { font-size: 1.15rem; margin-top: 28px; margin-bottom: 8px; }
     p, li { font-size: 0.95rem; margin-bottom: 8px; }
+    h1, h2, p, li { word-break: keep-all; overflow-wrap: break-word; }
     ul { padding-left: 20px; }
     .date { color: #666; font-size: 0.85rem; margin-bottom: 24px; }
     hr { border: none; border-top: 1px solid #e0e0e0; margin: 32px 0; }
-    table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.9rem; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
-    th { background: #f5f5f5; font-weight: 600; }
+    a { color: #0f766e; }
+    .table-wrap {
+      width: 100%;
+      margin: 12px 0 18px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.42);
+    }
+    table {
+      width: 100%;
+      min-width: 680px;
+      border-collapse: collapse;
+      margin: 0;
+      font-size: 0.9rem;
+    }
+    .table-wrap.wide table { min-width: 980px; }
+    .table-note {
+      margin: 8px 0 -4px;
+      color: #5d6f67;
+      font-size: 0.82rem;
+    }
+    th, td {
+      border-right: 1px solid #ddd;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    th:last-child, td:last-child { border-right: 0; }
+    tr:last-child td { border-bottom: 0; }
+    th { background: rgba(245, 245, 245, 0.72); font-weight: 700; }
+    .business-list strong { display: inline-block; min-width: 118px; color: #31443c; }
     @media (max-width: 600px) {
       body { margin: 16px; padding: 28px 24px; border-radius: 18px; }
     }
@@ -80,6 +114,7 @@
 </ul>
 
 <h2>4. 보유 및 이용 기간</h2>
+<div class="table-wrap">
 <table>
   <thead>
     <tr><th>구분</th><th>보관 기간</th><th>근거</th></tr>
@@ -92,6 +127,7 @@
     <tr><td>접속 로그</td><td>3개월</td><td>통신비밀보호법 제15조의2</td></tr>
   </tbody>
 </table>
+</div>
 
 <h2>5. 개인정보의 제3자 제공</h2>
 <ul>
@@ -102,6 +138,7 @@
 </ul>
 
 <h2>6. 개인정보 처리 위탁</h2>
+<div class="table-wrap">
 <table>
   <thead>
     <tr><th>수탁자</th><th>위탁업무 내용</th></tr>
@@ -114,10 +151,13 @@
     <tr><td>Apple Inc.</td><td>App Store 인앱 결제 처리 및 영수증 검증</td></tr>
   </tbody>
 </table>
+</div>
 <p>서비스 제공자는 위탁업무의 내용과 수탁자를 본 방침을 통해 공개하며, 수탁자가 개인정보를 안전하게 처리하도록 감독합니다.</p>
 
 <h2>7. 개인정보의 국외 이전</h2>
 <p>앱은 서비스 운영을 위해 아래와 같이 개인정보를 국외로 이전합니다(「개인정보 보호법」 제28조의8, 제28조의9).</p>
+<p class="table-note">좌우로 스크롤해 전체 항목을 확인할 수 있습니다.</p>
+<div class="table-wrap wide">
 <table>
   <thead>
     <tr><th>이전받는 자</th><th>국가</th><th>이전 항목</th><th>목적</th><th>이전 시점·방법</th><th>보유기간</th><th>연락처</th></tr>
@@ -130,6 +170,7 @@
     <tr><td>Apple Inc.</td><td>미국(US)</td><td>결제 영수증, 거래 ID</td><td>App Store IAP 검증</td><td>iOS 인앱 결제 시 실시간</td><td>Apple 정책에 따름</td><td>apple.com/legal/privacy</td></tr>
   </tbody>
 </table>
+</div>
 
 <h2>8. 자동수집장치의 설치·운영 및 거부</h2>
 <ul>
@@ -184,6 +225,16 @@
 </ul>
 <p>이용자는 개인정보 처리와 관련한 문의, 불만처리, 피해구제 등에 관하여 위 책임자에게 연락할 수 있으며, 서비스 제공자는 지체 없이 답변 및 처리하도록 노력합니다.</p>
 
+<h2>13-A. 사업자 정보</h2>
+<ul class="business-list">
+  <li><strong>상호:</strong> 윗플 (weeple)</li>
+  <li><strong>대표자:</strong> 정성훈</li>
+  <li><strong>사업자등록번호:</strong> 239-49-00999</li>
+  <li><strong>사업장 소재지:</strong> 서울특별시 동작구 (세부 주소는 <a href="mailto:support@weeple.app">support@weeple.app</a> 문의)</li>
+  <li><strong>이메일:</strong> <a href="mailto:support@weeple.app">support@weeple.app</a></li>
+  <li><strong>통신판매업신고번호:</strong> 추후 등록 예정</li>
+</ul>
+
 <h2>14. 권익침해 구제 방법</h2>
 <p>개인정보 침해로 인한 신고·상담이 필요한 경우 아래 기관에 문의할 수 있습니다.</p>
 <ul>
@@ -194,6 +245,7 @@
 </ul>
 
 <h2>15. 개정 이력</h2>
+<p>v1.2 (시행일: 2026년 5월 13일) — 표 레이아웃을 좁은 화면에서도 읽기 쉽게 정리하고 사업자 정보를 추가했습니다.</p>
 <p>v1.1 (시행일: 2026년 5월 13일) — Supabase 운영 리전을 호주 Sydney 기준으로 정정하고, 국외 이전 항목·목적·보유기간 및 Android 알림 기반 기록 설명을 구체화했습니다.</p>
 <p>v1.0 (시행일: 2026년 3월 23일) — 최초 제정. 본 방침이 개정되는 경우 시행일 최소 7일 전(이용자에게 불리한 변경은 30일 전)에 앱 내 공지사항을 통해 고지합니다.</p>
 
@@ -236,6 +288,7 @@
 </ul>
 
 <h2>4. Retention and Use Periods</h2>
+<div class="table-wrap">
 <table>
   <thead>
     <tr><th>Category</th><th>Retention Period</th><th>Legal Basis</th></tr>
@@ -248,6 +301,7 @@
     <tr><td>Access logs</td><td>3 months</td><td>Protection of Communications Secrets Act, Art. 15-2</td></tr>
   </tbody>
 </table>
+</div>
 
 <h2>5. Provision to Third Parties</h2>
 <ul>
@@ -258,6 +312,7 @@
 </ul>
 
 <h2>6. Consignment of Personal Information Processing</h2>
+<div class="table-wrap">
 <table>
   <thead>
     <tr><th>Consignee</th><th>Consigned Tasks</th></tr>
@@ -270,10 +325,13 @@
     <tr><td>Apple Inc.</td><td>App Store in-app purchase processing and receipt verification</td></tr>
   </tbody>
 </table>
+</div>
 <p>The service provider discloses the details of consigned tasks and consignees in this policy, and supervises them to ensure safe processing of personal information.</p>
 
 <h2>7. Cross-Border Transfer of Personal Information</h2>
 <p>The App transfers personal information overseas as follows, pursuant to Articles 28-8 and 28-9 of the Personal Information Protection Act.</p>
+<p class="table-note">Scroll horizontally to view all columns.</p>
+<div class="table-wrap wide">
 <table>
   <thead>
     <tr><th>Recipient</th><th>Country</th><th>Items</th><th>Purpose</th><th>Time / Method</th><th>Retention</th><th>Contact</th></tr>
@@ -286,6 +344,7 @@
     <tr><td>Apple Inc.</td><td>United States (US)</td><td>Payment receipts, transaction IDs</td><td>App Store IAP verification</td><td>Real-time for iOS in-app purchases</td><td>Per Apple policy</td><td>apple.com/legal/privacy</td></tr>
   </tbody>
 </table>
+</div>
 
 <h2>8. Automatic Data Collection Tools and Opt-Out</h2>
 <ul>
@@ -340,6 +399,16 @@
 </ul>
 <p>Users may contact the officer above for inquiries, complaints, or remedy requests related to personal information processing; the service provider will endeavor to respond promptly.</p>
 
+<h2>13-A. Business Information</h2>
+<ul class="business-list">
+  <li><strong>Business name:</strong> Weeple (weeple)</li>
+  <li><strong>Representative:</strong> Seonghoon Jung</li>
+  <li><strong>Business registration number:</strong> 239-49-00999</li>
+  <li><strong>Business address:</strong> Dongjak-gu, Seoul, Republic of Korea (specific address available by contacting <a href="mailto:support@weeple.app">support@weeple.app</a>)</li>
+  <li><strong>Email:</strong> <a href="mailto:support@weeple.app">support@weeple.app</a></li>
+  <li><strong>Mail-order sales registration number:</strong> pending registration</li>
+</ul>
+
 <h2>14. Remedies for Infringement of Rights</h2>
 <p>For reports or consultation regarding personal information infringement, you may contact the following agencies.</p>
 <ul>
@@ -350,6 +419,7 @@
 </ul>
 
 <h2>15. Revision History</h2>
+<p>v1.2 (Effective: May 13, 2026) — Improved table readability on narrow screens and added business information.</p>
 <p>v1.1 (Effective: May 13, 2026) — Corrected the Supabase operating region to Australia/Sydney and clarified cross-border transfer items, purposes, retention, and Android notification-based recording.</p>
 <p>v1.0 (Effective: March 23, 2026) — Initial version. When this policy is revised, we will provide notice in the App at least 7 days before the effective date (30 days for changes disadvantageous to users).</p>
 

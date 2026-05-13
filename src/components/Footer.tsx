@@ -44,6 +44,14 @@ const groups: LinkGroup[] = [
   },
 ]
 
+const businessInfo = [
+  '윗플 (weeple)',
+  '대표 정성훈',
+  '사업자등록번호 239-49-00999',
+  '통신판매업신고 추후 등록 예정',
+  '서울특별시 동작구',
+]
+
 export default function Footer() {
   return (
     <footer className="relative mt-20 border-t border-divider bg-bg">
@@ -114,8 +122,27 @@ export default function Footer() {
           ))}
         </div>
 
+        <div
+          lang="ko"
+          className="mt-10 border-t border-divider pt-6 text-xs leading-6 text-fg-muted sm:mt-14 sm:pt-8"
+        >
+          <div className="mb-2 font-semibold text-fg-secondary">사업자 정보</div>
+          <div className="flex flex-wrap gap-x-4 gap-y-1">
+            {businessInfo.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
+            <a
+              href="mailto:support@weeple.app"
+              className="hover:text-mint transition-colors"
+            >
+              support@weeple.app
+            </a>
+          </div>
+          <p className="mt-1">세부 주소는 고객지원 이메일로 문의할 수 있습니다.</p>
+        </div>
+
         {/* Bottom bar */}
-        <div className="mt-10 pt-6 sm:mt-14 sm:pt-8 border-t border-divider flex flex-col sm:flex-row justify-between gap-4 text-xs text-fg-muted">
+        <div className="mt-6 border-t border-divider pt-6 flex flex-col sm:flex-row justify-between gap-4 text-xs text-fg-muted">
           <div>
             © 2026 weeple. All rights reserved. ·
             <span className="num ml-1">v1.0</span>
