@@ -1,5 +1,6 @@
-// GA4 측정 ID — public (HTML <script> 에 노출되는 client-side identifier).
-// secret 이 아니라 hardcode 가 운영상 단순. ID 변경 시 코드 PR 로 진행.
+import { sendAdminEvent } from './adminEvents'
+
+// GA4 measurement ID is a public client-side identifier.
 export const GA_MEASUREMENT_ID = 'G-KVX9199YWY'
 
 type GtagFn = (
@@ -16,8 +17,11 @@ declare global {
 }
 
 export function trackEvent(name: string, params?: Record<string, unknown>) {
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') {
-    return
+  if (typeof window === 'undefined') return
+
+  sendAdminEvent(`${window.location.pathname}${window.location.search}`, name, params)
+
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', name, params)
   }
-  window.gtag('event', name, params)
 }

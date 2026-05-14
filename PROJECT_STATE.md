@@ -39,6 +39,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-14: Landing copy now explicitly explains the solo-first path: users can start as a personal budget app and later invite a partner for couple/shared budget management; added a visible solo-to-couple section, moved the solo-use FAQ to the top, updated SEO metadata/JSON-LD, and added `docs/play-store-aso-2026-05-14.md` with Play Console title/short-description guidance.
 
 - 2026-05-14: Added first-party admin traffic tracking for `weeple.app` via the `claude-budget` Supabase `track-event` Edge Function so admin.weeple.app can show app traffic, country/device/page breakdowns, and app-level traffic.
+- 2026-05-15: Landing CTA analytics now also writes first-party product events into the admin console event taxonomy, and Sentry Next.js client monitoring/source-map upload is wired behind `NEXT_PUBLIC_SENTRY_*` and `SENTRY_*` env vars.
 
 ## Next Work Queue
 
@@ -74,6 +75,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-14: Solo-first/couple-later positioning verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, local HTTP checks for home and `/guides/personal-to-couple-budget`, Playwright screenshots for desktop/mobile hero, solo-to-couple section, and mobile FAQ. Live Play Store web metadata and search-result presence were checked for `가계부`, `커플 가계부`, and `AI 가계부`.
 
 - 2026-05-14: Admin traffic tracker verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, production bundle scan for `track-event`, and Supabase smoke insert/delete against `admin_traffic_events`.
+- 2026-05-15: Admin product-event and Sentry pass verified with `npx.cmd tsc --noEmit` and Sentry-enabled `npm.cmd run build`; production deployment verification remains tied to the current release pass.
 
 ## Related Vault Notes
 
