@@ -5,8 +5,8 @@ import { motion, useScroll, useTransform } from 'motion/react'
 
 const reasons = [
   {
-    title: '둘이 쓰는 생활비는 생겼는데, 기준은 아직 각자입니다',
-    body: '생활비, 데이트비, 월세처럼 둘이 책임지는 돈과 각자 남겨둘 돈을 먼저 나눠야 합니다.',
+    title: '처음부터 둘이 아니어도 시작할 수 있어야 합니다',
+    body: '혼자 기록하던 가계부가 나중에 커플·부부 생활비 관리로 이어져야 전환 부담이 줄어듭니다.',
   },
   {
     title: '공동 지출과 개인 소비가 섞이면 금방 피곤해집니다',
@@ -18,8 +18,22 @@ const reasons = [
   },
 ]
 
-const moneyAreas = ['공동 생활비', '데이트비', '월세·고정지출', '각자 소비']
-const flowItems = ['알림 후보', '상태 확인', '공동·개인', '예산 기준', '리포트·AI']
+const moneyAreas = ['개인 가계부', '파트너 초대', '공동 생활비', '각자 소비']
+const flowItems = ['개인 기록', '알림 후보', '공동·개인', '예산 기준', '리포트·AI']
+const soloBridgeSteps = [
+  {
+    title: '혼자 먼저 기록',
+    body: '파트너 초대 전에도 개인 가계부로 수입·지출, 예산, 알림 후보 기록을 시작할 수 있습니다.',
+  },
+  {
+    title: '공유할 돈만 구분',
+    body: '생활비·데이트 비용처럼 함께 볼 항목과, 취미·개인 약속처럼 남겨둘 항목을 나눕니다.',
+  },
+  {
+    title: '필요할 때 파트너 초대',
+    body: '함께 관리할 시점이 오면 파트너를 초대해 공동 지출과 예산 기준을 같은 화면에서 봅니다.',
+  },
+]
 const notificationSteps = [
   {
     title: '알림 감지',
@@ -319,8 +333,9 @@ function ScrollSequenceProductStory() {
           </h2>
           <div>
             <p className="max-w-2xl text-base leading-8 text-[#52645b] [word-break:keep-all] sm:text-lg">
-              Android 알림으로 거래 후보를 만들고, 이번 달 상태를 함께 보고, 공동 지출과 개인 소비를 나누고,
-              예산 기준을 세운 뒤 리포트로 다음 조정 포인트를 확인합니다.
+              개인 가계부로 먼저 기록하고, Android 알림으로 거래 후보를 만들고,
+              공동 지출과 개인 소비를 나눕니다. 함께 관리할 시점에는 파트너를 초대해
+              같은 예산 기준과 리포트를 봅니다.
             </p>
             <div className="mt-6 grid gap-px overflow-hidden border-y border-[#111513]/14 bg-[#111513]/14 sm:grid-cols-5">
               {flowItems.map((item, index) => (
@@ -340,6 +355,58 @@ function ScrollSequenceProductStory() {
         {storySequence.map((step, index) => (
           <TimelineChapter key={step.id} step={step} index={index} />
         ))}
+      </div>
+    </section>
+  )
+}
+
+function SoloToCoupleBridge() {
+  return (
+    <section
+      id="solo-to-couple"
+      className="relative border-b border-[#111513]/10 bg-[#f8fbf8] px-5 py-20 sm:px-8 sm:py-24 lg:px-10"
+      aria-label="개인 가계부에서 커플 가계부로 이어지는 흐름"
+    >
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
+          className="lg:sticky lg:top-28"
+        >
+          <Eyebrow>혼자 시작 가능</Eyebrow>
+          <h2 className="max-w-3xl text-4xl font-black leading-[1.03] text-[#111513] [word-break:keep-all] sm:text-6xl">
+            개인 가계부로 쓰다가, 필요할 때 커플로 연결합니다.
+          </h2>
+          <p className="mt-6 max-w-xl text-base leading-8 text-[#52645b] [word-break:keep-all] sm:text-lg">
+            weeple은 처음부터 둘이 써야만 하는 앱이 아닙니다. 혼자 돈을 정리하다가
+            함께 볼 돈이 생기면 그때 파트너를 초대하면 됩니다.
+          </p>
+        </motion.div>
+
+        <div className="border-t border-[#111513]">
+          {soloBridgeSteps.map((step, index) => (
+            <motion.article
+              key={step.title}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.65, delay: index * 0.08, ease: [0.2, 0.8, 0.2, 1] }}
+              className="grid gap-5 border-b border-[#111513]/15 py-8 sm:grid-cols-[7rem_1fr]"
+            >
+              <div className="num text-sm font-bold text-[#f06a4e]">0{index + 1}</div>
+              <div>
+                <h3 className="text-2xl font-extrabold leading-tight text-[#111513] [word-break:keep-all]">
+                  {step.title}
+                </h3>
+                <p className="mt-4 max-w-2xl text-base leading-8 text-[#52645b] [word-break:keep-all]">
+                  {step.body}
+                </p>
+              </div>
+            </motion.article>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -439,10 +506,11 @@ export default function ProductProofSections() {
               커플·부부의 첫 돈 기준
             </div>
             <h2 className="max-w-xl text-4xl font-black leading-[1.03] text-[#111513] [word-break:keep-all] sm:text-6xl">
-              둘이 쓰는 생활비는 생겼는데, 기준은 아직 각자입니다.
+              혼자 쓰던 가계부가 둘의 기준으로 이어져야 합니다.
             </h2>
             <p className="mt-6 max-w-md text-base leading-7 text-[#52645b] [word-break:keep-all] sm:text-lg sm:leading-8">
-              weeple은 커플·부부가 생활비와 개인 소비의 기준을 함께 맞추기 위한 앱에 가깝습니다.
+              weeple은 개인 기록으로 시작해, 커플·부부가 생활비와 개인 소비의 기준을
+              함께 맞추는 흐름으로 이어집니다.
             </p>
             <div className="mt-8 flex max-w-md flex-wrap gap-2">
               {moneyAreas.map((item) => (
@@ -480,6 +548,8 @@ export default function ProductProofSections() {
           </div>
         </div>
       </section>
+
+      <SoloToCoupleBridge />
 
       <NotificationProof />
 

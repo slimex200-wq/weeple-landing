@@ -11,7 +11,7 @@ const organization = {
   name: "weeple",
   url: SITE_URL,
   logo: SHARE_IMAGE_URL,
-  description: "커플과 개인을 위한 가계부 + AI 분석 앱",
+  description: "개인으로 시작해 커플 공동 예산까지 이어지는 가계부 + AI 분석 앱",
   sameAs: [
     "https://github.com/slimex200-wq/",
     "https://www.threads.net/@hype.boyo",
@@ -31,16 +31,17 @@ const softwareApplication = {
   installUrl: PLAY_STORE_URL,
   identifier: "com.weeple.app",
   description:
-    "개인부터 커플 공동 예산까지. 자연어 빠른 입력, 영수증 OCR, 실시간 공유, AI 분석이 한 앱에.",
+    "개인 가계부로 먼저 시작하고, 필요할 때 파트너를 초대해 커플 공동 예산까지 이어지는 가계부 앱입니다. 자연어 빠른 입력, 영수증 OCR, Android 알림 확인 후 저장, AI 분석을 한 앱에서 사용할 수 있습니다.",
   image: SHARE_IMAGE_URL,
   keywords:
-    "커플 가계부 앱, 공유 가계부 앱, 부부 가계부 앱, AI 가계부 앱, 안드로이드 가계부 앱",
+    "개인 가계부 앱, 커플 가계부 앱, 공유 가계부 앱, 부부 가계부 앱, AI 가계부 앱, 안드로이드 가계부 앱",
   audience: {
     "@type": "Audience",
     audienceType: "커플, 부부, 동거 가구, 개인 가계부 사용자",
   },
   featureList: [
     "공동 지출과 개인 지출 분리",
+    "개인 가계부로 시작 후 파트너 초대",
     "파트너와 함께 보는 공동 예산",
     "자연어 빠른 입력",
     "영수증 OCR",

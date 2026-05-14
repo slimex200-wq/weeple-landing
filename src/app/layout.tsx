@@ -19,11 +19,11 @@ const pretendard = localFont({
 })
 
 const siteUrl = 'https://weeple.app'
-const siteTitle = 'weeple - 커플 가계부 앱, 둘이 쓰는 돈 한눈에'
+const siteTitle = 'weeple - 개인부터 커플까지 이어지는 가계부 앱'
 const siteDescription =
-  '커플·부부·동거 가구를 위한 AI 커플 가계부. 공동 지출과 개인 지출을 분리해서 관리하고, 데이트 비용 정산·공동 예산·자연어 빠른 입력·영수증 OCR·Android 결제 알림 자동 기입·AI 월간 분석을 한 앱에. iOS 는 준비 중.'
+  '개인 가계부로 먼저 시작하고, 필요할 때 파트너를 초대해 커플·부부 공동 가계부로 이어가세요. 공동 지출과 개인 지출 분리, 데이트 비용 정산, 공동 예산, 자연어 빠른 입력, 영수증 OCR, Android 결제 알림 확인 후 저장, AI 월간 분석을 한 앱에. iOS 는 준비 중.'
 const shareDescription =
-  '커플·부부 공동 가계부 + AI 분석. 자연어 한 줄로 3초 기록, 생활비·데이트 비용 정산까지. Android 우선 출시.'
+  '혼자 시작하고, 필요할 때 커플 가계부로 연결. 공동 지출·개인 지출 분리와 AI 분석까지. Android 우선 출시.'
 // Static share image in public/. The dated filename intentionally changes the
 // image URL so KakaoTalk refreshes its separately cached preview image.
 // Keep it lightweight so mobile chat preview crawlers do not fail image fetches.
@@ -72,6 +72,8 @@ export const metadata: Metadata = {
   },
   keywords: [
     'AI 커플 가계부',
+    '개인 가계부',
+    '개인 가계부 앱',
     '커플 가계부',
     '커플 가계부 앱',
     '커플 가계부 앱 추천',

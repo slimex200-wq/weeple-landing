@@ -11,9 +11,9 @@ const groups: LinkGroup[] = [
   {
     title: '제품',
     links: [
-      { label: '기능', href: '#smart-insights' },
+      { label: '개인에서 커플로', href: '#solo-to-couple' },
       { label: '가격', href: '#pricing' },
-      { label: '3D 체험', href: '#live-demo' },
+      { label: '앱 화면', href: '#live-demo' },
     ],
   },
   {
@@ -27,6 +27,7 @@ const groups: LinkGroup[] = [
   {
     title: '가이드',
     links: [
+      { label: '개인에서 커플 가계부로', href: '/guides/personal-to-couple-budget' },
       { label: '가계부 앱 추천', href: '/guides/budget-app-recommendation' },
       { label: '공유 가계부 앱 비교', href: '/guides/shared-budget-app-comparison' },
       { label: '커플 가계부 앱', href: '/guides/couple-budget-app' },
@@ -75,7 +76,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-sm text-fg-secondary leading-relaxed max-w-xs mb-6">
-              둘이 쓰는 돈, 한눈에. 자연어 입력부터 AI 분석까지 한 앱에서.
+              혼자 시작하고, 필요할 때 커플로 연결. 자연어 입력부터 AI 분석까지 한 앱에서.
             </p>
             {/* Social */}
             <div className="flex gap-3">
@@ -148,7 +149,7 @@ export default function Footer() {
             <span className="num ml-1">v1.0</span>
           </div>
           <div className="flex flex-wrap gap-x-4 gap-y-1">
-            <span>커플을 위한 가계부 · 서울</span>
+            <span>개인부터 커플까지 이어지는 가계부 · 서울</span>
             <a
               href="mailto:support@weeple.app"
               className="hover:text-mint transition-colors"
