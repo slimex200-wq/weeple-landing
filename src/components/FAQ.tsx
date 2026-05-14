@@ -29,7 +29,8 @@ export default function FAQ() {
             쓰기 전에 걸리는 것들을 먼저 답합니다.
           </h2>
           <p className="mt-6 max-w-md text-base leading-8 text-[#52645b] [word-break:keep-all] sm:text-lg">
-            공유 범위, 알림 기록, AI 분석, iOS 지원처럼 실제로 망설이게 되는 질문만 남겼습니다.
+            개인으로 먼저 써도 되는지, 언제 파트너를 초대하는지, 어떤 기록이 공유되는지부터
+            실제로 망설이게 되는 질문만 남겼습니다.
           </p>
         </motion.div>
 

@@ -7,9 +7,9 @@ import { PLAY_STORE_URL } from '@/lib/links'
 
 const NAV_LINKS = [
   { label: '문제', href: '#problem' },
+  { label: '개인', href: '#solo-to-couple' },
   { label: '이야기', href: '#about' },
   { label: '데모', href: '#live-demo' },
-  { label: '커플', href: '#couple' },
   { label: '가격', href: '#pricing' },
 ]
 

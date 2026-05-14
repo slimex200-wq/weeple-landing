@@ -36,12 +36,14 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-13: Android launch CTA wiring moved from public-test/mail/internal anchors to the public Google Play listing `https://play.google.com/store/apps/details?id=com.weeple.app&hl=ko&gl=KR`; the URL is centralized in `src/lib/links.ts` and added to Organization/SoftwareApplication structured data.
 - 2026-05-13: Legal pages were updated for release compliance: `privacy-policy.html` now reflects Supabase Australia/Sydney cross-border processing and Android notification-based recording limits; `terms-of-service.html` now names the current IAP products/prices, store refund flow, and pending Korean mail-order sales notice field.
 - 2026-05-13: Legal-page follow-up fixed compressed privacy-policy tables with horizontal scroll containers and added Weeple business registration details to the footer, terms, and privacy pages using the mp3 Suno repo's latest legal/footer pattern as reference.
+- 2026-05-14: Landing copy now explicitly explains the solo-first path: users can start as a personal budget app and later invite a partner for couple/shared budget management; added a visible solo-to-couple section, moved the solo-use FAQ to the top, updated SEO metadata/JSON-LD, and added `docs/play-store-aso-2026-05-14.md` with Play Console title/short-description guidance.
 
 ## Next Work Queue
 
 - Keep copy and visuals aligned with actual app capabilities.
 - Verify landing changes in browser after any layout, animation, or 3D work.
 - Continue SEO Phase 2 work tracked in GitHub issue #12.
+- Apply Play Console ASO copy updates manually because store listing metadata is not managed by this repo; follow-up tracked in GitHub issue #51.
 
 ## Known Blockers
 
@@ -67,6 +69,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-13: Google Play launch CTA pass verified with direct Play Store HTTP 200, `npx.cmd tsc --noEmit`, `npm.cmd run build`, Playwright screenshots, anchor href inspection, and JSON-LD inspection. Visual verdict saved under `.omx/state/play-store-launch-cta/ralph-progress.json`.
 - 2026-05-13: Release legal-page update verified with `npx.cmd tsc --noEmit` and `npm.cmd run build`; no visual/browser pass was required because only static legal copy changed.
 - 2026-05-13: Legal table/business-info follow-up verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, static HTML checks for table wrappers/business info, and Playwright screenshots of privacy/terms/footer on desktop and mobile.
+- 2026-05-14: Solo-first/couple-later positioning verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, local HTTP checks for home and `/guides/personal-to-couple-budget`, Playwright screenshots for desktop/mobile hero, solo-to-couple section, and mobile FAQ. Live Play Store web metadata and search-result presence were checked for `가계부`, `커플 가계부`, and `AI 가계부`.
 
 ## Related Vault Notes
 

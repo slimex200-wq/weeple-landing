@@ -5,7 +5,7 @@ import MagneticButton from '@/components/MagneticButton'
 import { trackEvent } from '@/lib/analytics'
 import { PLAY_STORE_URL } from '@/lib/links'
 
-const notes = ['Android 알림 확인 후 저장', '공동 지출과 개인 지출 분리', '커플·부부 생활비 관리']
+const notes = ['혼자 먼저 시작', '필요할 때 파트너 초대', '공동/개인 지출 분리']
 
 export default function Hero() {
   return (
@@ -47,22 +47,23 @@ export default function Hero() {
         >
           <div className="mb-5 inline-flex items-center gap-2 border-y border-[#111513] py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#111513]">
             <span className="h-2 w-2 rounded-full bg-[#f06a4e]" aria-hidden />
-            Built for shared money rules
+            Solo first, couple-ready
           </div>
 
           <h1 className="text-6xl font-black leading-[0.9] text-[#111513] sm:text-7xl lg:text-8xl">
-            커플{' '}
-            <span className="whitespace-nowrap">가계부 앱,</span>
+            혼자{' '}
+            <span className="whitespace-nowrap">시작해도,</span>
+            <span className="mt-2 block">커플로 이어지는</span>
             <span className="mt-2 block text-[#0f9f8f]">weeple</span>
           </h1>
 
           <p className="mt-7 max-w-xl text-lg leading-8 text-[#33423b] [word-break:keep-all] sm:text-xl sm:leading-9">
-            각자 통장은 따로, 가계부는 같이. 생활비와 데이트 비용은 한곳에서 보고,
-            개인 소비는 각자의 영역으로 남겨둡니다.
+            개인 가계부로 먼저 쓰다가, 필요할 때 파트너를 초대해 커플 가계부로
+            연결하세요. 혼자 쓴 돈은 내 영역에, 함께 볼 돈은 공동 영역에 남깁니다.
           </p>
 
           <p className="mt-5 max-w-xl border-l-2 border-[#f06a4e] pl-4 text-base leading-7 text-[#5b453d] [word-break:keep-all]">
-            커플·부부의 돈 관리는 아끼는 의지보다, 둘이 같은 기준을 보는 구조에서 시작합니다.
+            혼자 써도 괜찮습니다. 둘이 관리할 시점이 오면 같은 기준으로 이어가면 됩니다.
           </p>
 
           <p className="mt-5 max-w-xl border-y border-[#111513]/15 py-4 text-base font-semibold leading-7 text-[#33423b] [word-break:keep-all]">
