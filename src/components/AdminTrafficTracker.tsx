@@ -8,7 +8,7 @@ export default function AdminTrafficTracker() {
   const pathname = usePathname()
 
   useEffect(() => {
-    sendAdminEvent(`${pathname}${window.location.search}`)
+    sendAdminEvent(pathname || '/')
   }, [pathname])
 
   return null

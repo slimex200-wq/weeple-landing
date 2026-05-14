@@ -19,7 +19,7 @@ declare global {
 export function trackEvent(name: string, params?: Record<string, unknown>) {
   if (typeof window === 'undefined') return
 
-  sendAdminEvent(`${window.location.pathname}${window.location.search}`, name, params)
+  sendAdminEvent(window.location.pathname || '/', name, params)
 
   if (typeof window.gtag === 'function') {
     window.gtag('event', name, params)
