@@ -76,6 +76,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 
 - 2026-05-14: Admin traffic tracker verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, production bundle scan for `track-event`, and Supabase smoke insert/delete against `admin_traffic_events`.
 - 2026-05-15: Admin product-event and Sentry pass verified with `npx.cmd tsc --noEmit` and Sentry-enabled `npm.cmd run build`; production deployment verification remains tied to the current release pass.
+- 2026-05-15: Mobile landing performance pass removed the 2 MB Pretendard webfont from the first page, replaced hero/product decorative PNG loads with lightweight WebP assets, made the hero server-rendered/static, simplified the product story on mobile, hid the sticky CTA over product-heavy sections, and disabled client Sentry initialization on the public landing until it can be reintroduced within a performance budget.
 
 ## Related Vault Notes
 

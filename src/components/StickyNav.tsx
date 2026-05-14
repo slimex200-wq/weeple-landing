@@ -27,7 +27,7 @@ export default function StickyNav() {
 
   return (
     <motion.nav
-      initial={{ y: -80 }}
+      initial={false}
       animate={{ y: 0 }}
       transition={{ duration: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -72,9 +72,9 @@ export default function StickyNav() {
           href={PLAY_STORE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-mint text-white text-sm font-semibold transition-all hover:scale-[1.03] hover:shadow-[0_8px_20px_-6px_rgba(14,165,160,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2"
+          className="hidden items-center gap-1.5 rounded-full bg-mint px-4 py-2 text-sm font-semibold text-white transition-all hover:scale-[1.03] hover:shadow-[0_8px_20px_-6px_rgba(14,165,160,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint focus-visible:ring-offset-2 sm:inline-flex"
         >
-            Google Play
+          Google Play
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" aria-hidden>
             <path d="M5 12h14M13 5l7 7-7 7" />
           </svg>

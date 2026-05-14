@@ -18,14 +18,11 @@ export default function FinalCTA() {
         style={{
           WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, black 28%, black 100%)',
           maskImage: 'linear-gradient(90deg, transparent 0%, black 28%, black 100%)',
+          backgroundImage: 'url("/opengraph-image-20260510.webp")',
+          backgroundPosition: 'right center',
+          backgroundSize: 'cover',
         }}
-      >
-        <img
-          src="/opengraph-image-20260510.png"
-          alt=""
-          className="h-full w-full object-cover object-right"
-        />
-      </div>
+      />
       <div
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(90deg,#111513_0%,rgba(17,21,19,0.96)_42%,rgba(17,21,19,0.74)_72%,rgba(17,21,19,0.58)_100%)]"

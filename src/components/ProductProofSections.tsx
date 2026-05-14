@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'motion/react'
+import { useEffect, useRef, useState } from 'react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 
 const reasons = [
   {
@@ -205,11 +205,86 @@ const storySequence: StoryStep[] = [
   { ...storySteps[2], index: '04' },
 ]
 
+const productImages: Record<string, { webp: string; width: number; height: number }> = {
+  '/product-proof/home-summary.png': {
+    webp: '/product-proof/home-summary.webp',
+    width: 1672,
+    height: 941,
+  },
+  '/product-proof/transaction-history.png': {
+    webp: '/product-proof/transaction-history.webp',
+    width: 1672,
+    height: 941,
+  },
+  '/product-proof/quick-input.png': {
+    webp: '/product-proof/quick-input.webp',
+    width: 1672,
+    height: 941,
+  },
+  '/product-proof/report-dashboard.png': {
+    webp: '/product-proof/report-dashboard.webp',
+    width: 1536,
+    height: 1024,
+  },
+  '/product-proof/ai-insights.png': {
+    webp: '/product-proof/ai-insights.webp',
+    width: 1672,
+    height: 941,
+  },
+  '/product-proof/budget-settings.png': {
+    webp: '/product-proof/budget-settings.webp',
+    width: 1672,
+    height: 941,
+  },
+}
+
 const founderPrinciples = [
   '생활비와 데이트 비용은 같이 보고, 개인 소비는 침범하지 않기',
   '예산은 혼자 정하지 않고, 둘이 같은 화면에서 확인하기',
   'AI는 판단자가 아니라 다음 조정 포인트를 찾는 도구로 쓰기',
 ]
+
+function useDesktopStory() {
+  const prefersReducedMotion = useReducedMotion()
+  const [isDesktop, setIsDesktop] = useState(false)
+
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1024px)')
+    const update = () => setIsDesktop(query.matches)
+
+    update()
+    query.addEventListener('change', update)
+    return () => query.removeEventListener('change', update)
+  }, [])
+
+  return isDesktop && !prefersReducedMotion
+}
+
+function ProductImage({
+  src,
+  alt,
+  loading = 'lazy',
+  className,
+}: {
+  src: string
+  alt: string
+  loading?: 'eager' | 'lazy'
+  className: string
+}) {
+  const image = productImages[src]
+
+  return (
+    <img
+      src={image?.webp ?? src}
+      alt={alt}
+      width={image?.width}
+      height={image?.height}
+      loading={loading}
+      decoding="async"
+      className={className}
+    />
+  )
+}
 
 function Eyebrow({ children, dark = false }: { children: string; dark?: boolean }) {
   return (
@@ -261,11 +336,10 @@ function TimelineChapter({ step, index }: { step: StoryStep; index: number }) {
 
             <div className="overflow-hidden rounded-lg border border-[#111513]/10 bg-white/90 p-2 shadow-[0_42px_140px_rgba(17,21,19,0.14)] sm:p-4">
               <div className="relative aspect-[16/12] rounded-md bg-[#edf8f5] sm:aspect-[16/9]">
-                <img
+                <ProductImage
                   src={step.image}
                   alt={step.alt}
-                  loading={index === 0 ? 'eager' : 'lazy'}
-                  decoding="async"
+                  loading="lazy"
                   className="h-full w-full object-contain p-1 sm:p-3"
                 />
               </div>
@@ -309,7 +383,55 @@ function TimelineChapter({ step, index }: { step: StoryStep; index: number }) {
   )
 }
 
+function MobileTimelineChapter({ step, index }: { step: StoryStep; index: number }) {
+  return (
+    <article
+      id={index === 0 ? 'product-home-screen' : step.id}
+      className="scroll-mt-20 border-t border-[#111513]/10 py-10 first:border-t-0"
+    >
+      <div className="mb-5 flex flex-wrap items-center gap-3 border-y border-[#111513]/12 py-3">
+        <span className="num text-sm font-black text-[#0f9f8f]">{step.index}</span>
+        <span className="rounded-full bg-[#dff8f3] px-4 py-2 text-xs font-black tracking-normal text-[#0f9f8f]">
+          {step.featureTitle}
+        </span>
+      </div>
+
+      <div className="overflow-hidden rounded-lg border border-[#111513]/10 bg-white/90 p-2 shadow-[0_18px_50px_rgba(17,21,19,0.08)]">
+        <div className="relative aspect-[16/12] rounded-md bg-[#edf8f5]">
+          <ProductImage
+            src={step.image}
+            alt={step.alt}
+            className="h-full w-full object-contain p-1"
+          />
+        </div>
+      </div>
+
+      <h3 className="mt-6 text-3xl font-black leading-[1.08] text-[#111513] [word-break:keep-all]">
+        {step.callout}
+      </h3>
+      <p className="mt-4 text-base leading-8 text-[#52645b] [word-break:keep-all]">
+        {step.featureLead}
+      </p>
+
+      <div className="mt-6 grid gap-0 border-y border-[#111513]/15">
+        {step.highlights.map((item) => (
+          <div key={item.title} className="border-b border-[#111513]/10 py-4 last:border-b-0">
+            <p className="text-base font-black text-[#111513] [word-break:keep-all]">
+              {item.title}
+            </p>
+            <p className="mt-2 text-sm leading-6 text-[#52645b] [word-break:keep-all]">
+              {item.body}
+            </p>
+          </div>
+        ))}
+      </div>
+    </article>
+  )
+}
+
 function ScrollSequenceProductStory() {
+  const useScrollStory = useDesktopStory()
+
   return (
     <section
       id="live-demo"
@@ -353,7 +475,11 @@ function ScrollSequenceProductStory() {
 
       <div className="mx-auto mt-10 max-w-7xl sm:mt-16">
         {storySequence.map((step, index) => (
-          <TimelineChapter key={step.id} step={step} index={index} />
+          useScrollStory ? (
+            <TimelineChapter key={step.id} step={step} index={index} />
+          ) : (
+            <MobileTimelineChapter key={step.id} step={step} index={index} />
+          )
         ))}
       </div>
     </section>

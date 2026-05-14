@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import { Geist_Mono } from 'next/font/google'
-import localFont from 'next/font/local'
 import './globals.css'
 import Analytics from '@/components/Analytics'
 import AdminTrafficTracker from '@/components/AdminTrafficTracker'
@@ -10,13 +9,6 @@ const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-})
-
-const pretendard = localFont({
-  src: '../fonts/PretendardVariable.woff2',
-  variable: '--font-pretendard',
-  display: 'swap',
-  weight: '45 920',
 })
 
 const siteUrl = 'https://weeple.app'
@@ -111,7 +103,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko" className={`${geistMono.variable} ${pretendard.variable} h-full light`}>
+    <html lang="ko" className={`${geistMono.variable} h-full light`}>
       <body className="min-h-full flex flex-col text-fg">
         <Analytics />
         <AdminTrafficTracker />

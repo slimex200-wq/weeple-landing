@@ -52,7 +52,7 @@
   --color-violet: var(--violet);
   --color-sky: var(--sky);
 
-  --font-sans: var(--font-pretendard), -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), 'SF Mono', Consolas, monospace;
 
   --radius-sm:   6px;
@@ -65,18 +65,19 @@
 
 html {
   color-scheme: light;
+  overflow-x: hidden;
 }
 
 body {
   background:
     linear-gradient(180deg, var(--bg-base-from) 0%, var(--bg-base-to) 100%),
     repeating-linear-gradient(90deg, rgba(17,21,19,0.035) 0 1px, transparent 1px 96px);
-  background-attachment: fixed;
   color: var(--fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "ss03", "ss04";
+  overflow-x: hidden;
 }
 
 .num {
@@ -120,6 +121,18 @@ body::before {
     linear-gradient(90deg, rgba(15,159,143,0.08), transparent 34%, rgba(240,106,78,0.06) 72%, transparent),
     repeating-linear-gradient(0deg, rgba(17,21,19,0.025) 0 1px, transparent 1px 112px);
   opacity: 0.8;
+}
+
+@media (min-width: 768px) {
+  body {
+    background-attachment: fixed;
+  }
+}
+
+@media (max-width: 767px) {
+  body::before {
+    position: absolute;
+  }
 }
 
 ::selection {
