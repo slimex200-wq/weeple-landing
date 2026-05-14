@@ -34,11 +34,6 @@ function sendTrafficEvent(path: string) {
     referrer: document.referrer || '',
   })
 
-  if (navigator.sendBeacon) {
-    const blob = new Blob([body], { type: 'application/json' })
-    if (navigator.sendBeacon(TRACK_EVENT_URL, blob)) return
-  }
-
   void fetch(TRACK_EVENT_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
