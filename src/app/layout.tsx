@@ -3,6 +3,7 @@ import { Geist_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
 import Analytics from '@/components/Analytics'
+import AdminTrafficTracker from '@/components/AdminTrafficTracker'
 import ScrollProgress from '@/components/ScrollProgress'
 
 const geistMono = Geist_Mono({
@@ -113,6 +114,7 @@ export default function RootLayout({
     <html lang="ko" className={`${geistMono.variable} ${pretendard.variable} h-full light`}>
       <body className="min-h-full flex flex-col text-fg">
         <Analytics />
+        <AdminTrafficTracker />
         <ScrollProgress />
         {children}
       </body>
