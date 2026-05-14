@@ -38,6 +38,8 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-13: Legal-page follow-up fixed compressed privacy-policy tables with horizontal scroll containers and added Weeple business registration details to the footer, terms, and privacy pages using the mp3 Suno repo's latest legal/footer pattern as reference.
 - 2026-05-14: Landing copy now explicitly explains the solo-first path: users can start as a personal budget app and later invite a partner for couple/shared budget management; added a visible solo-to-couple section, moved the solo-use FAQ to the top, updated SEO metadata/JSON-LD, and added `docs/play-store-aso-2026-05-14.md` with Play Console title/short-description guidance.
 
+- 2026-05-14: Added first-party admin traffic tracking for `weeple.app` via the `claude-budget` Supabase `track-event` Edge Function so admin.weeple.app can show app traffic, country/device/page breakdowns, and app-level traffic.
+
 ## Next Work Queue
 
 - Keep copy and visuals aligned with actual app capabilities.
@@ -70,6 +72,8 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 - 2026-05-13: Release legal-page update verified with `npx.cmd tsc --noEmit` and `npm.cmd run build`; no visual/browser pass was required because only static legal copy changed.
 - 2026-05-13: Legal table/business-info follow-up verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, static HTML checks for table wrappers/business info, and Playwright screenshots of privacy/terms/footer on desktop and mobile.
 - 2026-05-14: Solo-first/couple-later positioning verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, local HTTP checks for home and `/guides/personal-to-couple-budget`, Playwright screenshots for desktop/mobile hero, solo-to-couple section, and mobile FAQ. Live Play Store web metadata and search-result presence were checked for `가계부`, `커플 가계부`, and `AI 가계부`.
+
+- 2026-05-14: Admin traffic tracker verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, production bundle scan for `track-event`, and Supabase smoke insert/delete against `admin_traffic_events`.
 
 ## Related Vault Notes
 
