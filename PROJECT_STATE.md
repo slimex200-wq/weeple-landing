@@ -40,6 +40,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 
 - 2026-05-14: Added first-party admin traffic tracking for `weeple.app` via the `claude-budget` Supabase `track-event` Edge Function so admin.weeple.app can show app traffic, country/device/page breakdowns, and app-level traffic.
 - 2026-05-15: Landing CTA analytics now also writes first-party product events into the admin console event taxonomy, and Sentry Next.js client monitoring/source-map upload is wired behind `NEXT_PUBLIC_SENTRY_*` and `SENTRY_*` env vars.
+- 2026-05-15: Hero/final CTA image masks were tightened so the phone banner does not sit behind text/cards on smaller desktop widths, and the product-story scroll chapters were lengthened so explanation copy stays on screen longer.
 
 ## Next Work Queue
 
@@ -76,6 +77,7 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 
 - 2026-05-14: Admin traffic tracker verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, production bundle scan for `track-event`, and Supabase smoke insert/delete against `admin_traffic_events`.
 - 2026-05-15: Admin product-event and Sentry pass verified with `npx.cmd tsc --noEmit` and Sentry-enabled `npm.cmd run build`; production deployment verification remains tied to the current release pass.
+- 2026-05-15: Hero/final CTA gradient and product-story scroll timing pass verified with `npx.cmd tsc --noEmit`, `npm.cmd run build`, and Chrome CDP screenshots at 1045x559 for hero/final CTA/product story.
 
 ## Related Vault Notes
 

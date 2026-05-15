@@ -14,10 +14,10 @@ export default function FinalCTA() {
     >
       <div
         aria-hidden
-        className="absolute inset-y-0 right-0 hidden w-1/2 opacity-[0.34] lg:block"
+        className="absolute inset-y-0 right-0 hidden w-[52%] opacity-[0.26] xl:block"
         style={{
-          WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, black 28%, black 100%)',
-          maskImage: 'linear-gradient(90deg, transparent 0%, black 28%, black 100%)',
+          WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, transparent 12%, black 50%, black 100%)',
+          maskImage: 'linear-gradient(90deg, transparent 0%, transparent 12%, black 50%, black 100%)',
         }}
       >
         <img
@@ -28,7 +28,7 @@ export default function FinalCTA() {
       </div>
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(90deg,#111513_0%,rgba(17,21,19,0.96)_42%,rgba(17,21,19,0.74)_72%,rgba(17,21,19,0.58)_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(90deg,#111513_0%,rgba(17,21,19,0.99)_58%,rgba(17,21,19,0.9)_76%,rgba(17,21,19,0.72)_100%)]"
       />
 
       <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.92fr_0.78fr] lg:items-end">
@@ -56,7 +56,7 @@ export default function FinalCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.7, delay: 0.08, ease: [0.2, 0.8, 0.2, 1] }}
-          className="border-y border-white/20 py-6"
+          className="border-y border-white/20 bg-[#111513]/72 py-6 backdrop-blur-[2px] lg:px-5"
         >
           <div className="grid gap-px overflow-hidden bg-white/16">
             {['개인 가계부로 먼저 시작', '파트너 초대 후 공동 관리', 'Android 알림 확인 후 저장'].map((item, index) => (
