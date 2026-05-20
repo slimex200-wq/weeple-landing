@@ -83,6 +83,17 @@ export default {
       })
     }
 
+    // AdMob authorized sellers. Inline 처리: Next.js output:'export' 의 public/
+    // 파일이 Static Assets 로 promote 되는 빌드 cache/deploy 지연 회피.
+    if (url.pathname === '/app-ads.txt') {
+      return new Response('google.com, pub-2746032678205109, DIRECT, f08c47fec0942fa0\n', {
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          'Cache-Control': 'public, max-age=3600',
+        },
+      })
+    }
+
     // Static Assets serves share images directly from public/.
     // File extensions let Cloudflare infer image content types for share crawlers.
     return env.ASSETS.fetch(request)
