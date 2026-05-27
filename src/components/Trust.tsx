@@ -57,7 +57,7 @@ export default function Trust() {
             <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
               Trust & Privacy
             </div>
-            <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-normal mb-6">
               파트너와도
               <br />
               나누지 못하는

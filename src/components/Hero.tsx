@@ -1,4 +1,4 @@
-import { PLAY_STORE_URL } from '@/lib/links'
+import { STORE_BADGES } from '@/lib/links'
 
 const notes = ['혼자 먼저 시작', '필요할 때 파트너 초대', '공동/개인 지출 분리']
 
@@ -16,7 +16,7 @@ export default function Hero() {
         style={{
           WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, black 10%)',
           maskImage: 'linear-gradient(90deg, transparent 0%, black 10%)',
-          backgroundImage: 'url("/opengraph-image-20260510.webp")',
+          backgroundImage: 'url("/opengraph-image-20260510.png")',
           backgroundPosition: 'right center',
           backgroundSize: 'cover',
         }}
@@ -37,11 +37,11 @@ export default function Hero() {
             Solo first, couple-ready
           </div>
 
-          <h1 className="max-w-full text-[3.1rem] font-black leading-[0.94] text-[#111513] sm:text-7xl lg:text-8xl">
+          <h1 className="max-w-full text-[3.1rem] font-black leading-[1] text-[#111513] sm:text-7xl lg:text-8xl">
             <span className="block">혼자 시작해도,</span>
             <span className="mt-2 block sm:hidden">커플로</span>
             <span className="mt-2 block sm:hidden">이어지는</span>
-            <span className="mt-2 hidden sm:block">커플로 이어지는</span>
+            <span className="mt-2 hidden sm:block lg:whitespace-nowrap">커플로 이어지는</span>
             <span className="mt-2 block text-[#0f9f8f]">weeple</span>
           </h1>
 
@@ -59,21 +59,22 @@ export default function Hero() {
             카드·계좌·페이 알림을 감지해 거래 후보를 만들고, 사용자가 확인 후 저장할 수 있어요.
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a
-              href={PLAY_STORE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-[52px] items-center justify-center gap-2 rounded-full bg-[#111513] px-6 text-sm font-bold text-white transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111513] focus-visible:ring-offset-2"
-            >
-              Google Play에서 받기
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
-                <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
+          <div className="mt-7 flex flex-row flex-wrap items-center gap-3 sm:mt-8">
+            {STORE_BADGES.map((store) => (
+              <a
+                key={store.href}
+                href={store.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${store.label}에서 weeple 받기`}
+                className="inline-flex h-12 w-fit items-center rounded-md transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111513] focus-visible:ring-offset-2 sm:h-14"
+              >
+                <img src={store.src} alt={`${store.label}에서 받기`} className="h-12 w-auto sm:h-14" />
+              </a>
+            ))}
             <a
               href="#product-home-screen"
-              className="inline-flex h-[52px] items-center justify-center rounded-full border border-[#111513]/20 bg-white/60 px-6 text-sm font-bold text-[#111513] transition-colors hover:border-[#0f9f8f] hover:text-[#0f9f8f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f9f8f] focus-visible:ring-offset-2"
+              className="inline-flex h-12 w-fit min-w-[120px] items-center justify-center rounded-md border border-[#111513]/20 bg-white/72 px-4 text-sm font-bold text-[#111513] transition-colors hover:border-[#0f9f8f] hover:text-[#0f9f8f] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f9f8f] focus-visible:ring-offset-2 sm:h-14 sm:min-w-[132px] sm:px-5"
             >
               앱 화면 보기
             </a>

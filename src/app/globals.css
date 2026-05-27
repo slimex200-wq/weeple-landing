@@ -52,6 +52,7 @@
   --color-violet: var(--violet);
   --color-sky: var(--sky);
 
+  --font-geist-mono: 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
   --font-sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), 'SF Mono', Consolas, monospace;
 
@@ -65,7 +66,19 @@
 
 html {
   color-scheme: light;
-  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+@media (min-width: 1024px) {
+  html {
+    font-size: 87.5%;
+  }
+}
+
+@media (min-width: 1440px) {
+  html {
+    font-size: 82.5%;
+  }
 }
 
 body {
@@ -77,13 +90,13 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "ss03", "ss04";
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 .num {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
 }
 
 @layer utilities {

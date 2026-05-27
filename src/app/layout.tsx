@@ -1,15 +1,8 @@
 import type { Metadata } from 'next'
-import { Geist_Mono } from 'next/font/google'
 import './globals.css'
 import Analytics from '@/components/Analytics'
 import AdminTrafficTracker from '@/components/AdminTrafficTracker'
 import ScrollProgress from '@/components/ScrollProgress'
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-})
 
 const siteUrl = 'https://weeple.app'
 const siteTitle = 'weeple - 개인부터 커플까지 이어지는 가계부 앱'
@@ -103,7 +96,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko" className={`${geistMono.variable} h-full light`}>
+    <html lang="ko" className="relative h-full light">
       <body className="min-h-full flex flex-col text-fg">
         <Analytics />
         <AdminTrafficTracker />

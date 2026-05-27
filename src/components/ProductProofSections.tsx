@@ -205,34 +205,28 @@ const storySequence: StoryStep[] = [
   { ...storySteps[2], index: '04' },
 ]
 
-const productImages: Record<string, { webp: string; width: number; height: number }> = {
+const productImages: Record<string, { width: number; height: number }> = {
   '/product-proof/home-summary.png': {
-    webp: '/product-proof/home-summary.webp',
     width: 1672,
     height: 941,
   },
   '/product-proof/transaction-history.png': {
-    webp: '/product-proof/transaction-history.webp',
     width: 1672,
     height: 941,
   },
   '/product-proof/quick-input.png': {
-    webp: '/product-proof/quick-input.webp',
     width: 1672,
     height: 941,
   },
   '/product-proof/report-dashboard.png': {
-    webp: '/product-proof/report-dashboard.webp',
     width: 1536,
     height: 1024,
   },
   '/product-proof/ai-insights.png': {
-    webp: '/product-proof/ai-insights.webp',
     width: 1672,
     height: 941,
   },
   '/product-proof/budget-settings.png': {
-    webp: '/product-proof/budget-settings.webp',
     width: 1672,
     height: 941,
   },
@@ -275,7 +269,7 @@ function ProductImage({
 
   return (
     <img
-      src={image?.webp ?? src}
+      src={src}
       alt={alt}
       width={image?.width}
       height={image?.height}
@@ -305,18 +299,18 @@ function TimelineChapter({ step, index }: { step: StoryStep; index: number }) {
     target: ref,
     offset: ['start 72%', 'end 18%'],
   })
-  const imageOpacity = useTransform(scrollYProgress, [0, 0.52, 0.64], [1, 1, 0])
-  const imageY = useTransform(scrollYProgress, [0, 0.42, 0.64], [72, 0, -96])
-  const imageScale = useTransform(scrollYProgress, [0, 0.42, 0.64], [0.97, 1, 0.97])
-  const textOpacity = useTransform(scrollYProgress, [0.56, 0.68, 0.94], [0, 1, 1])
-  const textY = useTransform(scrollYProgress, [0.56, 0.72, 0.94], [56, 0, -8])
-  const textScale = useTransform(scrollYProgress, [0.56, 0.72], [0.98, 1])
+  const imageOpacity = useTransform(scrollYProgress, [0, 0.58, 0.72], [1, 1, 0])
+  const imageY = useTransform(scrollYProgress, [0, 0.5, 0.72], [72, 0, -96])
+  const imageScale = useTransform(scrollYProgress, [0, 0.5, 0.72], [0.97, 1, 0.97])
+  const textOpacity = useTransform(scrollYProgress, [0.62, 0.74, 1], [0, 1, 1])
+  const textY = useTransform(scrollYProgress, [0.62, 0.78, 1], [56, 0, 0])
+  const textScale = useTransform(scrollYProgress, [0.62, 0.78], [0.98, 1])
 
   return (
     <article
       ref={ref}
       id={index === 0 ? 'product-home-screen' : step.id}
-      className="relative min-h-[132svh] scroll-mt-24 border-t border-[#111513]/10 first:border-t-0 sm:min-h-[148svh]"
+      className="relative min-h-[172svh] scroll-mt-24 border-t border-[#111513]/10 first:border-t-0 sm:min-h-[196svh]"
     >
       <div className="sticky top-14 flex min-h-[calc(100svh-3.5rem)] items-center py-6 sm:top-16 sm:min-h-[calc(100svh-4rem)] sm:py-10">
         <div className="relative mx-auto w-full max-w-6xl">

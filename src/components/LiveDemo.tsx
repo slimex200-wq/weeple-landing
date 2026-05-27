@@ -32,7 +32,7 @@ export default function LiveDemo() {
           <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             Experience
           </div>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-fg">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-normal mb-6 text-fg">
             직접 만져보는
             <br />
             <span className="text-fg-muted">앱 체험.</span>
@@ -145,7 +145,7 @@ function MobileAppPreview() {
               <div className="text-[10px] text-fg-muted mb-0.5">
                 <span className="num">2026-05</span> · 이번 달 지출
               </div>
-              <div className="text-2xl font-extrabold text-fg tracking-tight">
+              <div className="text-2xl font-extrabold text-fg tracking-normal">
                 <Money value="₩1,111,797" />
               </div>
               <div className="h-1.5 rounded-full bg-gradient-to-r from-mint to-mint-end my-2" />

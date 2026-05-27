@@ -1,9 +1,8 @@
 'use client'
 
 import { motion } from 'motion/react'
-import MagneticButton from '@/components/MagneticButton'
 import { trackEvent } from '@/lib/analytics'
-import { PLAY_STORE_URL } from '@/lib/links'
+import { STORE_BADGES } from '@/lib/links'
 
 export default function FinalCTA() {
   return (
@@ -18,7 +17,7 @@ export default function FinalCTA() {
         style={{
           WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, black 28%, black 100%)',
           maskImage: 'linear-gradient(90deg, transparent 0%, black 28%, black 100%)',
-          backgroundImage: 'url("/opengraph-image-20260510.webp")',
+          backgroundImage: 'url("/opengraph-image-20260510.png")',
           backgroundPosition: 'right center',
           backgroundSize: 'cover',
         }}
@@ -39,7 +38,7 @@ export default function FinalCTA() {
             <span className="h-2 w-2 rounded-full bg-[#f06a4e]" aria-hidden />
             Start solo, link later
           </div>
-          <h2 className="max-w-4xl text-5xl font-black leading-[0.98] text-white [word-break:keep-all] sm:text-7xl">
+          <h2 className="max-w-4xl text-5xl font-black leading-[1.05] text-white [word-break:keep-all] sm:text-7xl sm:leading-[1.02]">
             혼자 시작하고, 필요할 때 둘이 봅니다.
           </h2>
           <p className="mt-7 max-w-2xl text-lg leading-9 text-white/74 [word-break:keep-all]">
@@ -67,31 +66,31 @@ export default function FinalCTA() {
           </div>
 
           <div className="mt-7 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
-            <MagneticButton
-              as="a"
-              href={PLAY_STORE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() =>
-                trackEvent('cta_click', {
-                  location: 'final',
-                  label: 'google_play',
-                })
-              }
-              className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-[#0f9f8f] px-6 text-base font-black text-white transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f9f8f] focus-visible:ring-offset-2 focus-visible:ring-offset-[#111513]"
-            >
-              Google Play에서 받기
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden>
-                <path d="M5 12h14M13 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </MagneticButton>
-            <span
-              aria-disabled="true"
-              className="inline-flex h-14 cursor-not-allowed items-center justify-center rounded-full border border-white/24 px-6 text-base font-black text-white/62"
-            >
-              iOS 준비 중
-            </span>
+            {STORE_BADGES.map((store) => (
+              <a
+                key={store.href}
+                href={store.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${store.label}에서 weeple 받기`}
+                onClick={() =>
+                  trackEvent('cta_click', {
+                    location: 'final_store_badge',
+                    label: store.analyticsLabel,
+                  })
+                }
+                className="inline-flex h-12 w-fit items-center rounded-md transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#111513]"
+              >
+                <img
+                  src={store.src}
+                  alt={`${store.label}에서 받기`}
+                  className="h-12 w-auto"
+                  loading="lazy"
+                />
+              </a>
+            ))}
           </div>
+
         </motion.div>
       </div>
     </section>
