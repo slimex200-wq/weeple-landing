@@ -1,3 +1,15 @@
+// /get path: invite share 메시지에서 받은 사용자를 UA 감지해서 적절한 store 로 보냄.
+// weeple app 의 coupleInvite.ts 가 share URL 로 https://weeple.app/get 사용.
+// iOS 출시 전이라도 App Store URL 은 유효한 형식 — Apple Review 통과 시 자동 활성.
+const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.weeple.app&hl=ko&gl=KR'
+const APP_STORE_URL = 'https://apps.apple.com/app/id6768306021'
+
+function resolveStoreUrl(userAgent: string): string | null {
+  if (/iPhone|iPad|iPod/i.test(userAgent)) return APP_STORE_URL
+  if (/Android/i.test(userAgent)) return PLAY_STORE_URL
+  return null
+}
+
 const ASSETLINKS_JSON = JSON.stringify([
   {
     relation: ['delegate_permission/common.handle_all_urls'],
@@ -53,10 +65,30 @@ export default {
       return canonicalRedirect
     }
 
+    if (url.pathname === '/get' || url.pathname === '/get/') {
+      const storeUrl = resolveStoreUrl(request.headers.get('user-agent') ?? '')
+      if (storeUrl) {
+        return Response.redirect(storeUrl, 302)
+      }
+      // 데스크탑/봇 등 모바일 UA 가 아니면 landing 으로 fallback.
+      return Response.redirect('https://weeple.app/', 302)
+    }
+
     if (url.pathname === '/.well-known/assetlinks.json') {
       return new Response(ASSETLINKS_JSON, {
         headers: {
           'Content-Type': 'application/json',
+          'Cache-Control': 'public, max-age=3600',
+        },
+      })
+    }
+
+    // AdMob authorized sellers. Inline 처리: Next.js output:'export' 의 public/
+    // 파일이 Static Assets 로 promote 되는 빌드 cache/deploy 지연 회피.
+    if (url.pathname === '/app-ads.txt') {
+      return new Response('google.com, pub-2746032678205109, DIRECT, f08c47fec0942fa0\n', {
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
           'Cache-Control': 'public, max-age=3600',
         },
       })
