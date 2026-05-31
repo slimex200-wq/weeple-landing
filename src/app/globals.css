@@ -159,3 +159,29 @@ body::before {
     transition-duration: 0.01ms !important;
   }
 }
+
+/*
+ * Hero 등장 애니메이션 — JS(motion) 대신 CSS 로 처리한다.
+ * motion 의 initial={{opacity:0}} 은 SSR HTML 에 opacity:0 을 박아, 느린 모바일
+ * 인앱 브라우저(Threads 등)에서 JS hydration 전까지 첫 화면이 비어 보였다.
+ * CSS 애니메이션은 스타일시트만 적용되면 즉시 시작되므로 JS 로드를 기다리지 않는다.
+ * fill-mode both 로 종료 후 opacity:1 고정, reduced-motion 시 위 규칙이 즉시 완료시킨다.
+ */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-rise {
+  animation: hero-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.hero-rise-delayed {
+  animation: hero-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s both;
+}

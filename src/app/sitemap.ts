@@ -60,6 +60,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'yearly',
       priority: 0.3,
     },
+    {
+      url: `${BASE_URL}/reciti`,
+      lastModified: gitLastModified('src/app/reciti/page.tsx', 'src/app/reciti/layout.tsx'),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/reciti/privacy`,
+      lastModified: gitLastModified('src/app/reciti/privacy/page.tsx'),
+      changeFrequency: 'yearly',
+      priority: 0.4,
+    },
+    {
+      url: `${BASE_URL}/reciti/terms`,
+      lastModified: gitLastModified('src/app/reciti/terms/page.tsx'),
+      changeFrequency: 'yearly',
+      priority: 0.4,
+    },
+    {
+      url: `${BASE_URL}/reciti/support`,
+      lastModified: gitLastModified('src/app/reciti/support/page.tsx'),
+      changeFrequency: 'yearly',
+      priority: 0.4,
+    },
     ...GUIDES.map((guide) => ({
       url: `${BASE_URL}/guides/${guide.slug}`,
       lastModified: new Date(guide.updatedAt),
