@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'motion/react'
 import MagneticButton from '@/components/MagneticButton'
 import { trackEvent } from '@/lib/analytics'
 import { PLAY_STORE_URL } from '@/lib/links'
@@ -39,12 +38,7 @@ export default function Hero() {
       />
 
       <div className="mx-auto flex min-h-[calc(92svh-9.5rem)] max-w-7xl flex-col justify-end">
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.2, 0.8, 0.2, 1] }}
-          className="max-w-[680px]"
-        >
+        <div className="hero-rise max-w-[680px]">
           <div className="mb-5 inline-flex items-center gap-2 border-y border-[#111513] py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#111513]">
             <span className="h-2 w-2 rounded-full bg-[#f06a4e]" aria-hidden />
             Solo first, couple-ready
@@ -97,20 +91,15 @@ export default function Hero() {
               앱 화면 보기
             </a>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
-          className="mt-12 grid max-w-3xl gap-px overflow-hidden border-y border-[#111513]/15 bg-[#111513]/15 sm:grid-cols-3"
-        >
+        <div className="hero-rise-delayed mt-12 grid max-w-3xl gap-px overflow-hidden border-y border-[#111513]/15 bg-[#111513]/15 sm:grid-cols-3">
           {notes.map((note) => (
             <div key={note} className="bg-[#f7faf7]/90 px-4 py-3 text-sm font-semibold text-[#33423b]">
               {note}
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-4 flex justify-center text-xs font-semibold text-[#6a756f]">
