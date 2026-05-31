@@ -165,7 +165,7 @@ export default async function GuidePage({ params }: Props) {
           <div className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-mint">
             Weeple Guide
           </div>
-          <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-fg sm:text-6xl">
+          <h1 className="text-4xl font-extrabold leading-tight tracking-normal text-fg sm:text-6xl">
             {guide.title}
           </h1>
           <p className="mt-6 text-lg leading-relaxed text-fg-secondary">
@@ -186,7 +186,7 @@ export default async function GuidePage({ params }: Props) {
         <div className="space-y-12 py-12">
           {guide.sections.map((section) => (
             <section key={section.heading}>
-              <h2 className="text-2xl font-bold tracking-tight text-fg sm:text-3xl">
+              <h2 className="text-2xl font-bold tracking-normal text-fg sm:text-3xl">
                 {section.heading}
               </h2>
               <div className="mt-5 space-y-4 text-base leading-8 text-fg-secondary">
@@ -199,7 +199,7 @@ export default async function GuidePage({ params }: Props) {
         </div>
 
         <section className="border-y border-divider py-10">
-          <h2 className="text-2xl font-bold tracking-tight text-fg">자주 묻는 질문</h2>
+          <h2 className="text-2xl font-bold tracking-normal text-fg">자주 묻는 질문</h2>
           <div className="mt-6 space-y-6">
             {guide.faqs.map((faq) => (
               <div key={faq.question}>

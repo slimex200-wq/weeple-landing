@@ -10,7 +10,7 @@ export default function StickyCTA() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const blocked = ['solo-to-couple', 'pricing', 'faq', 'final-cta'].some((id) => {
+      const blocked = ['solo-to-couple', 'notification-recording', 'live-demo', 'pricing', 'faq', 'final-cta'].some((id) => {
         const element = document.getElementById(id)
         if (!element) return false
         const rect = element.getBoundingClientRect()

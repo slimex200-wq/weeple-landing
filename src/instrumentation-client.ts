@@ -1,15 +1,6 @@
-import * as Sentry from '@sentry/nextjs'
+type RouterTransitionStart = (...args: unknown[]) => void
 
-const dsn = process.env.NEXT_PUBLIC_SENTRY_DSN
-
-if (dsn) {
-  Sentry.init({
-    dsn,
-    environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT || process.env.NODE_ENV,
-    release: process.env.NEXT_PUBLIC_SENTRY_RELEASE,
-    sendDefaultPii: false,
-    tracesSampleRate: Number(process.env.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE ?? 0.05),
-  })
-}
-
-export const onRouterTransitionStart = Sentry.captureRouterTransitionStart
+// Keep this file tiny: importing @sentry/nextjs here adds a large client chunk to
+// every landing page visit. Re-enable client monitoring only with a separate
+// performance budget for the public marketing surface.
+export const onRouterTransitionStart: RouterTransitionStart = () => {}

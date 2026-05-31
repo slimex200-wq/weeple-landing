@@ -89,7 +89,7 @@ export default function SmartInsights() {
           <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             AI Insights
           </div>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-normal mb-6">
             AI가 알려주는
             <br />
             <span className="text-fg-muted">돈 이야기.</span>

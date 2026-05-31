@@ -1,0 +1,811 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>weeple product proof landing mockup</title>
+  <style>
+    :root {
+      --ink: #111513;
+      --muted: #52645b;
+      --soft: #eef7f3;
+      --paper: #f8fbf8;
+      --mint: #0f9f8f;
+      --mint-2: #36c7b4;
+      --coral: #f06a4e;
+      --line: rgba(17, 21, 19, 0.14);
+      --dark: #111513;
+      --white: #ffffff;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      line-break: strict;
+      letter-spacing: 0;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(17, 21, 19, 0.08);
+      background: rgba(248, 251, 248, 0.88);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav-inner {
+      width: min(var(--max), calc(100% - 40px));
+      height: 64px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      color: var(--mint);
+      font-size: 20px;
+    }
+
+    .mark {
+      width: 31px;
+      height: 31px;
+      border: 1px solid rgba(15, 159, 143, 0.42);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: var(--ink);
+      background: #fff;
+      box-shadow: inset 0 0 0 3px rgba(54, 199, 180, 0.08);
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 20px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .cta.secondary {
+      background: transparent;
+      color: var(--ink);
+      border-color: rgba(17, 21, 19, 0.18);
+    }
+
+    .section {
+      position: relative;
+      padding: 104px 0;
+      overflow: hidden;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      border-top: 1px solid currentColor;
+      border-bottom: 1px solid currentColor;
+      padding: 8px 0;
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--coral);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      max-width: 680px;
+      font-size: 82px;
+      line-height: 0.92;
+      font-weight: 950;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    h1 strong {
+      display: block;
+      margin-top: 10px;
+      color: var(--mint);
+      font: inherit;
+    }
+
+    h2 strong {
+      color: var(--mint);
+      font: inherit;
+    }
+
+    h2 {
+      max-width: 560px;
+      font-size: 54px;
+      line-height: 1.03;
+      font-weight: 950;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 540px;
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.75;
+      font-weight: 650;
+    }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      min-height: calc(100svh - 64px);
+      display: grid;
+      align-items: end;
+      padding-top: 84px;
+      padding-bottom: 42px;
+      background: #f7faf7;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 0 auto;
+      z-index: -2;
+      width: 46%;
+      background: url("../public/opengraph-image-20260509.png") right center / cover no-repeat;
+      opacity: 0.58;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 16%);
+      mask-image: linear-gradient(90deg, transparent 0%, black 16%);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(90deg, #f7faf7 0%, rgba(247, 250, 247, 0.97) 28%, rgba(247, 250, 247, 0.7) 56%, rgba(247, 250, 247, 0.16) 100%),
+        linear-gradient(180deg, rgba(247, 250, 247, 0) 66%, #f7faf7 96%);
+    }
+
+    .hero-grid {
+      min-height: calc(100svh - 190px);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-end;
+    }
+
+    .hero-copy {
+      max-width: 680px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .proof-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: 48px;
+      max-width: 760px;
+      background: var(--line);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .proof-row span {
+      background: rgba(248, 251, 248, 0.9);
+      padding: 16px 18px;
+      color: #33423b;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .feature-image img,
+    .split-image img,
+    .budget-showcase img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 28px 80px rgba(17, 21, 19, 0.12);
+    }
+
+    .scroll-note {
+      margin-top: 22px;
+      color: #6d7b74;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .hero > .scroll-note {
+      position: absolute;
+      z-index: 2;
+      right: 0;
+      bottom: 16px;
+      left: 0;
+      margin-top: 0;
+    }
+
+    .problem {
+      background: #eef6f2;
+      border-top: 1px solid rgba(17, 21, 19, 0.1);
+      border-bottom: 1px solid rgba(17, 21, 19, 0.1);
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 72px;
+      align-items: start;
+    }
+
+    .problem-copy {
+      position: sticky;
+      top: 96px;
+    }
+
+    .reason-list {
+      border-top: 1px solid var(--ink);
+    }
+
+    .reason {
+      display: grid;
+      grid-template-columns: 76px 1fr;
+      gap: 24px;
+      padding: 30px 0;
+      border-bottom: 1px solid rgba(17, 21, 19, 0.16);
+    }
+
+    .num {
+      color: var(--coral);
+      font-weight: 950;
+      font-size: 14px;
+    }
+
+    .reason h3 {
+      font-size: 25px;
+      line-height: 1.22;
+      font-weight: 950;
+    }
+
+    .reason p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.8;
+      font-weight: 650;
+    }
+
+    .feature {
+      background: #fff;
+      border-bottom: 1px solid rgba(17, 21, 19, 0.08);
+    }
+
+    .feature.alt {
+      background: #f7faf7;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .feature-grid.reverse {
+      grid-template-columns: 1.18fr 0.82fr;
+    }
+
+    .feature-copy {
+      max-width: 500px;
+    }
+
+    .feature-copy .index {
+      display: block;
+      color: var(--coral);
+      font-weight: 950;
+      margin-bottom: 16px;
+    }
+
+    .feature-copy h2 {
+      font-size: 46px;
+    }
+
+    .feature-copy p {
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.8;
+      font-weight: 650;
+    }
+
+    .mini-specs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1px;
+      margin-top: 30px;
+      max-width: 460px;
+      border: 1px solid rgba(17, 21, 19, 0.14);
+      background: rgba(17, 21, 19, 0.14);
+    }
+
+    .mini-specs span {
+      background: #fff;
+      padding: 13px 14px;
+      font-size: 13px;
+      font-weight: 850;
+      color: #33423b;
+    }
+
+    .split-gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .dark {
+      background: var(--dark);
+      color: #fff;
+    }
+
+    .dark .eyebrow,
+    .dark .lead,
+    .dark .feature-copy p {
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    .dark .eyebrow::before {
+      background: var(--mint-2);
+    }
+
+    .dark .mini-specs {
+      border-color: rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    .dark .mini-specs span {
+      background: #111513;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .dual-proof {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .budget {
+      background:
+        linear-gradient(120deg, #f8fbf8 0%, #eef9f5 58%, #fff 100%);
+    }
+
+    .budget-layout {
+      display: grid;
+      grid-template-columns: 0.7fr 1.3fr;
+      gap: 52px;
+      align-items: center;
+    }
+
+    .budget-showcase {
+      min-width: 0;
+    }
+
+    .founder {
+      background: #111513;
+      color: #fff;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .founder-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 64px;
+      align-items: start;
+    }
+
+    .founder p {
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 19px;
+      line-height: 1.9;
+      font-weight: 650;
+    }
+
+    .principles {
+      display: grid;
+      gap: 1px;
+      margin-top: 34px;
+      background: rgba(255, 255, 255, 0.2);
+      border-top: 1px solid rgba(255, 255, 255, 0.22);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .principles span {
+      padding: 18px 0;
+      background: #111513;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 850;
+    }
+
+    .final {
+      background: linear-gradient(135deg, #0f9f8f, #6fe4d7);
+      color: #fff;
+      text-align: center;
+    }
+
+    .final h2 {
+      margin: 0 auto;
+      max-width: 760px;
+      color: #fff;
+    }
+
+    .final p {
+      margin: 24px auto 0;
+      max-width: 560px;
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 18px;
+      line-height: 1.8;
+      font-weight: 700;
+    }
+
+    .final .cta {
+      margin-top: 34px;
+      background: #111513;
+      border-color: #111513;
+    }
+
+    @media (max-width: 980px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid,
+      .problem-grid,
+      .feature-grid,
+      .feature-grid.reverse,
+      .budget-layout,
+      .founder-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 70px;
+      }
+
+      .hero::before {
+        display: none;
+      }
+
+      .hero-copy {
+        padding-bottom: 0;
+      }
+
+      .problem-copy {
+        position: static;
+      }
+
+      .feature-grid.reverse .feature-copy {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner,
+      .container {
+        width: calc(100% - 32px);
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      h1 {
+        max-width: 100%;
+        font-size: 48px;
+        line-height: 1.08;
+      }
+
+      h2,
+      .feature-copy h2 {
+        font-size: 36px;
+      }
+
+      .lead,
+      .feature-copy p,
+      .founder p {
+        font-size: 16px;
+      }
+
+      .proof-row,
+      .split-gallery,
+      .dual-proof,
+      .mini-specs {
+        grid-template-columns: 1fr;
+      }
+
+      .reason {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="#top" aria-label="weeple home">
+        <span class="mark">w</span>
+        weeple
+      </a>
+      <div class="nav-links" aria-label="sections">
+        <a href="#problem">문제</a>
+        <a href="#summary">요약</a>
+        <a href="#ledger">기록</a>
+        <a href="#budget">예산</a>
+        <a href="#story">이야기</a>
+      </div>
+      <a class="cta" href="#final">공개 테스트</a>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">built from one uncomfortable money talk</div>
+          <h1>커플 <span>가계부 앱,</span> <strong>weeple</strong></h1>
+          <p class="lead">
+            각자 통장은 따로, 가계부는 같이. 생활비와 데이트 비용은 한곳에서 보고,
+            개인 소비는 각자의 영역으로 남겨둡니다.
+          </p>
+          <div class="hero-actions">
+            <a class="cta" href="#summary">앱 화면 보기</a>
+            <a class="cta secondary" href="#story">왜 만들었는지</a>
+          </div>
+          <div class="proof-row" aria-label="product facts">
+            <span>비개발자 1인 제작</span>
+            <span>공동 지출과 개인 지출 분리</span>
+            <span>Android 우선 출시</span>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-note">다음: 돈 얘기가 어려워지는 순간</div>
+    </section>
+
+    <section class="section problem" id="problem">
+      <div class="container problem-grid">
+        <div class="problem-copy">
+          <div class="eyebrow">the real problem</div>
+          <h2>돈 얘기는 계산보다 먼저 분위기를 망칩니다.</h2>
+          <p class="lead">그래서 weeple은 더 많은 차트보다, 둘이 덜 피곤해지는 구조를 먼저 봅니다.</p>
+        </div>
+        <div class="reason-list">
+          <article class="reason">
+            <div class="num">01</div>
+            <div>
+              <h3>기록은 한 명이 하는데, 돈은 둘이 씁니다</h3>
+              <p>한 사람이 모든 입력을 떠안으면 가계부는 관리 도구가 아니라 숙제가 됩니다.</p>
+            </div>
+          </article>
+          <article class="reason">
+            <div class="num">02</div>
+            <div>
+              <h3>정산은 숫자인데, 대화는 감정입니다</h3>
+              <p>누가 더 냈는지보다 더 어려운 건 그 이야기를 꺼내는 순간입니다.</p>
+            </div>
+          </article>
+          <article class="reason">
+            <div class="num">03</div>
+            <div>
+              <h3>절약은 의지가 아니라 구조입니다</h3>
+              <p>각자 쓴 돈과 함께 쓴 돈이 섞이면 다음 소비를 줄일 기준도 흐려집니다.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section feature" id="summary">
+      <div class="container feature-grid">
+        <div class="feature-copy">
+          <span class="index">01</span>
+          <h2>이번 달 상태를 한 화면에서</h2>
+          <p>
+            월 지출, 오늘 소비, 이번 주 흐름, 예산 위험 신호를 첫 화면에서 바로 확인합니다.
+            숫자를 숨기지 않고, 다음 대화를 시작할 근거로 보여줍니다.
+          </p>
+          <div class="mini-specs">
+            <span>월 지출 추적</span>
+            <span>예산 위험 표시</span>
+            <span>카테고리 TOP</span>
+            <span>예상 지출 흐름</span>
+          </div>
+        </div>
+        <div class="feature-image">
+          <img src="assets/weeple-product-proof/home-summary.png" alt="weeple 홈 요약 화면 목업" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section feature alt" id="ledger">
+      <div class="container feature-grid reverse">
+        <div class="split-gallery">
+          <div class="split-image">
+            <img src="assets/weeple-product-proof/transaction-history.png" alt="weeple 소비내역 필터 화면 목업" />
+          </div>
+          <div class="split-image">
+            <img src="assets/weeple-product-proof/quick-input.png" alt="weeple 빠른 입력 화면 목업" />
+          </div>
+        </div>
+        <div class="feature-copy">
+          <span class="index">02</span>
+          <h2>찾고, 나누고, 빠르게 기록</h2>
+          <p>
+            소비내역은 날짜와 카테고리로 찾고, 입력은 키보드·음성·영수증 흐름으로 짧게 끝냅니다.
+            개인 지출과 커플 지출은 기록 단계부터 분리합니다.
+          </p>
+          <div class="mini-specs">
+            <span>날짜 캘린더</span>
+            <span>카테고리 필터</span>
+            <span>개인/커플 입력</span>
+            <span>영수증 기록</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section feature dark" id="insights">
+      <div class="container feature-grid">
+        <div class="feature-copy">
+          <span class="index">03</span>
+          <h2>리포트는 근거로, AI는 대화의 시작점으로</h2>
+          <p>
+            리포트는 카테고리 비중과 공동 지출을 보여주고, AI는 패턴 포착·권장·긍정 신호를 짧게 정리합니다.
+            판단을 대신하기보다 둘이 이야기할 출발점을 만듭니다.
+          </p>
+          <div class="mini-specs">
+            <span>카테고리 비중</span>
+            <span>공동 지출 흐름</span>
+            <span>AI 패턴 포착</span>
+            <span>절약 권장</span>
+          </div>
+        </div>
+        <div class="dual-proof">
+          <div class="split-image">
+            <img src="assets/weeple-product-proof/report-dashboard.png" alt="weeple 리포트 화면 목업" />
+          </div>
+          <div class="split-image">
+            <img src="assets/weeple-product-proof/ai-insights.png" alt="weeple AI 분석 화면 목업" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section budget" id="budget">
+      <div class="container budget-layout">
+        <div class="feature-copy">
+          <span class="index">04</span>
+          <h2>예산은 큰 숫자보다, 카테고리별 기준이 먼저입니다</h2>
+          <p>
+            월 예산과 수입, 매달 빠지는 고정 지출, 카테고리별 한도를 같은 화면에서 봅니다.
+            어디서 새는지보다 어디를 조정할지 빠르게 보이게 합니다.
+          </p>
+          <div class="mini-specs">
+            <span>월 예산</span>
+            <span>월 수입</span>
+            <span>고정 지출</span>
+            <span>카테고리 한도</span>
+          </div>
+        </div>
+        <div class="budget-showcase">
+          <img src="assets/weeple-product-proof/budget-settings.png" alt="weeple 예산 설정 화면 목업" />
+        </div>
+      </div>
+    </section>
+
+    <section class="section founder" id="story">
+      <div class="container founder-grid">
+        <div>
+          <div class="eyebrow">founder note</div>
+          <h2>비개발자 1인이, 돈 얘기 하나 때문에 만들기 시작했습니다.</h2>
+        </div>
+        <div>
+          <p>
+            시작은 멋진 금융 서비스를 만들겠다는 계획이 아니었습니다. 둘이 같이 쓰는 돈을 이야기할 때마다,
+            숫자보다 먼저 표정이 굳는 순간이 싫었습니다.
+          </p>
+          <br />
+          <p>
+            그래서 weeple은 화려한 금융 기능보다 먼저, 둘 사이의 경계를 덜 다치게 하는 구조에서 시작했습니다.
+          </p>
+          <div class="principles">
+            <span>공동 지출은 같이 보고, 개인 소비는 침범하지 않기</span>
+            <span>입력은 짧게, 확인은 사람이 마지막에 하기</span>
+            <span>AI는 판단자가 아니라 대화의 시작점으로 쓰기</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section final" id="final">
+      <div class="container">
+        <h2>돈 얘기가 어려워지기 전에, 먼저 정리되는 커플 가계부</h2>
+        <p>Android 공개 테스트부터 시작합니다. 지금은 작지만, 둘이 쓰는 돈을 덜 피곤하게 만드는 방향은 분명합니다.</p>
+        <a class="cta" href="#">공개 테스트 참여</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

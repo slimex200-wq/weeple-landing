@@ -214,7 +214,7 @@ export default function Voices() {
           <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             Real users
           </div>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6 text-fg">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-normal mb-6 text-fg">
             먼저 써본 사람들,
             <br />
             <span className="text-fg-muted">이렇게 말합니다.</span>

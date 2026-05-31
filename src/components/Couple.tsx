@@ -71,7 +71,7 @@ export default function Couple() {
           <div className="text-xs font-semibold tracking-wider text-mint uppercase mb-4">
             Couple mode
           </div>
-          <h2 className="text-[32px] sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight mb-6">
+          <h2 className="text-[32px] sm:text-5xl md:text-6xl font-bold leading-tight tracking-normal mb-6">
             혼자도, 함께도.
             <br />
             <span className="text-fg-muted">

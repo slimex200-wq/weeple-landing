@@ -64,7 +64,7 @@ export default function Footer() {
             <div className="flex items-center gap-2.5 mb-4">
               <WeepleLogo size={36} />
               <div
-                className="text-2xl font-extrabold tracking-tight"
+                className="text-2xl font-extrabold tracking-normal"
                 style={{
                   background: 'linear-gradient(135deg, #0EA5A0 0%, #5EEAD4 100%)',
                   WebkitBackgroundClip: 'text',
