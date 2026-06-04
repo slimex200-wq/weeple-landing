@@ -3,6 +3,7 @@
 // iOS 출시 전이라도 App Store URL 은 유효한 형식 — Apple Review 통과 시 자동 활성.
 const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=com.weeple.app&hl=ko&gl=KR'
 const APP_STORE_URL = 'https://apps.apple.com/app/id6768306021'
+const COUNTRY_RE = /^[A-Za-z]{2}$/
 
 function resolveStoreUrl(userAgent: string): string | null {
   if (/iPhone|iPad|iPod/i.test(userAgent)) return APP_STORE_URL
@@ -56,6 +57,28 @@ function redirectToCanonical(request: Request, url: URL) {
   return Response.redirect(url.toString(), 301)
 }
 
+function cleanCountry(value: string | null) {
+  if (!value) return null
+  const trimmed = value.trim()
+  return COUNTRY_RE.test(trimmed) ? trimmed.toUpperCase() : null
+}
+
+function geoResponse(request: Request) {
+  const country = cleanCountry(
+    request.headers.get('cf-ipcountry') ||
+      request.headers.get('x-vercel-ip-country') ||
+      request.headers.get('cloudfront-viewer-country') ||
+      request.headers.get('x-client-country')
+  )
+
+  return new Response(JSON.stringify({ country }), {
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Cache-Control': 'private, max-age=300',
+    },
+  })
+}
+
 export default {
   async fetch(request: Request, env: { ASSETS: AssetsBinding }): Promise<Response> {
     const url = new URL(request.url)
@@ -63,6 +86,10 @@ export default {
 
     if (canonicalRedirect) {
       return canonicalRedirect
+    }
+
+    if (url.pathname === '/api/geo') {
+      return geoResponse(request)
     }
 
     if (url.pathname === '/get' || url.pathname === '/get/') {
