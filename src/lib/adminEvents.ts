@@ -1,3 +1,5 @@
+import { getClientCountry } from './clientCountry'
+
 const TRACK_EVENT_URL = 'https://lflpwfgndgnxoydfvbms.supabase.co/functions/v1/track-event'
 const SESSION_KEY = 'weeple_admin_traffic_session_id'
 const EVENT_NAME_RE = /^[a-z][a-z0-9_.:-]{1,79}$/
@@ -38,9 +40,10 @@ function cleanProperties(properties?: EventProperties) {
   )
 }
 
-export function sendAdminEvent(path: string, eventName?: string, properties?: EventProperties) {
+export async function sendAdminEvent(path: string, eventName?: string, properties?: EventProperties) {
   if (typeof window === 'undefined' || process.env.NODE_ENV !== 'production') return
   if (eventName && !EVENT_NAME_RE.test(eventName)) return
+  const country = await getClientCountry()
 
   const body = JSON.stringify({
     app_slug: 'weeple',
@@ -48,6 +51,7 @@ export function sendAdminEvent(path: string, eventName?: string, properties?: Ev
     session_id: getAdminTrafficSessionId(),
     path,
     referrer: document.referrer || '',
+    ...(country ? { country } : {}),
     ...(eventName ? { event_name: eventName, properties: cleanProperties(properties) } : {}),
   })
 
