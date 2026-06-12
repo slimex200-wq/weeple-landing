@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'motion/react'
 import WeepleLogo from './WeepleLogo'
+import { trackStoreClick } from '@/lib/analytics'
 import { STORE_BADGES } from '@/lib/links'
 
 const NAV_LINKS = [
@@ -75,6 +76,7 @@ export default function StickyNav() {
               href={store.href}
               target="_blank"
               rel="noopener noreferrer"
+                onClick={() => trackStoreClick(store.analyticsLabel, 'sticky_nav')}
               aria-label={`${store.label}에서 weeple 받기`}
               className="inline-flex h-9 items-center rounded-md transition-transform hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111513] focus-visible:ring-offset-2"
             >

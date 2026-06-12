@@ -1,3 +1,6 @@
+'use client'
+
+import { trackStoreClick } from '@/lib/analytics'
 import { STORE_BADGES } from '@/lib/links'
 
 const notes = ['혼자 먼저 시작', '필요할 때 파트너 초대', '공동/개인 지출 분리']
@@ -66,6 +69,7 @@ export default function Hero() {
                 href={store.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackStoreClick(store.analyticsLabel, 'hero')}
                 aria-label={`${store.label}에서 weeple 받기`}
                 className="inline-flex h-12 w-fit items-center rounded-md transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111513] focus-visible:ring-offset-2 sm:h-14"
               >

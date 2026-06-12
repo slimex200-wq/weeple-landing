@@ -16,6 +16,14 @@ declare global {
   }
 }
 
+// Fires the legacy generic cta_click (GA funnels, existing dashboards) plus a
+// store-specific event the ops console counts as Store Clicks.
+export function trackStoreClick(analyticsLabel: string, location: string) {
+  const isPlay = analyticsLabel === 'google_play'
+  trackEvent('cta_click', { location, label: analyticsLabel })
+  trackEvent(isPlay ? 'play_store_click' : 'app_store_click', { location })
+}
+
 export function trackEvent(name: string, params?: Record<string, unknown>) {
   if (typeof window === 'undefined') return
 
