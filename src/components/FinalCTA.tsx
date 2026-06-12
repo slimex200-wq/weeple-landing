@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'motion/react'
-import { trackEvent } from '@/lib/analytics'
+import { trackEvent, trackStoreClick } from '@/lib/analytics'
 import { STORE_BADGES } from '@/lib/links'
 
 export default function FinalCTA() {
@@ -72,13 +72,8 @@ export default function FinalCTA() {
                 href={store.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackStoreClick(store.analyticsLabel, 'final_store_badge')}
                 aria-label={`${store.label}에서 weeple 받기`}
-                onClick={() =>
-                  trackEvent('cta_click', {
-                    location: 'final_store_badge',
-                    label: store.analyticsLabel,
-                  })
-                }
                 className="inline-flex h-12 w-fit items-center rounded-md transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#111513]"
               >
                 <img
