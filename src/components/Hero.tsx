@@ -2,7 +2,7 @@
 
 import { motion } from 'motion/react'
 import MagneticButton from '@/components/MagneticButton'
-import { trackEvent } from '@/lib/analytics'
+import { trackStoreClick } from '@/lib/analytics'
 import { PLAY_STORE_URL } from '@/lib/links'
 
 const notes = ['혼자 먼저 시작', '필요할 때 파트너 초대', '공동/개인 지출 분리']
@@ -78,10 +78,7 @@ export default function Hero() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() =>
-                trackEvent('cta_click', {
-                  location: 'hero',
-                  label: 'google_play',
-                })
+                trackStoreClick('play', 'hero')
               }
               className="inline-flex h-[52px] items-center justify-center gap-2 rounded-full bg-[#111513] px-6 text-sm font-bold text-white transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111513] focus-visible:ring-offset-2"
             >

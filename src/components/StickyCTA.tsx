@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { trackEvent } from '@/lib/analytics'
+import { trackStoreClick } from '@/lib/analytics'
 import { PLAY_STORE_URL } from '@/lib/links'
 
 export default function StickyCTA() {
@@ -32,10 +32,7 @@ export default function StickyCTA() {
           target="_blank"
           rel="noopener noreferrer"
           onClick={() =>
-            trackEvent('cta_click', {
-              location: 'sticky',
-              label: 'google_play',
-            })
+            trackStoreClick('play', 'sticky')
           }
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}

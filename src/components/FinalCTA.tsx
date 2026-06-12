@@ -2,7 +2,7 @@
 
 import { motion } from 'motion/react'
 import MagneticButton from '@/components/MagneticButton'
-import { trackEvent } from '@/lib/analytics'
+import { trackStoreClick } from '@/lib/analytics'
 import { PLAY_STORE_URL } from '@/lib/links'
 
 export default function FinalCTA() {
@@ -76,10 +76,7 @@ export default function FinalCTA() {
               target="_blank"
               rel="noopener noreferrer"
               onClick={() =>
-                trackEvent('cta_click', {
-                  location: 'final',
-                  label: 'google_play',
-                })
+                trackStoreClick('play', 'final')
               }
               className="inline-flex h-14 items-center justify-center gap-2 rounded-full bg-[#0f9f8f] px-6 text-base font-black text-white transition-transform hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0f9f8f] focus-visible:ring-offset-2 focus-visible:ring-offset-[#111513]"
             >
