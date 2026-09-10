@@ -6,6 +6,8 @@ Weeple marketing landing site. Treat this as the public product surface for the 
 
 ## Current Status
 
+- 2026-09-11: Prepared app #738 privacy-description reconciliation from the app's shared Korean/English source, preserved the previous public version, and corrected deletion-help wording. Reconciled the source AdMob account ID to the already-live value so legal-page delivery cannot restore the obsolete account. Build, browser and deployment evidence are tracked in app #738; see `docs/privacy-policy-sync.md`.
+
 - Canonical GitHub default branch is `main`.
 - The abandoned `redesign/pixel` branch was not merged because the redesign direction was cancelled.
 - Local WIP from before the harness sync is preserved in `stash@{0}: wip-before-harness-github-sync-2026-04-30`.
